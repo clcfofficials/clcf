@@ -1,3 +1,6 @@
+// This file is no longer the source of truth for product data,
+// but it can be kept for reference or seeding a database.
+
 export type Product = {
   id: string;
   title: string;

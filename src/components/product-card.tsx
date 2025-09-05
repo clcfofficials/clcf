@@ -1,4 +1,3 @@
-import type { Product } from "@/lib/placeholder-data";
 import {
   Card,
   CardContent,
@@ -13,7 +12,14 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 interface ProductCardProps {
-  product: Product;
+  product: {
+    id: string;
+    title: string;
+    description: string;
+    price: string;
+    image: string;
+    featured: boolean;
+  };
 }
 
 export function ProductCard({ product }: ProductCardProps) {

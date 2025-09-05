@@ -1,11 +1,13 @@
 import { ProductTable } from "./product-table";
-import type { Product } from "@/lib/placeholder-data";
+import type { IProduct } from "@/models/Product";
+import { unstable_noStore as noStore } from "next/cache";
 
-async function getProducts(): Promise<Product[]> {
-    // Using fetch to get data from our API endpoint
+
+async function getProducts(): Promise<IProduct[]> {
+    noStore();
     // The URL needs to be absolute for server-side fetching.
-    // We'll add a NEXT_PUBLIC_URL environment variable for this.
-    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/products`, { cache: 'no-store' });
+    const url = new URL('/api/products', process.env.NEXT_PUBLIC_URL);
+    const res = await fetch(url);
 
     if(!res.ok) {
         // In a real app, you'd want to handle this error more gracefully.
@@ -13,7 +15,9 @@ async function getProducts(): Promise<Product[]> {
         return [];
     }
 
-    return res.json();
+    const products = await res.json();
+    // The id from MongoDB is _id. We need to convert it to a string for our components.
+    return products.map((p: any) => ({...p, id: p._id.toString()}));
 }
 
 

@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { products as initialProducts, type Product } from '@/lib/placeholder-data';
-
-// In a real app, this would be a database. We're simulating it with an in-memory array.
-let products: Product[] = [...initialProducts];
+import dbConnect from '@/lib/dbConnect';
+import Product from '@/models/Product';
 
 const ProductSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters'),
@@ -15,12 +13,20 @@ const ProductSchema = z.object({
 
 // GET /api/products - Get all products
 export async function GET() {
-  return NextResponse.json(products);
+  try {
+    await dbConnect();
+    const products = await Product.find({}).sort({ createdAt: -1 });
+    return NextResponse.json(products);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: 'An unexpected error occurred.' }, { status: 500 });
+  }
 }
 
 // POST /api/products - Create a new product
 export async function POST(request: Request) {
   try {
+    await dbConnect();
     const json = await request.json();
     const validatedFields = ProductSchema.safeParse(json);
 
@@ -31,15 +37,11 @@ export async function POST(request: Request) {
       }, { status: 400 });
     }
 
-    const newProduct: Product = {
-      ...validatedFields.data,
-      id: String(Date.now()),
-    };
-
-    products.unshift(newProduct);
+    const newProduct = await Product.create(validatedFields.data);
 
     return NextResponse.json(newProduct, { status: 201 });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ message: 'An unexpected error occurred.' }, { status: 500 });
   }
 }

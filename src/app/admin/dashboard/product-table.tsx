@@ -1,6 +1,5 @@
 "use client";
 
-import type { Product } from "@/lib/placeholder-data";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -42,6 +41,9 @@ import { useState, useTransition } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ProductForm } from "./product-form";
 import { useRouter } from "next/navigation";
+import type { IProduct } from "@/models/Product";
+
+type Product = IProduct & { id: string };
 
 function EditProductDialog({ product }: { product: Product }) {
     const [open, setOpen] = useState(false);

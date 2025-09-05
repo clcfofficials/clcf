@@ -1,10 +1,14 @@
 import { ProductCard } from "@/components/product-card";
 import type { Metadata } from "next";
 import { SpaceWrapper } from "@/components/space-wrapper";
-import type { Product } from "@/lib/placeholder-data";
+import type { IProduct } from "@/models/Product";
+import { unstable_noStore as noStore } from "next/cache";
+
+type Product = IProduct & { _id: string };
 
 async function getProducts(): Promise<Product[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/products`, { cache: 'no-store' });
+  noStore();
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/products`);
   if (!res.ok) {
     console.error("Failed to fetch products");
     return [];
@@ -30,7 +34,7 @@ export default async function ProductsPage() {
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard key={product._id} product={{...product, id: product._id.toString()}} />
         ))}
       </div>
     </SpaceWrapper>

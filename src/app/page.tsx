@@ -5,10 +5,14 @@ import Image from "next/image";
 import { ProductCard } from "@/components/product-card";
 import { ArrowRight, HeartHandshake, Sprout, Truck } from "lucide-react";
 import { SpaceWrapper } from "@/components/space-wrapper";
-import type { Product } from "@/lib/placeholder-data";
+import type { IProduct } from "@/models/Product";
+import { unstable_noStore as noStore } from "next/cache";
+
+type Product = IProduct & { _id: string };
 
 async function getProducts(): Promise<Product[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/products`, { cache: 'no-store' });
+  noStore();
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/products`);
   if (!res.ok) {
     console.error("Failed to fetch products");
     return [];
@@ -63,7 +67,7 @@ export default async function Home() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product._id} product={{...product, id: product._id.toString()}} />
             ))}
           </div>
           <div className="text-center mt-12">
