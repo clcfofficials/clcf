@@ -4,7 +4,7 @@ export type Product = {
   description: string;
   price: string;
   image: string;
-  featured?: boolean;
+  featured: boolean;
 };
 
 export const products: Product[] = [
@@ -38,6 +38,7 @@ export const products: Product[] = [
     description: "A gentle formula designed to encourage strong root development in seedlings and new transplants.",
     price: "$22.00",
     image: "https://picsum.photos/seed/product4/600/400",
+    featured: false,
   },
   {
     id: "5",
@@ -45,6 +46,7 @@ export const products: Product[] = [
     description: "Achieve a lush, green, and weed-free lawn with our dual-action formula that feeds grass while controlling common weeds.",
     price: "$35.75",
     image: "https://picsum.photos/seed/product5/600/400",
+    featured: false,
   },
   {
     id: "6",
@@ -52,5 +54,6 @@ export const products: Product[] = [
     description: "Enriched with iron and zinc, this fertilizer is perfect for citrus and other fruit trees, promoting healthy growth and abundant fruit.",
     price: "$29.95",
     image: "https://picsum.photos/seed/product6/600/400",
+    featured: false,
   },
 ];
