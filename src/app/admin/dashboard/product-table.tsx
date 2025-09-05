@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { MoreHorizontal, Trash2 } from "lucide-react";
+import { MoreHorizontal, PlusCircle, Trash2 } from "lucide-react";
 import Image from "next/image";
 import {
   DropdownMenu,
@@ -19,15 +19,51 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { deleteProduct } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
+import { ProductForm } from "./product-form";
+
+function EditProductDialog({ product }: { product: Product }) {
+    const [open, setOpen] = useState(false);
+    return (
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+                <button className="w-full text-left">Edit</button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Edit Product</DialogTitle>
+                </DialogHeader>
+                <ProductForm product={product} onFormSubmit={() => setOpen(false)} />
+            </DialogContent>
+        </Dialog>
+    )
+}
 
 export function ProductTable({ products }: { products: Product[] }) {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+  const [addModalOpen, setAddModalOpen] = useState(false);
 
   const handleDelete = (id: string) => {
     startTransition(async () => {
@@ -48,6 +84,22 @@ export function ProductTable({ products }: { products: Product[] }) {
   };
 
   return (
+    <>
+    <div className="flex justify-end">
+        <Dialog open={addModalOpen} onOpenChange={setAddModalOpen}>
+            <DialogTrigger asChild>
+                <Button>
+                    <PlusCircle className="mr-2 h-4 w-4" /> Add Product
+                </Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Add New Product</DialogTitle>
+                </DialogHeader>
+                <ProductForm onFormSubmit={() => setAddModalOpen(false)}/>
+            </DialogContent>
+        </Dialog>
+    </div>
     <div className="border rounded-lg">
       <Table>
         <TableHeader>
@@ -65,7 +117,7 @@ export function ProductTable({ products }: { products: Product[] }) {
         </TableHeader>
         <TableBody>
           {products.map((product) => (
-            <TableRow key={product.id} className={isPending && product.id === (globalThis as any).DELETING_ID ? "opacity-50" : ""}>
+            <TableRow key={product.id}>
               <TableCell className="hidden sm:table-cell">
                 <Image
                   alt={product.title}
@@ -92,20 +144,29 @@ export function ProductTable({ products }: { products: Product[] }) {
                   <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuItem asChild>
-                      <Link href={`/admin/dashboard/edit/${product.id}`}>Edit</Link>
+                      <EditProductDialog product={product} />
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                      className="text-destructive focus:text-destructive"
-                      onClick={() => {
-                        if (confirm("Are you sure you want to delete this product?")) {
-                          (globalThis as any).DELETING_ID = product.id;
-                          handleDelete(product.id);
-                        }
-                      }}
-                      disabled={isPending}
-                    >
-                      <Trash2 className="mr-2 h-4 w-4" /> Delete
-                    </DropdownMenuItem>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <button className="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 w-full text-destructive focus:text-destructive">
+                                <Trash2 className="mr-2 h-4 w-4" /> Delete
+                            </button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This action cannot be undone. This will permanently delete the product.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => handleDelete(product.id)} disabled={isPending}>
+                                    {isPending ? "Deleting..." : "Delete"}
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>
@@ -114,5 +175,6 @@ export function ProductTable({ products }: { products: Product[] }) {
         </TableBody>
       </Table>
     </div>
+    </>
   );
 }
