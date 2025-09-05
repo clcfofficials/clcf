@@ -1,10 +1,11 @@
 import { Leaf } from "lucide-react";
 import Link from "next/link";
+import { SpaceWrapper } from "../space-wrapper";
 
 export function Footer() {
   return (
     <footer className="border-t">
-      <div className="container mx-auto px-4 py-8">
+      <SpaceWrapper className="py-8">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center space-x-2 mb-4 md:mb-0">
             <Leaf className="h-6 w-6 text-primary" />
@@ -19,7 +20,7 @@ export function Footer() {
           <p>This is a fictional website created for demonstration purposes.</p>
           <Link href="/admin" className="hover:text-primary transition-colors">Admin Panel</Link>
         </div>
-      </div>
+      </SpaceWrapper>
     </footer>
   );
 }

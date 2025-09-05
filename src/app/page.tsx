@@ -5,6 +5,7 @@ import Image from "next/image";
 import { products } from "@/lib/placeholder-data";
 import { ProductCard } from "@/components/product-card";
 import { ArrowRight, HeartHandshake, Sprout, Truck } from "lucide-react";
+import { SpaceWrapper } from "@/components/space-wrapper";
 
 export default function Home() {
   const featuredProducts = products.filter(p => p.featured).slice(0, 3);
@@ -33,7 +34,7 @@ export default function Home() {
       </section>
       
       <section className="py-16 md:py-24 bg-secondary/50">
-        <div className="container mx-auto px-4 text-center">
+        <SpaceWrapper className="text-center">
           <h2 className="text-3xl md:text-4xl font-headline font-bold text-primary">Welcome to CropLife Navigator</h2>
           <p className="mt-4 max-w-3xl mx-auto text-lg text-foreground/80">
             At CropLife Care Fertilizers (CLCF), we are dedicated to empowering farmers with high-quality, innovative, and sustainable fertilization solutions. Our mission is to enhance crop yield and quality, ensuring food security for generations to come.
@@ -41,11 +42,11 @@ export default function Home() {
           <Button asChild variant="outline" size="lg" className="mt-8">
             <Link href="/about">Learn More About Us</Link>
           </Button>
-        </div>
+        </SpaceWrapper>
       </section>
 
       <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
+        <SpaceWrapper>
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-headline font-bold">Featured Products</h2>
             <p className="mt-2 text-lg text-muted-foreground">Top solutions trusted by farmers</p>
@@ -60,11 +61,11 @@ export default function Home() {
               <Link href="/products">View All Products <ArrowRight className="ml-2" /></Link>
             </Button>
           </div>
-        </div>
+        </SpaceWrapper>
       </section>
       
       <section className="bg-muted/30 py-16 md:py-24">
-        <div className="container mx-auto px-4">
+        <SpaceWrapper>
             <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-headline font-bold">Why Choose Us?</h2>
                 <p className="mt-2 text-lg text-muted-foreground">Your success is our mission.</p>
@@ -110,11 +111,11 @@ export default function Home() {
                     </CardContent>
                 </Card>
             </div>
-        </div>
+        </SpaceWrapper>
       </section>
 
       <section className="py-16 md:py-24 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
+        <SpaceWrapper className="text-center">
           <h2 className="text-3xl md:text-4xl font-headline font-bold">Ready to Boost Your Yields?</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg">
             Get in touch with our experts today to find the perfect fertilizer solution for your farm.
@@ -122,7 +123,7 @@ export default function Home() {
           <Button asChild size="lg" variant="secondary" className="mt-8">
             <Link href="/contact">Contact Us Now</Link>
           </Button>
-        </div>
+        </SpaceWrapper>
       </section>
     </div>
   );

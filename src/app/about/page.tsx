@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { HeartHandshake, Rocket, Target } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import { SpaceWrapper } from "@/components/space-wrapper";
 
 export const metadata: Metadata = {
   title: "About Us | CropLife Navigator",
@@ -12,16 +13,16 @@ export default function AboutPage() {
   return (
     <div>
       <section className="bg-secondary/50 py-16 md:py-24">
-        <div className="container mx-auto px-4 text-center">
+        <SpaceWrapper className="text-center">
           <h1 className="text-4xl md:text-5xl font-headline font-bold">About CropLife Care Fertilizers</h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
             Pioneering agricultural solutions for a thriving planet. We are committed to innovation, quality, and the success of farmers everywhere.
           </p>
-        </div>
+        </SpaceWrapper>
       </section>
 
       <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
+        <SpaceWrapper>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl font-headline font-bold text-primary mb-4">Our Story</h2>
@@ -36,11 +37,11 @@ export default function AboutPage() {
                 <Image src="https://picsum.photos/600/600?grayscale" data-ai-hint="team photo" alt="CLCF Team" width={600} height={600} className="object-cover w-full h-full" />
             </div>
           </div>
-        </div>
+        </SpaceWrapper>
       </section>
 
       <section className="py-16 md:py-24 bg-muted/30">
-        <div className="container mx-auto px-4">
+        <SpaceWrapper>
             <div className="grid md:grid-cols-3 gap-8">
                 <Card className="text-center">
                     <CardHeader>
@@ -76,7 +77,7 @@ export default function AboutPage() {
                     </CardContent>
                 </Card>
             </div>
-        </div>
+        </SpaceWrapper>
       </section>
     </div>
   );

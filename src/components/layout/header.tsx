@@ -8,6 +8,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import * as React from "react";
+import { SpaceWrapper } from "../space-wrapper";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -22,7 +23,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
+      <SpaceWrapper className="flex h-16 items-center">
         <Link href="/" className="mr-6 flex items-center space-x-2">
           <Leaf className="h-6 w-6 text-primary" />
           <span className="font-bold hidden sm:inline-block">CropLife Navigator</span>
@@ -76,7 +77,7 @@ export function Header() {
             </Sheet>
           </div>
         </div>
-      </div>
+      </SpaceWrapper>
     </header>
   );
 }

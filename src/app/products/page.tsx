@@ -1,6 +1,7 @@
 import { ProductCard } from "@/components/product-card";
 import { products } from "@/lib/placeholder-data";
 import type { Metadata } from "next";
+import { SpaceWrapper } from "@/components/space-wrapper";
 
 export const metadata: Metadata = {
   title: "Our Products | CropLife Navigator",
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function ProductsPage() {
   return (
-    <div className="container mx-auto px-4 py-16">
+    <SpaceWrapper className="py-16">
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-headline font-bold">Our Products</h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -21,6 +22,6 @@ export default function ProductsPage() {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
-    </div>
+    </SpaceWrapper>
   );
 }

@@ -1,3 +1,5 @@
+import { SpaceWrapper } from "@/components/space-wrapper";
+
 export default function AdminLayout({
   children,
 }: {
@@ -6,13 +8,13 @@ export default function AdminLayout({
   return (
     <div className="bg-muted/30 min-h-[calc(100vh-4rem)]">
       <div className="border-b bg-background shadow-sm">
-        <div className="container mx-auto px-4 py-3">
+        <SpaceWrapper className="py-3">
           <h1 className="text-xl font-bold text-primary">CLCF Admin Panel</h1>
-        </div>
+        </SpaceWrapper>
       </div>
-      <div className="container mx-auto px-4 py-8">
+      <SpaceWrapper className="py-8">
         {children}
-      </div>
+      </SpaceWrapper>
     </div>
   );
 }

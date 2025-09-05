@@ -1,6 +1,7 @@
 import { ContactForm } from "@/components/contact-form";
 import { Mail, MapPin, Phone } from "lucide-react";
 import type { Metadata } from "next";
+import { SpaceWrapper } from "@/components/space-wrapper";
 
 export const metadata: Metadata = {
   title: "Contact Us | CropLife Navigator",
@@ -11,16 +12,16 @@ export default function ContactPage() {
   return (
     <div>
       <section className="bg-secondary/50 py-16 md:py-24">
-        <div className="container mx-auto px-4 text-center">
+        <SpaceWrapper className="text-center">
           <h1 className="text-4xl md:text-5xl font-headline font-bold">Contact Us</h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
             We're here to help. Reach out to us with any questions or to discuss your needs.
           </p>
-        </div>
+        </SpaceWrapper>
       </section>
 
       <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4">
+        <SpaceWrapper>
           <div className="grid md:grid-cols-2 gap-16 items-start">
             <div className="space-y-8">
               <div>
@@ -64,7 +65,7 @@ export default function ContactPage() {
               </div>
             </div>
           </div>
-        </div>
+        </SpaceWrapper>
       </section>
     </div>
   );
