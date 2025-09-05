@@ -39,9 +39,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { useState, useTransition } from "react";
-import { deleteProduct } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
 import { ProductForm } from "./product-form";
+import { useRouter } from "next/navigation";
 
 function EditProductDialog({ product }: { product: Product }) {
     const [open, setOpen] = useState(false);
@@ -60,24 +60,28 @@ function EditProductDialog({ product }: { product: Product }) {
     )
 }
 
-export function ProductTable({ products }: { products: Product[] }) {
+export function ProductTable({ initialProducts }: { initialProducts: Product[] }) {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
   const [addModalOpen, setAddModalOpen] = useState(false);
+  const router = useRouter();
 
   const handleDelete = (id: string) => {
     startTransition(async () => {
-      const result = await deleteProduct(id);
-      if (result.success) {
+      const response = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+
+      if (response.ok) {
         toast({
           title: "Success",
-          description: result.message,
+          description: "Product deleted successfully",
         });
+        router.refresh();
       } else {
+        const result = await response.json();
         toast({
           variant: "destructive",
           title: "Error",
-          description: result.message,
+          description: result.message || "Failed to delete product.",
         });
       }
     });
@@ -116,7 +120,7 @@ export function ProductTable({ products }: { products: Product[] }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {products.map((product) => (
+          {initialProducts.map((product) => (
             <TableRow key={product.id}>
               <TableCell className="hidden sm:table-cell">
                 <Image

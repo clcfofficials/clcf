@@ -2,10 +2,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
-import { getProducts } from "@/app/actions";
 import { ProductCard } from "@/components/product-card";
 import { ArrowRight, HeartHandshake, Sprout, Truck } from "lucide-react";
 import { SpaceWrapper } from "@/components/space-wrapper";
+import type { Product } from "@/lib/placeholder-data";
+
+async function getProducts(): Promise<Product[]> {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/products`, { cache: 'no-store' });
+  if (!res.ok) {
+    console.error("Failed to fetch products");
+    return [];
+  }
+  return res.json();
+}
 
 export default async function Home() {
   const allProducts = await getProducts();

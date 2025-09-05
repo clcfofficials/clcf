@@ -1,7 +1,16 @@
-import { getProducts } from "@/app/actions";
 import { ProductCard } from "@/components/product-card";
 import type { Metadata } from "next";
 import { SpaceWrapper } from "@/components/space-wrapper";
+import type { Product } from "@/lib/placeholder-data";
+
+async function getProducts(): Promise<Product[]> {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/products`, { cache: 'no-store' });
+  if (!res.ok) {
+    console.error("Failed to fetch products");
+    return [];
+  }
+  return res.json();
+}
 
 export const metadata: Metadata = {
   title: "Our Products | CropLife Navigator",

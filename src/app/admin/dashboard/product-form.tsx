@@ -1,7 +1,7 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
-import { addProduct, updateProduct, type FormState } from "@/app/actions";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import type { Product } from "@/lib/placeholder-data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,59 +9,89 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import { useEffect } from "react";
 import Image from "next/image";
 
-function SubmitButton({ isEdit }: { isEdit: boolean }) {
-    const { pending } = useFormStatus();
+function SubmitButton({ isEdit, isPending }: { isEdit: boolean, isPending: boolean }) {
     return (
-        <Button type="submit" disabled={pending}>
-            {pending ? (isEdit ? "Updating..." : "Adding...") : (isEdit ? "Update Product" : "Add Product")}
+        <Button type="submit" disabled={isPending}>
+            {isPending ? (isEdit ? "Updating..." : "Adding...") : (isEdit ? "Update Product" : "Add Product")}
         </Button>
     );
 }
 
 export function ProductForm({ product, onFormSubmit }: { product?: Product, onFormSubmit?: () => void }) {
     const isEdit = !!product;
-    const action = isEdit ? updateProduct : addProduct;
-    const [state, formAction] = useFormState(action, { message: "", success: false });
     const { toast } = useToast();
+    const router = useRouter();
+    const [isPending, startTransition] = useTransition();
+    const [errors, setErrors] = useState<Record<string, string[] | undefined> | null>(null);
 
-    useEffect(() => {
-        if (state.message) {
-            toast({
-                variant: state.success ? "default" : "destructive",
-                title: state.success ? "Success" : "Error",
-                description: state.message,
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const formValues = Object.fromEntries(formData.entries());
+
+        const payload = {
+            title: formValues.title,
+            description: formValues.description,
+            price: formValues.price,
+            featured: formValues.featured === 'on',
+            image: product?.image || 'https://picsum.photos/600/400', // Retain old image or use placeholder
+        };
+
+        const url = isEdit ? `/api/products/${product.id}` : '/api/products';
+        const method = isEdit ? 'PATCH' : 'POST';
+
+        startTransition(async () => {
+            const response = await fetch(url, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
             });
-        }
-        if (state.success) {
-           onFormSubmit?.();
-        }
-    }, [state, toast, onFormSubmit]);
+
+            const result = await response.json();
+
+            if (response.ok) {
+                toast({
+                    title: "Success",
+                    description: isEdit ? "Product updated successfully." : "Product added successfully.",
+                });
+                setErrors(null);
+                onFormSubmit?.();
+                router.refresh(); // Re-fetch server-side data
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Error",
+                    description: result.message || (isEdit ? "Failed to update product." : "Failed to add product."),
+                });
+                if (result.errors) {
+                    setErrors(result.errors);
+                }
+            }
+        });
+    };
 
     return (
-        <form action={formAction}>
+        <form onSubmit={handleSubmit}>
             <div className="space-y-6">
-                {isEdit && <input type="hidden" name="id" value={product.id} />}
-                {isEdit && <input type="hidden" name="image" value={product.image} />}
                 
                 <div className="space-y-2">
                     <Label htmlFor="title">Title</Label>
                     <Input id="title" name="title" defaultValue={product?.title} required />
-                    {state.errors?.title && <p className="text-sm text-destructive">{state.errors.title.join(", ")}</p>}
+                    {errors?.title && <p className="text-sm text-destructive">{errors.title.join(", ")}</p>}
                 </div>
 
                 <div className="space-y-2">
                     <Label htmlFor="description">Description</Label>
                     <Textarea id="description" name="description" defaultValue={product?.description} required />
-                     {state.errors?.description && <p className="text-sm text-destructive">{state.errors.description.join(", ")}</p>}
+                     {errors?.description && <p className="text-sm text-destructive">{errors.description.join(", ")}</p>}
                 </div>
                 
                 <div className="space-y-2">
                     <Label htmlFor="price">Price</Label>
                     <Input id="price" name="price" defaultValue={product?.price} required />
-                     {state.errors?.price && <p className="text-sm text-destructive">{state.errors.price.join(", ")}</p>}
+                     {errors?.price && <p className="text-sm text-destructive">{errors.price.join(", ")}</p>}
                 </div>
                 
                 <div className="flex items-center space-x-2 pt-2">
@@ -73,12 +103,12 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
                      <div className="space-y-2">
                         <Label>Current Image</Label>
                         <Image src={product.image} alt={product.title} width={150} height={100} className="rounded-md border" />
-                        <p className="text-xs text-muted-foreground">Image uploading is not implemented in this demo. The existing image will be retained.</p>
+                        <p className="text-xs text-muted-foreground">Image uploading is not implemented. The existing image will be retained.</p>
                     </div>
                 )}
             </div>
             <div className="flex justify-end mt-8">
-                <SubmitButton isEdit={isEdit} />
+                <SubmitButton isEdit={isEdit} isPending={isPending} />
             </div>
         </form>
     );
