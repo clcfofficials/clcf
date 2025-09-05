@@ -5,7 +5,6 @@ import Image from "next/image";
 import { products } from "@/lib/placeholder-data";
 import { ProductCard } from "@/components/product-card";
 import { ArrowRight, HeartHandshake, Sprout, Truck } from "lucide-react";
-import { ThemeGenerator } from "@/components/theme-generator";
 
 export default function Home() {
   const featuredProducts = products.filter(p => p.featured).slice(0, 3);
@@ -123,16 +122,6 @@ export default function Home() {
           <Button asChild size="lg" variant="secondary" className="mt-8">
             <Link href="/contact">Contact Us Now</Link>
           </Button>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-headline font-bold">Experiment with AI</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            Generate a new theme for the website using generative AI.
-          </p>
-          <ThemeGenerator />
         </div>
       </section>
     </div>
