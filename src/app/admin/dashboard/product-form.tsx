@@ -4,7 +4,6 @@ import { useFormState, useFormStatus } from "react-dom";
 import { addProduct, updateProduct, type FormState } from "@/app/actions";
 import type { Product } from "@/lib/placeholder-data";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -43,31 +42,31 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
 
     return (
         <form action={formAction}>
-            <div className="space-y-6 pt-6">
+            <div className="space-y-6">
                 {isEdit && <input type="hidden" name="id" value={product.id} />}
                 {isEdit && <input type="hidden" name="image" value={product.image} />}
                 
                 <div className="space-y-2">
                     <Label htmlFor="title">Title</Label>
-                    <Input id="title" name="title" defaultValue={product?.title} />
+                    <Input id="title" name="title" defaultValue={product?.title} required />
                     {state.errors?.title && <p className="text-sm text-destructive">{state.errors.title.join(", ")}</p>}
                 </div>
 
                 <div className="space-y-2">
                     <Label htmlFor="description">Description</Label>
-                    <Textarea id="description" name="description" defaultValue={product?.description} />
+                    <Textarea id="description" name="description" defaultValue={product?.description} required />
                      {state.errors?.description && <p className="text-sm text-destructive">{state.errors.description.join(", ")}</p>}
                 </div>
                 
                 <div className="space-y-2">
                     <Label htmlFor="price">Price</Label>
-                    <Input id="price" name="price" defaultValue={product?.price} />
+                    <Input id="price" name="price" defaultValue={product?.price} required />
                      {state.errors?.price && <p className="text-sm text-destructive">{state.errors.price.join(", ")}</p>}
                 </div>
                 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 pt-2">
                     <Checkbox id="featured" name="featured" defaultChecked={product?.featured} />
-                    <Label htmlFor="featured">Featured Product</Label>
+                    <Label htmlFor="featured" className="font-normal">Featured Product</Label>
                 </div>
 
                 {isEdit && product.image && (
@@ -78,7 +77,7 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
                     </div>
                 )}
             </div>
-            <div className="flex justify-end mt-6">
+            <div className="flex justify-end mt-8">
                 <SubmitButton isEdit={isEdit} />
             </div>
         </form>

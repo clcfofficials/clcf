@@ -1,5 +1,5 @@
+import { getProducts } from "@/app/actions";
 import { ProductCard } from "@/components/product-card";
-import { products } from "@/lib/placeholder-data";
 import type { Metadata } from "next";
 import { SpaceWrapper } from "@/components/space-wrapper";
 
@@ -8,7 +8,9 @@ export const metadata: Metadata = {
   description: "Browse our full range of high-quality fertilizers.",
 };
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const products = await getProducts();
+
   return (
     <SpaceWrapper className="py-16">
       <div className="text-center mb-12">

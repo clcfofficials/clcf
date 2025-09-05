@@ -141,10 +141,7 @@ export async function loginAction(prevState: FormState, formData: FormData): Pro
     const { username, password } = validatedFields.data;
 
     // In a real app, you would check against a database.
-    if (username === 'admin' && password === 'password') {
-        // In a real app, you'd set a cookie or session here.
-        // For this demo, we just redirect.
-    } else {
+    if (username !== 'admin' || password !== 'password') {
         return {
             message: 'Invalid username or password.',
             success: false,

@@ -2,13 +2,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
-import { products } from "@/lib/placeholder-data";
+import { getProducts } from "@/app/actions";
 import { ProductCard } from "@/components/product-card";
 import { ArrowRight, HeartHandshake, Sprout, Truck } from "lucide-react";
 import { SpaceWrapper } from "@/components/space-wrapper";
 
-export default function Home() {
-  const featuredProducts = products.filter(p => p.featured).slice(0, 3);
+export default async function Home() {
+  const allProducts = await getProducts();
+  const featuredProducts = allProducts.filter(p => p.featured).slice(0, 3);
 
   return (
     <div className="flex flex-col">
@@ -35,7 +36,7 @@ export default function Home() {
       
       <section className="py-16 md:py-24 bg-secondary/50">
         <SpaceWrapper className="text-center">
-          <h2 className="text-3xl md:text-4xl font-headline font-bold text-primary">Welcome to CropLife Navigator</h2>
+          <h2 className="text-3xl md:text-4xl font-headline font-bold text-primary">Welcome to CropLife Care Fertilizers</h2>
           <p className="mt-4 max-w-3xl mx-auto text-lg text-foreground/80">
             At CropLife Care Fertilizers (CLCF), we are dedicated to empowering farmers with high-quality, innovative, and sustainable fertilization solutions. Our mission is to enhance crop yield and quality, ensuring food security for generations to come.
           </p>
