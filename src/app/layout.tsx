@@ -7,6 +7,9 @@ import { Toaster } from '@/components/ui/toaster';
 export const metadata: Metadata = {
   title: 'Crop Life Care Fertilizers',
   description: 'High-quality fertilizers for a bountiful harvest.',
+  icons: {
+    icon: '/logo.png',
+  },
 };
 
 export default function RootLayout({
