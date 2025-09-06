@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Leaf, Linkedin, Twitter } from "lucide-react";
+import { Facebook, Instagram, Leaf, Linkedin, Mail, MapPin, Phone, Twitter } from "lucide-react";
 import Link from "next/link";
 import { SpaceWrapper } from "../space-wrapper";
 import { Button } from "@/components/ui/button";
@@ -22,8 +22,8 @@ export function Footer() {
   return (
     <footer className="bg-secondary/50 text-foreground">
       <SpaceWrapper className="py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8">
-            <div className="md:col-span-4 lg:col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="lg:col-span-2">
                  <div className="flex items-center space-x-2 mb-4">
                     <Leaf className="h-8 w-8 text-primary" />
                     <span className="font-bold text-xl">Crop Life Care Fertilizers</span>
@@ -42,7 +42,7 @@ export function Footer() {
                 </div>
             </div>
 
-            <div className="lg:col-start-4">
+            <div>
                 <h4 className="font-semibold text-lg mb-4">Quick Links</h4>
                 <ul className="space-y-3">
                     {navLinks.map((link) => (
@@ -56,14 +56,21 @@ export function Footer() {
             </div>
             
             <div>
-                 <h4 className="font-semibold text-lg mb-4">Admin</h4>
-                <ul className="space-y-3">
-                    <li>
-                         <Link href="/admin" className="text-muted-foreground hover:text-primary transition-colors">
-                            Admin Panel
-                        </Link>
-                    </li>
-                </ul>
+                 <h4 className="font-semibold text-lg mb-4">Contact Us</h4>
+                <div className="space-y-4 text-muted-foreground">
+                  <div className="flex items-start gap-3">
+                      <MapPin className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
+                      <p>123 Green Valley Rd, Harvestville, AG 45678</p>
+                  </div>
+                   <div className="flex items-start gap-3">
+                      <Phone className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
+                      <p>(123) 456-7890</p>
+                  </div>
+                   <div className="flex items-start gap-3">
+                      <Mail className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
+                      <p>contact@croplifecare.com</p>
+                  </div>
+                </div>
             </div>
         </div>
       </SpaceWrapper>
