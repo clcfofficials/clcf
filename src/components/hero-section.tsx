@@ -219,43 +219,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             })}
           </motion.div>
 
-          {/* Dashboard Preview */}
-          <motion.div 
-            variants={itemVariants}
-            className="relative"
-          >
-            <div className="bg-white/85 dark:bg-gray-800/85 backdrop-blur-md rounded-2xl shadow-2xl border border-green-200 dark:border-green-700 p-8 overflow-hidden">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex space-x-2">
-                  <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-                  <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                  <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                </div>
-                <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
-                  <Sprout className="w-4 h-4 text-green-500" />
-                  Growth Analytics Dashboard
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="space-y-4">
-                  <div className="h-4 bg-gradient-to-r from-green-200 to-lime-200 dark:from-green-700 dark:to-lime-700 rounded animate-pulse"></div>
-                  <div className="h-4 bg-gradient-to-r from-emerald-300 to-green-300 dark:from-emerald-600 dark:to-green-600 rounded animate-pulse delay-100"></div>
-                  <div className="h-4 bg-gradient-to-r from-lime-200 to-emerald-200 dark:from-lime-700 dark:to-emerald-700 rounded animate-pulse delay-200"></div>
-                </div>
-                <div className="space-y-4">
-                  <div className="h-4 bg-gradient-to-r from-green-200 to-emerald-200 dark:from-green-700 dark:to-emerald-700 rounded animate-pulse delay-300"></div>
-                  <div className="h-4 bg-gradient-to-r from-emerald-200 to-lime-200 dark:from-emerald-700 dark:to-lime-700 rounded animate-pulse delay-400"></div>
-                  <div className="h-4 bg-gradient-to-r from-lime-300 to-green-300 dark:from-lime-600 dark:to-green-600 rounded animate-pulse delay-500"></div>
-                </div>
-                <div className="space-y-4">
-                  <div className="h-4 bg-gradient-to-r from-emerald-300 to-green-300 dark:from-emerald-600 dark:to-green-600 rounded animate-pulse delay-600"></div>
-                  <div className="h-4 bg-gradient-to-r from-lime-200 to-emerald-200 dark:from-lime-700 dark:to-emerald-700 rounded animate-pulse delay-700"></div>
-                  <div className="h-4 bg-gradient-to-r from-green-200 to-lime-200 dark:from-green-700 dark:to-lime-700 rounded animate-pulse delay-800"></div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
         </motion.div>
       </div>
     </div>

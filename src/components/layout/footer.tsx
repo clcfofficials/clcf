@@ -26,7 +26,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="md:col-span-2">
                  <div className="flex items-center space-x-2 mb-4">
-                    <Image src="https://i.ibb.co/gDPfb59/Logo-page-0001-removebg-preview.png" alt="Crop Life Care Fertilizers Logo" width={40} height={40} className="h-10 w-auto" />
+                    <Image src="https://i.ibb.co/8DPGfb59/Logo-page-0001-removebg-preview.png" alt="Crop Life Care Fertilizers Logo" width={40} height={40} className="h-10 w-auto" />
                     <span className="font-bold text-xl">Crop Life Care Fertilizers</span>
                 </div>
                 <p className="text-muted-foreground text-base max-w-sm">

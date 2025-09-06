@@ -25,18 +25,20 @@ export default async function ProductsPage() {
   const products = await getProducts();
 
   return (
-    <SpaceWrapper className="py-16">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-headline font-bold">Our Products</h1>
-        <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-          Explore our comprehensive range of fertilizers, designed to meet the diverse needs of modern agriculture.
-        </p>
-      </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {products.map((product) => (
-          <ProductCard key={product._id} product={{...product, id: product._id.toString()}} />
-        ))}
-      </div>
-    </SpaceWrapper>
+    <section className="py-16 md:py-24">
+      <SpaceWrapper>
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-headline font-bold">Our Products</h1>
+          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+            Explore our comprehensive range of fertilizers, designed to meet the diverse needs of modern agriculture.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {products.map((product) => (
+            <ProductCard key={product._id} product={{...product, id: product._id.toString()}} />
+          ))}
+        </div>
+      </SpaceWrapper>
+    </section>
   );
 }
