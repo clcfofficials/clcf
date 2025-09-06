@@ -1,14 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { Leaf, Menu } from "lucide-react";
+import { Leaf, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import * as React from "react";
-import { SpaceWrapper } from "../space-wrapper";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -18,66 +16,85 @@ const navItems = [
 ];
 
 export function Header() {
-  const pathname = usePathname();
-  const [open, setOpen] = React.useState(false);
+    const [menuState, setMenuState] = React.useState(false)
+    const [isScrolled, setIsScrolled] = React.useState(false)
+    const pathname = usePathname();
 
-  return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <SpaceWrapper className="flex h-16 items-center">
-        <Link href="/" className="mr-6 flex items-center space-x-2">
-          <Leaf className="h-6 w-6 text-primary" />
-          <span className="font-bold hidden sm:inline-block">CropLife Navigator</span>
-        </Link>
+    React.useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50)
+        }
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
 
-        <div className="flex flex-1 items-center justify-end space-x-2">
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "transition-colors hover:text-primary",
-                  pathname === item.href ? "text-primary" : "text-muted-foreground"
-                )}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <Sheet open={open} onOpenChange={setOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden">
-                  <Menu />
-                  <span className="sr-only">Toggle Menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <Link href="/" className="mb-8 flex items-center space-x-2">
-                  <Leaf className="h-6 w-6 text-primary" />
-                  <span className="font-bold">CropLife Navigator</span>
-                </Link>
-                <nav className="flex flex-col space-y-4">
-                  {navItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setOpen(false)}
-                      className={cn(
-                        "transition-colors hover:text-primary text-lg",
-                        pathname === item.href ? "text-primary font-semibold" : "text-muted-foreground"
-                      )}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </nav>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </SpaceWrapper>
-    </header>
-  );
+    return (
+        <header>
+            <nav
+                data-state={menuState ? 'active' : 'inactive'}
+                className="fixed z-50 w-full px-2 group">
+                <div className={cn('mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12', isScrolled && 'bg-background/80 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5')}>
+                    <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
+                        <div className="flex w-full justify-between lg:w-auto">
+                             <Link href="/" className="flex items-center space-x-2">
+                                <Leaf className="h-6 w-6 text-primary" />
+                                <span className="font-bold sm:inline-block">CropLife Navigator</span>
+                            </Link>
+
+                            <button
+                                onClick={() => setMenuState(!menuState)}
+                                aria-label={menuState == true ? 'Close Menu' : 'Open Menu'}
+                                className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden">
+                                <Menu className="in-data-[state=active]:rotate-180 group-data-[state=active]:scale-0 group-data-[state=active]:opacity-0 m-auto size-6 duration-200" />
+                                <X className="group-data-[state=active]:rotate-0 group-data-[state=active]:scale-100 group-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200" />
+                            </button>
+                        </div>
+
+                        <div className="absolute inset-0 m-auto hidden size-fit lg:block">
+                            <ul className="flex gap-8 text-sm font-medium">
+                                {navItems.map((item) => (
+                                    <li key={item.href}>
+                                        <Link
+                                            href={item.href}
+                                            className={cn(
+                                                "transition-colors hover:text-primary",
+                                                pathname === item.href ? "text-primary" : "text-muted-foreground"
+                                            )}>
+                                            <span>{item.label}</span>
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className="bg-background group-data-[state=active]:block lg:group-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
+                            <div className="lg:hidden w-full">
+                                <ul className="space-y-6 text-base">
+                                    {navItems.map((item) => (
+                                         <li key={item.href}>
+                                            <Link
+                                                href={item.href}
+                                                onClick={() => setMenuState(false)}
+                                                className={cn(
+                                                    "transition-colors hover:text-primary",
+                                                    pathname === item.href ? "text-primary font-semibold" : "text-muted-foreground"
+                                                )}>
+                                                <span>{item.label}</span>
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                                 <div className="mt-6 flex justify-center">
+                                    <ThemeToggle />
+                                </div>
+                            </div>
+                           <div className="hidden lg:flex items-center gap-2">
+                                <ThemeToggle />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    )
 }
