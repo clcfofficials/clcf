@@ -41,12 +41,12 @@ export function Header() {
                                 <Leaf className="h-6 w-6 text-primary" />
                                 <span className="font-bold sm:inline-block">CropLife Navigator</span>
                             </Link>
-                            <div className="flex items-center lg:hidden">
+                            <div className="flex items-center gap-2 lg:hidden">
                                 <ThemeToggle />
                                 <button
                                     onClick={() => setMenuState(!menuState)}
                                     aria-label={menuState == true ? 'Close Menu' : 'Open Menu'}
-                                    className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5">
+                                    className="relative z-20 -m-2.5 block cursor-pointer p-2.5">
                                     <Menu className="in-data-[state=active]:rotate-180 group-data-[state=active]:scale-0 group-data-[state=active]:opacity-0 m-auto size-6 duration-200" />
                                     <X className="group-data-[state=active]:rotate-0 group-data-[state=active]:scale-100 group-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200" />
                                 </button>
