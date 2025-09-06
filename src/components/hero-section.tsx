@@ -24,29 +24,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   secondaryButtonText = "Learn More",
   features = ["Organic Solutions", "Fast Growth", "Eco-Friendly", "Premium Quality"]
 }) => {
-  const [isDark, setIsDark] = useState(false)
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-    const savedTheme = localStorage.getItem('theme')
-    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      setIsDark(true)
-      document.documentElement.classList.add('dark')
-    }
-  }, [])
-
-  const toggleTheme = () => {
-    setIsDark(!isDark)
-    if (!isDark) {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
-    }
-  }
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -79,10 +56,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         ease: "easeInOut"
       }
     }
-  }
-
-  if (!mounted) {
-    return null
   }
 
   return (
@@ -155,43 +128,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         }}></div>
       </div>
 
-      {/* Theme Toggle is handled by theme-toggle.tsx in the header now, so this can be removed or disabled if not needed as a standalone */}
-      {/*
-      <div className="absolute top-6 right-6 z-50">
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={toggleTheme}
-          className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border-green-200 dark:border-green-700 hover:bg-green-50 dark:hover:bg-green-900/50 transition-all duration-500 shadow-lg hover:shadow-xl"
-        >
-          <AnimatePresence mode="wait">
-            {isDark ? (
-              <motion.div
-                key="sun"
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <SunIcon className="h-4 w-4 text-amber-500" />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="moon"
-                initial={{ rotate: 90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: -90, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Moon className="h-4 w-4 text-blue-400" />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </Button>
-      </div>
-      */}
-
-
       {/* Main Content */}
       <div className="relative z-10 container mx-auto px-6 py-20">
         <motion.div
@@ -201,7 +137,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           className="max-w-6xl mx-auto"
         >
           {/* Header Section */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-16 pt-20 md:pt-32">
             <motion.div variants={itemVariants} className="mb-6">
               <Badge 
                 variant="outline" 
