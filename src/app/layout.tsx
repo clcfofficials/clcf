@@ -5,7 +5,7 @@ import { Footer } from '@/components/layout/footer';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'CropLife Navigator',
+  title: 'Crop Life Care Fertilizers',
   description: 'High-quality fertilizers for a bountiful harvest.',
 };
 

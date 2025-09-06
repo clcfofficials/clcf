@@ -8,6 +8,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import * as React from "react";
+import Image from 'next/image';
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -38,8 +39,8 @@ export function Header() {
                     <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
                         <div className="flex w-full justify-between lg:w-auto">
                              <Link href="/" className="flex items-center space-x-2">
-                                <Leaf className="h-6 w-6 text-primary" />
-                                <span className="font-bold sm:inline-block">CropLife Navigator</span>
+                                <Image src="https://i.ibb.co/gDPfb59/Logo-page-0001-removebg-preview.png" alt="CropLife Care Fertilizers Logo" width={40} height={40} className="h-10 w-auto" />
+                                <span className="font-bold sm:inline-block">Crop Life Care Fertilizers</span>
                             </Link>
                             <div className="flex items-center gap-2 lg:hidden">
                                 <ThemeToggle />
@@ -72,6 +73,7 @@ export function Header() {
 
                         <div className="bg-background group-data-[state=active]:block lg:group-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
                             <div className="lg:hidden w-full">
+
                                 <ul className="space-y-6 text-base">
                                     {navItems.map((item) => (
                                          <li key={item.href}>

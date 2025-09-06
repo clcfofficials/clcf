@@ -5,7 +5,7 @@ import Image from "next/image";
 import { SpaceWrapper } from "@/components/space-wrapper";
 
 export const metadata: Metadata = {
-  title: "About Us | CropLife Navigator",
+  title: "About Us | Crop Life Care Fertilizers",
   description: "Learn about our mission, vision, and commitment to sustainable agriculture.",
 };
 

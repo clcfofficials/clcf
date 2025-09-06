@@ -17,7 +17,7 @@ async function getProducts(): Promise<Product[]> {
 }
 
 export const metadata: Metadata = {
-  title: "Our Products | CropLife Navigator",
+  title: "Our Products | Crop Life Care Fertilizers",
   description: "Browse our full range of high-quality fertilizers.",
 };
 

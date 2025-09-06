@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { SpaceWrapper } from "@/components/space-wrapper";
 
 export const metadata: Metadata = {
-  title: "Contact Us | CropLife Navigator",
+  title: "Contact Us | Crop Life Care Fertilizers",
   description: "Get in touch with us for inquiries, support, or to place an order.",
 };
 
@@ -58,7 +58,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <h3 className="font-semibold">Email</h3>
-                      <p className="text-muted-foreground">contact@croplifenavigator.com</p>
+                      <p className="text-muted-foreground">contact@croplifecare.com</p>
                     </div>
                   </div>
                 </div>

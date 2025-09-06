@@ -26,7 +26,7 @@ export function Footer() {
             <div className="md:col-span-4 lg:col-span-2">
                  <div className="flex items-center space-x-2 mb-4">
                     <Leaf className="h-8 w-8 text-primary" />
-                    <span className="font-bold text-xl">CropLife Navigator</span>
+                    <span className="font-bold text-xl">Crop Life Care Fertilizers</span>
                 </div>
                 <p className="text-muted-foreground text-base max-w-sm">
                     Pioneering agricultural solutions for a thriving planet. We are committed to innovation, quality, and the success of farmers everywhere.
