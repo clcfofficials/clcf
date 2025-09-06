@@ -8,7 +8,7 @@ interface SpaceWrapperProps {
 
 export function SpaceWrapper({ children, className }: SpaceWrapperProps) {
   return (
-    <div className={cn("container mx-auto px-4", className)}>
+    <div className={cn("container mx-auto px-4 md:px-16", className)}>
       {children}
     </div>
   );
