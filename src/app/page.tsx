@@ -1,18 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import Image from "next/image";
 import { ProductCard } from "@/components/product-card";
 import { ArrowRight, HeartHandshake, Sprout, Truck } from "lucide-react";
 import { SpaceWrapper } from "@/components/space-wrapper";
 import type { IProduct } from "@/models/Product";
 import { unstable_noStore as noStore } from "next/cache";
+import { HeroSection } from "@/components/hero-section";
 
 type Product = IProduct & { _id: string };
 
 async function getProducts(): Promise<Product[]> {
   noStore();
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/products`);
+  const url = new URL('/api/products', process.env.NEXT_PUBLIC_URL);
+  const res = await fetch(url);
   if (!res.ok) {
     console.error("Failed to fetch products");
     return [];
@@ -26,26 +27,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col">
-      <section className="relative h-[60vh] md:h-[70vh] flex items-center justify-center text-center text-white bg-black">
-        <Image
-          src="https://picsum.photos/1600/900"
-          alt="A vibrant green field under a clear blue sky"
-          data-ai-hint="green field"
-          fill
-          className="object-cover opacity-40"
-        />
-        <div className="relative z-10 p-4 max-w-4xl">
-          <h1 className="text-4xl md:text-6xl font-headline font-bold !text-white drop-shadow-lg">
-            Nurturing Growth, Harvesting Success
-          </h1>
-          <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto !text-white/90 drop-shadow-md">
-            Your trusted partner in agriculture, providing premium fertilizers for a bountiful future.
-          </p>
-          <Button asChild size="lg" className="mt-8">
-            <Link href="/products">Explore Our Products <ArrowRight className="ml-2" /></Link>
-          </Button>
-        </div>
-      </section>
+      <HeroSection />
       
       <section className="py-16 md:py-24 bg-secondary/50">
         <SpaceWrapper className="text-center">
