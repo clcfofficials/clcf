@@ -8,6 +8,7 @@ import type { IProduct } from "@/models/Product";
 import { unstable_noStore as noStore } from "next/cache";
 import { HeroSection } from "@/components/hero-section";
 import CropLifeCareIntro from "@/components/croplife-care-intro";
+import { FertilizerProductsSection } from "@/components/featured-products-section";
 
 type Product = IProduct & { _id: string };
 
@@ -32,24 +33,7 @@ export default async function Home() {
       
       <CropLifeCareIntro />
 
-      <section className="py-16 md:py-24">
-        <SpaceWrapper>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-headline font-bold">Featured Products</h2>
-            <p className="mt-2 text-lg text-muted-foreground">Top solutions trusted by farmers</p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product._id} product={{...product, id: product._id.toString()}} />
-            ))}
-          </div>
-          <div className="text-center mt-12">
-            <Button asChild size="lg">
-              <Link href="/products">View All Products <ArrowRight className="ml-2" /></Link>
-            </Button>
-          </div>
-        </SpaceWrapper>
-      </section>
+      <FertilizerProductsSection />
       
       <section className="py-16 md:py-24 bg-muted/30">
         <SpaceWrapper>
