@@ -12,9 +12,9 @@ import Image from 'next/image';
 
 const navItems = [
   { href: "/", label: "Home" },
-  { href: "/products", label: "Products" },
-  { href: "/about", label: "About Us" },
-  { href: "/contact", label: "Contact Us" },
+//   { href: "/products", label: "Products" },
+//   { href: "/about", label: "About Us" },
+//   { href: "/contact", label: "Contact Us" },
 ];
 
 export function Header() {
