@@ -79,8 +79,12 @@ export const FertilizerProductsSection: React.FC<FertilizerProductsSectionProps>
         />
 
         <div className="text-center mb-16 -mt-8">
-            <Button asChild size="lg">
-                <Link href="/products">View All Products <ArrowRight className="ml-2 h-5 w-5" /></Link>
+            <Button
+              asChild
+              size="lg"
+              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-8 py-6 text-lg font-semibold group rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            >
+                <Link href="/products">View All Products <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" /></Link>
             </Button>
         </div>
 
