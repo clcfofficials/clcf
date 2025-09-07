@@ -7,6 +7,7 @@ import { SpaceWrapper } from "@/components/space-wrapper";
 import type { IProduct } from "@/models/Product";
 import { unstable_noStore as noStore } from "next/cache";
 import { HeroSection } from "@/components/hero-section";
+import CropLifeCareIntro from "@/components/croplife-care-intro";
 
 type Product = IProduct & { _id: string };
 
@@ -29,17 +30,7 @@ export default async function Home() {
     <div className="flex flex-col">
       <HeroSection />
       
-      <section className="py-16 md:py-24 bg-secondary/50">
-        <SpaceWrapper className="text-center">
-          <h2 className="text-3xl md:text-4xl font-headline font-bold text-primary">Welcome to CropLife Care Fertilizers</h2>
-          <p className="mt-4 max-w-3xl mx-auto text-lg text-foreground/80">
-            At CropLife Care Fertilizers (CLCF), we are dedicated to empowering farmers with high-quality, innovative, and sustainable fertilization solutions. Our mission is to enhance crop yield and quality, ensuring food security for generations to come.
-          </p>
-          <Button asChild variant="outline" size="lg" className="mt-8">
-            <Link href="/about">Learn More About Us</Link>
-          </Button>
-        </SpaceWrapper>
-      </section>
+      <CropLifeCareIntro />
 
       <section className="py-16 md:py-24">
         <SpaceWrapper>
