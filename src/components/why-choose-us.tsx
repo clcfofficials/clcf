@@ -9,17 +9,16 @@ import {
   Users, 
   Award, 
   CheckCircle, 
-  Star,
   ArrowRight,
-  Sparkles,
   TrendingUp,
-  Target,
   Clock,
   Globe
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { AnimatedContainer } from './animated-container';
+import { SectionHeader } from './section-header';
 
 // Grid Pattern Component
 function GridPattern({
@@ -57,13 +56,6 @@ function GridPattern({
   );
 }
 
-function genRandomPattern(length?: number): number[][] {
-  length = length ?? 5;
-  return Array.from({ length }, () => [
-    Math.floor(Math.random() * 4) + 7,
-    Math.floor(Math.random() * 6) + 1,
-  ]);
-}
 
 // Feature Card Component
 type FeatureType = {
@@ -80,72 +72,62 @@ function FeatureCard({ feature, className, ...props }: FeatureCardProps) {
   const [pattern, setPattern] = useState<number[][] | undefined>(undefined);
 
   useEffect(() => {
+    // Moved pattern generation to useEffect to avoid server/client mismatch
+    const genRandomPattern = (length: number = 5): number[][] => {
+      return Array.from({ length }, () => [
+        Math.floor(Math.random() * 4) + 7,
+        Math.floor(Math.random() * 6) + 1,
+      ]);
+    }
     setPattern(genRandomPattern());
   }, []);
 
   return (
-    <Card 
-      className={cn('relative overflow-hidden p-6 group cursor-pointer h-full border-green-200/50 dark:border-green-800/30 bg-card/50 backdrop-blur-sm hover:border-green-300 dark:hover:border-green-700 transition-all duration-300', className)} 
+     <Card 
+      className={cn('relative overflow-hidden p-0 group cursor-pointer h-full border-green-200/50 dark:border-green-800/30 bg-card/50 backdrop-blur-sm hover:border-green-300 dark:hover:border-green-700 transition-all duration-300', className)} 
       {...props}
     >
-      <div className="pointer-events-none absolute top-0 left-1/2 -mt-2 -ml-20 h-full w-full [mask-image:linear-gradient(white,transparent)]">
-        <div className="from-green-500/10 to-green-600/5 absolute inset-0 bg-gradient-to-r [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] opacity-100 group-hover:opacity-150 transition-opacity duration-300">
-          <GridPattern
-            width={20}
-            height={20}
-            x="-12"
-            y="4"
-            squares={pattern}
-            className="fill-green-500/10 stroke-green-500/30 absolute inset-0 h-full w-full mix-blend-overlay group-hover:fill-green-500/20 group-hover:stroke-green-500/40 transition-all duration-300"
-          />
+      <div className="p-6">
+        <div className="pointer-events-none absolute top-0 left-1/2 -mt-2 -ml-20 h-full w-full [mask-image:linear-gradient(white,transparent)]">
+          <div className="from-green-500/10 to-green-600/5 absolute inset-0 bg-gradient-to-r [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] opacity-100 group-hover:opacity-150 transition-opacity duration-300">
+            {pattern && (
+              <GridPattern
+                width={20}
+                height={20}
+                x="-12"
+                y="4"
+                squares={pattern}
+                className="fill-green-500/10 stroke-green-500/30 absolute inset-0 h-full w-full mix-blend-overlay group-hover:fill-green-500/20 group-hover:stroke-green-500/40 transition-all duration-300"
+              />
+            )}
+          </div>
         </div>
-      </div>
-      
-      <div className="relative z-10">
-        <motion.div
-          className="text-green-600 dark:text-green-400 size-8 mb-4 bg-green-100 dark:bg-green-900/30 p-2 rounded-lg group-hover:bg-green-200 dark:group-hover:bg-green-800/40 transition-colors duration-300"
-          whileHover={{ rotate: [0, -10, 10, 0] }}
-          transition={{ duration: 0.5 }}
-        >
-          <feature.icon className="w-full h-full" strokeWidth={1.5} aria-hidden />
-        </motion.div>
         
-        <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-green-700 dark:group-hover:text-green-300 transition-colors duration-300">
-          {feature.title}
-        </h3>
-        
-        <p className="text-muted-foreground text-sm leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
-          {feature.description}
-        </p>
-        
-        <div className="flex items-center text-green-600 dark:text-green-400 text-sm font-medium mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <span className="flex items-center gap-1">
-            Learn more <ArrowRight className="w-3 h-3" />
-          </span>
+        <div className="relative z-10">
+          <motion.div
+            className="text-green-600 dark:text-green-400 size-8 mb-4 bg-green-100 dark:bg-green-900/30 p-2 rounded-lg group-hover:bg-green-200 dark:group-hover:bg-green-800/40 transition-colors duration-300"
+            whileHover={{ rotate: [0, -10, 10, 0] }}
+            transition={{ duration: 0.5 }}
+          >
+            <feature.icon className="w-full h-full" strokeWidth={1.5} aria-hidden />
+          </motion.div>
+          
+          <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-green-700 dark:group-hover:text-green-300 transition-colors duration-300">
+            {feature.title}
+          </h3>
+          
+          <p className="text-muted-foreground text-sm leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">
+            {feature.description}
+          </p>
+          
+          <div className="flex items-center text-green-600 dark:text-green-400 text-sm font-medium mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <span className="flex items-center gap-1">
+              Learn more <ArrowRight className="w-3 h-3" />
+            </span>
+          </div>
         </div>
       </div>
     </Card>
-  );
-}
-
-// Animated Container Component
-type ViewAnimationProps = {
-  delay?: number;
-  className?: string;
-  children: React.ReactNode;
-};
-
-function AnimatedContainer({ className, delay = 0.1, children }: ViewAnimationProps) {
-  return (
-    <motion.div
-      initial={{ filter: 'blur(4px)', translateY: -8, opacity: 0 }}
-      whileInView={{ filter: 'blur(0px)', translateY: 0, opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ delay, duration: 0.8 }}
-      className={className}
-    >
-      {children}
-    </motion.div>
   );
 }
 
@@ -210,7 +192,6 @@ function FloatingElements() {
 // Main Why Choose Us Component
 export function WhyChooseUsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: false, amount: 0.1 });
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -218,7 +199,6 @@ export function WhyChooseUsSection() {
   });
 
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -50]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, 50]);
 
   const features = [
     {
@@ -273,27 +253,12 @@ export function WhyChooseUsSection() {
       />
 
       <div className="container mx-auto max-w-7xl relative z-10">
-        <AnimatedContainer className="text-center mb-16">
-          <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-medium mb-6"
-            initial={{ scale: 0.8, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <Sparkles className="w-4 h-4" />
-            Why Choose Us
-          </motion.div>
-          
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 bg-gradient-to-r from-green-600 to-green-800 dark:from-green-400 dark:to-green-600 bg-clip-text text-transparent">
-            Built for Excellence
-          </h2>
-          
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Discover why thousands of businesses trust us to power their growth. 
-            From cutting-edge technology to world-class support, we deliver excellence at every step.
-          </p>
-        </AnimatedContainer>
+        
+        <SectionHeader 
+            badgeLabel='Why Choose Us'
+            title='Built for Excellence'
+            description='Discover why thousands of businesses trust us to power their growth. From cutting-edge technology to world-class support, we deliver excellence at every step.'
+        />
 
         <AnimatedContainer delay={0.3}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
@@ -339,44 +304,44 @@ export function WhyChooseUsSection() {
         </AnimatedContainer>
 
         <AnimatedContainer delay={0.7}>
-          <motion.div
-            className="bg-gradient-to-r from-green-600 to-green-700 dark:from-green-700 dark:to-green-800 rounded-2xl p-8 md:p-12 text-center text-white relative overflow-hidden"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.3 }}
-          >
             <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-green-600/20"
-              animate={{
-                x: ['-100%', '100%'],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-            
-            <div className="relative z-10">
-              <h3 className="text-3xl md:text-4xl font-bold mb-4">
-                Ready to Get Started?
-              </h3>
-              <p className="text-xl mb-8 text-green-100">
-                Join thousands of satisfied customers and experience the difference today.
-              </p>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="inline-block"
-              >
-                <Button
-                  className="bg-white text-green-700 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-50 transition-colors duration-300 inline-flex items-center gap-2"
+                className="bg-gradient-to-r from-green-600 to-green-700 dark:from-green-700 dark:to-green-800 rounded-2xl p-8 md:p-12 text-center text-white relative overflow-hidden"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+            >
+                <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-green-600/20"
+                animate={{
+                    x: ['-100%', '100%'],
+                }}
+                transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "linear",
+                }}
+                />
+                
+                <div className="relative z-10">
+                <h3 className="text-3xl md:text-4xl font-bold mb-4">
+                    Ready to Get Started?
+                </h3>
+                <p className="text-xl mb-8 text-green-100">
+                    Join thousands of satisfied customers and experience the difference today.
+                </p>
+                <motion.div 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-block"
                 >
-                  Start Your Journey
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-              </motion.div>
-            </div>
-          </motion.div>
+                    <Button
+                    className="bg-white text-green-700 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-50 transition-colors duration-300 inline-flex items-center gap-2"
+                    >
+                    Start Your Journey
+                    <ArrowRight className="w-5 h-5" />
+                    </Button>
+                </motion.div>
+                </div>
+            </motion.div>
         </AnimatedContainer>
       </div>
     </section>

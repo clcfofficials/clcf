@@ -1,9 +1,11 @@
+
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { ArrowRight, Leaf, Sprout, TreePine } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SectionHeader } from "./section-header";
 
 // Background Pattern Component
 interface BGPatternProps extends React.ComponentProps<'div'> {
@@ -167,50 +169,13 @@ const CropLifeCareIntro = () => {
           style={{ y, opacity }}
           className="max-w-6xl mx-auto"
         >
-          {/* Header Section */}
-          <div className="text-center mb-16">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-50 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-800 mb-8"
-            >
-              <Sprout className="w-4 h-4 text-teal-600 dark:text-teal-400" />
-              <span className="text-sm font-medium text-teal-700 dark:text-teal-300">
-                Sustainable Agriculture Solutions
-              </span>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight"
-            >
-              Welcome to{" "}
-              <span className="bg-gradient-to-r from-teal-600 via-emerald-600 to-teal-700 bg-clip-text text-transparent">
-                CropLife Care
-              </span>
-              <br />
-              <span className="text-3xl md:text-5xl lg:text-6xl font-light text-muted-foreground">
-                Fertilizers
-              </span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed"
-            >
-              At CropLife Care Fertilizers (CLCF), we are dedicated to empowering farmers with{" "}
-              <span className="text-teal-600 dark:text-teal-400 font-semibold">high-quality</span>,{" "}
-              <span className="text-emerald-600 dark:text-emerald-400 font-semibold">innovative</span>, and{" "}
-              <span className="text-teal-700 dark:text-teal-300 font-semibold">sustainable</span>{" "}
-              fertilization solutions. Our mission is to enhance crop yield and quality, ensuring food security for generations to come.
-            </motion.p>
-          </div>
-
+          <SectionHeader
+            icon={Sprout}
+            badgeLabel="Sustainable Agriculture Solutions"
+            title="Welcome to CropLife Care Fertilizers"
+            description="At CropLife Care Fertilizers (CLCF), we are dedicated to empowering farmers with high-quality, innovative, and sustainable fertilization solutions. Our mission is to enhance crop yield and quality, ensuring food security for generations to come."
+          />
+          
           {/* Stats Section */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}

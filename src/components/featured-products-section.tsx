@@ -5,8 +5,9 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Shield, Sprout, Bug } from 'lucide-react';
+import { ArrowRight, Shield, Sprout, Bug, Leaf } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { SectionHeader } from './section-header';
 
 interface ProductCategory {
   id: string;
@@ -18,9 +19,6 @@ interface ProductCategory {
 }
 
 interface FertilizerProductsSectionProps {
-  title?: string;
-  subtitle?: string;
-  ctaText?: string;
   onCtaClick?: () => void;
   categories?: ProductCategory[];
 }
@@ -53,9 +51,6 @@ const defaultCategories: ProductCategory[] = [
 ];
 
 export const FertilizerProductsSection: React.FC<FertilizerProductsSectionProps> = ({
-  title = "Our Premium Fertilizer Products",
-  subtitle = "Discover our comprehensive range of agricultural solutions designed to maximize your crop yield and protect your investment.",
-  ctaText = "View All Products",
   categories = defaultCategories
 }) => {
   const router = useRouter();
@@ -73,25 +68,13 @@ export const FertilizerProductsSection: React.FC<FertilizerProductsSectionProps>
       </div>
       
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Header Section */}
-        <div className="text-center mb-16 animate-fadeInUp">
-          <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent mb-6 leading-tight">
-            {title}
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-4xl mx-auto mb-10 leading-relaxed">
-            {subtitle}
-          </p>
-          <div className="flex justify-center">
-            <Button 
-              onClick={handleCtaClick}
-              size="lg"
-              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-10 py-4 text-lg font-semibold group rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-            >
-              {ctaText}
-              <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-2 transition-transform duration-300" />
-            </Button>
-          </div>
-        </div>
+        
+        <SectionHeader 
+            icon={Leaf}
+            badgeLabel='Our Products'
+            title='Premium Fertilizer Products'
+            description='Discover our comprehensive range of agricultural solutions designed to maximize your crop yield and protect your investment.'
+        />
 
         {/* Categories Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
