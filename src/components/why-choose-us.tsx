@@ -380,14 +380,18 @@ export function WhyChooseUsSection() {
               <p className="text-xl mb-8 text-green-100">
                 Join thousands of satisfied customers and experience the difference today.
               </p>
-              <Button
-                className="bg-white text-green-700 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-50 transition-colors duration-300 inline-flex items-center gap-2"
+              <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                className="inline-block"
               >
-                Start Your Journey
-                <ArrowRight className="w-5 h-5" />
-              </Button>
+                <Button
+                  className="bg-white text-green-700 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-50 transition-colors duration-300 inline-flex items-center gap-2"
+                >
+                  Start Your Journey
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </motion.div>
             </div>
           </motion.div>
         </AnimatedContainer>
