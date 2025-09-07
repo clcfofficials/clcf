@@ -37,18 +37,6 @@ export default async function Home() {
       <FertilizerProductsSection />
       
       <WhyChooseUsSection />
-
-      <section className="py-16 md:py-24 bg-primary text-primary-foreground">
-        <SpaceWrapper className="text-center">
-          <h2 className="text-3xl md:text-4xl font-headline font-bold">Ready to Boost Your Yields?</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg">
-            Get in touch with our experts today to find the perfect fertilizer solution for your farm.
-          </p>
-          <Button asChild size="lg" variant="secondary" className="mt-8">
-            <Link href="/contact">Contact Us Now</Link>
-          </Button>
-        </SpaceWrapper>
-      </section>
     </div>
   );
 }
