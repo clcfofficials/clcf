@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 import { SpaceWrapper } from "@/components/space-wrapper";
 import type { IProduct } from "@/models/Product";
 import { unstable_noStore as noStore } from "next/cache";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 type Product = IProduct & { _id: string };
 
@@ -32,6 +35,11 @@ export default async function ProductsPage() {
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
             Explore our comprehensive range of fertilizers, designed to meet the diverse needs of modern agriculture.
           </p>
+          <div className="mt-8">
+            <Button asChild size="lg">
+                <Link href="/products">View All Products <ArrowRight className="ml-2 h-5 w-5" /></Link>
+            </Button>
+          </div>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product) => (

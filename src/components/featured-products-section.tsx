@@ -65,6 +65,7 @@ export const FertilizerProductsSection: React.FC<FertilizerProductsSectionProps>
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-green-200/20 dark:bg-green-800/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-emerald-200/20 dark:bg-emerald-800/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-teal-200/10 dark:bg-teal-800/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
       </div>
       
       <div className="max-w-7xl mx-auto relative z-10">
@@ -139,7 +140,7 @@ export const FertilizerProductsSection: React.FC<FertilizerProductsSectionProps>
         </div>
 
         {/* Bottom CTA Section */}
-        <div className="text-center bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 dark:from-green-950/20 dark:via-emerald-950/20 dark:to-teal-950/20 rounded-3xl p-12 border border-green-200/50 dark:border-green-800/50 shadow-xl backdrop-blur-sm relative overflow-hidden">
+        <div className="text-center bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 dark:from-green-950/20 dark:via-emerald-950/20 dark:to-teal-950/20 rounded-3xl p-8 sm:p-12 border border-green-200/50 dark:border-green-800/50 shadow-xl backdrop-blur-sm relative overflow-hidden">
           {/* Animated background */}
           <div className="absolute inset-0 bg-gradient-to-r from-green-400/5 via-emerald-400/5 to-teal-400/5 animate-pulse" />
           
@@ -153,7 +154,7 @@ export const FertilizerProductsSection: React.FC<FertilizerProductsSectionProps>
             <Button 
               onClick={handleCtaClick}
               size="lg"
-              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-12 py-4 text-xl font-semibold group rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-110"
+              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-8 md:px-12 py-3 md:py-4 text-base md:text-xl font-semibold group rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-110"
             >
               Browse All Products
               <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
