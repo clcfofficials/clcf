@@ -35,11 +35,6 @@ export default async function ProductsPage() {
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
             Explore our comprehensive range of fertilizers, designed to meet the diverse needs of modern agriculture.
           </p>
-          <div className="mt-8">
-            <Button asChild size="lg">
-                <Link href="/products">View All Products <ArrowRight className="ml-2 h-5 w-5" /></Link>
-            </Button>
-          </div>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product) => (

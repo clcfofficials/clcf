@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Shield, Sprout, Bug, Leaf } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { SectionHeader } from './section-header';
+import Link from 'next/link';
 
 interface ProductCategory {
   id: string;
@@ -76,6 +77,13 @@ export const FertilizerProductsSection: React.FC<FertilizerProductsSectionProps>
             title='Premium Fertilizer Products'
             description='Discover our comprehensive range of agricultural solutions designed to maximize your crop yield and protect your investment.'
         />
+
+        <div className="text-center mb-16 -mt-8">
+            <Button asChild size="lg">
+                <Link href="/products">View All Products <ArrowRight className="ml-2 h-5 w-5" /></Link>
+            </Button>
+        </div>
+
 
         {/* Categories Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
@@ -154,10 +162,10 @@ export const FertilizerProductsSection: React.FC<FertilizerProductsSectionProps>
             <Button 
               onClick={handleCtaClick}
               size="lg"
-              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-8 md:px-12 py-3 md:py-4 text-base md:text-xl font-semibold group rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-110"
+              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-8 md:px-12 py-3 md:py-4 text-base md:text-lg font-semibold group rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-110"
             >
               Browse All Products
-              <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-2 transition-transform duration-300" />
+              <ArrowRight className="ml-3 h-5 w-5 md:h-6 md:w-6 group-hover:translate-x-2 transition-transform duration-300" />
             </Button>
           </div>
         </div>
