@@ -1,3 +1,4 @@
+
 import { ProductCard } from "@/components/product-card";
 import type { Metadata } from "next";
 import { SpaceWrapper } from "@/components/space-wrapper";
@@ -28,13 +29,22 @@ export default async function ProductsPage() {
   const products = await getProducts();
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-16 md:py-24 pt-32">
       <SpaceWrapper>
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-headline font-bold">Our Products</h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
             Explore our comprehensive range of fertilizers, designed to meet the diverse needs of modern agriculture.
           </p>
+        </div>
+        <div className="text-center mb-16 -mt-8">
+            <Button
+              asChild
+              size="lg"
+              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-8 py-6 text-lg font-semibold group rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            >
+                <Link href="/products">View All Products <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" /></Link>
+            </Button>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product) => (

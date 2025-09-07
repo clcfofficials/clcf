@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { HeartHandshake, Rocket, Target } from "lucide-react";
 import type { Metadata } from "next";
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div>
+    <div className="pt-16">
       <section className="bg-secondary/50 py-16 md:py-24">
         <SpaceWrapper className="text-center">
           <h1 className="text-4xl md:text-5xl font-headline font-bold">About CropLife Care Fertilizers</h1>

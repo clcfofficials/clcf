@@ -1,3 +1,4 @@
+
 import { ContactForm } from "@/components/contact-form";
 import { Mail, MapPin, Phone } from "lucide-react";
 import type { Metadata } from "next";
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div>
+    <div className="pt-16">
       <section className="bg-secondary/50 py-16 md:py-24">
         <SpaceWrapper className="text-center">
           <h1 className="text-4xl md:text-5xl font-headline font-bold">Contact Us</h1>
