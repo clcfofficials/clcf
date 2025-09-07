@@ -84,17 +84,9 @@ function FeatureCard({ feature, className, ...props }: FeatureCardProps) {
   }, []);
 
   return (
-    <motion.div 
-      className={cn('relative overflow-hidden p-6 group cursor-pointer h-full', className)} 
+    <Card 
+      className={cn('relative overflow-hidden p-6 group cursor-pointer h-full border-green-200/50 dark:border-green-800/30 bg-card/50 backdrop-blur-sm hover:border-green-300 dark:hover:border-green-700 transition-all duration-300', className)} 
       {...props}
-      whileHover={{ 
-        scale: 1.02,
-        transition: { duration: 0.2 }
-      }}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
     >
       <div className="pointer-events-none absolute top-0 left-1/2 -mt-2 -ml-20 h-full w-full [mask-image:linear-gradient(white,transparent)]">
         <div className="from-green-500/10 to-green-600/5 absolute inset-0 bg-gradient-to-r [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] opacity-100 group-hover:opacity-150 transition-opacity duration-300">
@@ -109,11 +101,7 @@ function FeatureCard({ feature, className, ...props }: FeatureCardProps) {
         </div>
       </div>
       
-      <motion.div
-        className="relative z-10"
-        whileHover={{ y: -2 }}
-        transition={{ duration: 0.2 }}
-      >
+      <div className="relative z-10">
         <motion.div
           className="text-green-600 dark:text-green-400 size-8 mb-4 bg-green-100 dark:bg-green-900/30 p-2 rounded-lg group-hover:bg-green-200 dark:group-hover:bg-green-800/40 transition-colors duration-300"
           whileHover={{ rotate: [0, -10, 10, 0] }}
@@ -130,17 +118,13 @@ function FeatureCard({ feature, className, ...props }: FeatureCardProps) {
           {feature.description}
         </p>
         
-        <motion.div
-          className="flex items-center text-green-600 dark:text-green-400 text-sm font-medium mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          initial={{ x: -10 }}
-          whileHover={{ x: 0 }}
-        >
+        <div className="flex items-center text-green-600 dark:text-green-400 text-sm font-medium mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <span className="flex items-center gap-1">
             Learn more <ArrowRight className="w-3 h-3" />
           </span>
-        </motion.div>
-      </motion.div>
-    </motion.div>
+        </div>
+      </div>
+    </Card>
   );
 }
 
@@ -318,12 +302,11 @@ export function WhyChooseUsSection() {
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -5, scale: 1.02 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <Card className="h-full border-green-200/50 dark:border-green-800/30 bg-card/50 backdrop-blur-sm hover:border-green-300 dark:hover:border-green-700 transition-all duration-300">
-                  <FeatureCard feature={feature} className="border-0 bg-transparent p-0" />
-                </Card>
+                <FeatureCard feature={feature} />
               </motion.div>
             ))}
           </div>
@@ -399,5 +382,3 @@ export function WhyChooseUsSection() {
     </section>
   );
 }
-
-    
