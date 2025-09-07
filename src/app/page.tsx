@@ -9,6 +9,7 @@ import { unstable_noStore as noStore } from "next/cache";
 import { HeroSection } from "@/components/hero-section";
 import CropLifeCareIntro from "@/components/croplife-care-intro";
 import { FertilizerProductsSection } from "@/components/featured-products-section";
+import { WhyChooseUsSection } from "@/components/why-choose-us";
 
 type Product = IProduct & { _id: string };
 
@@ -35,55 +36,7 @@ export default async function Home() {
 
       <FertilizerProductsSection />
       
-      <section className="py-16 md:py-24 bg-muted/30">
-        <SpaceWrapper>
-            <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-headline font-bold">Why Choose Us?</h2>
-                <p className="mt-2 text-lg text-muted-foreground">Your success is our mission.</p>
-            </div>
-            <div className="grid md:grid-cols-3 gap-8 text-center">
-                <Card>
-                    <CardHeader>
-                        <div className="mx-auto bg-primary/10 text-primary p-4 rounded-full w-fit">
-                            <Sprout size={32} />
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <CardTitle>Quality & Innovation</CardTitle>
-                        <CardDescription className="mt-2">
-                            Our products are formulated with the highest quality ingredients and backed by scientific research to ensure maximum effectiveness.
-                        </CardDescription>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader>
-                        <div className="mx-auto bg-primary/10 text-primary p-4 rounded-full w-fit">
-                            <HeartHandshake size={32} />
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <CardTitle>Unwavering Trust</CardTitle>
-                        <CardDescription className="mt-2">
-                            With decades of experience, we have built a legacy of trust and reliability with farmers across the nation.
-                        </CardDescription>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader>
-                        <div className="mx-auto bg-primary/10 text-primary p-4 rounded-full w-fit">
-                            <Truck size={32} />
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <CardTitle>Expert Support</CardTitle>
-                        <CardDescription className="mt-2">
-                           Our team of agronomists is always ready to provide expert advice and support to help you achieve the best results.
-                        </CardDescription>
-                    </CardContent>
-                </Card>
-            </div>
-        </SpaceWrapper>
-      </section>
+      <WhyChooseUsSection />
 
       <section className="py-16 md:py-24 bg-primary text-primary-foreground">
         <SpaceWrapper className="text-center">
