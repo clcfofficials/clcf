@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -76,7 +77,11 @@ type FeatureCardProps = React.ComponentProps<'div'> & {
 };
 
 function FeatureCard({ feature, className, ...props }: FeatureCardProps) {
-  const p = genRandomPattern();
+  const [pattern, setPattern] = useState<number[][] | undefined>(undefined);
+
+  useEffect(() => {
+    setPattern(genRandomPattern());
+  }, []);
 
   return (
     <motion.div 
@@ -98,7 +103,7 @@ function FeatureCard({ feature, className, ...props }: FeatureCardProps) {
             height={20}
             x="-12"
             y="4"
-            squares={p}
+            squares={pattern}
             className="fill-green-500/10 stroke-green-500/30 absolute inset-0 h-full w-full mix-blend-overlay group-hover:fill-green-500/20 group-hover:stroke-green-500/40 transition-all duration-300"
           />
         </div>
@@ -375,14 +380,14 @@ export function WhyChooseUsSection() {
               <p className="text-xl mb-8 text-green-100">
                 Join thousands of satisfied customers and experience the difference today.
               </p>
-              <motion.button
+              <Button
                 className="bg-white text-green-700 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-50 transition-colors duration-300 inline-flex items-center gap-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 Start Your Journey
                 <ArrowRight className="w-5 h-5" />
-              </motion.button>
+              </Button>
             </div>
           </motion.div>
         </AnimatedContainer>
@@ -390,3 +395,5 @@ export function WhyChooseUsSection() {
     </section>
   );
 }
+
+    
