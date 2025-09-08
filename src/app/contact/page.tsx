@@ -1,336 +1,430 @@
+"use client";
 
-"use client"
-
-import React, { useState, useEffect, useRef } from 'react'
-import { motion, useScroll, useTransform, useInView } from 'framer-motion'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import React, { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { 
+  Mail, 
+  Phone, 
+  MapPin, 
+  Send, 
+  CheckCircle2, 
+  Shield, 
+  Award, 
+  Users,
   ArrowRight,
-  Mail,
-  Phone,
-  MapPin,
-  Send,
-  ShieldCheck,
-  Clock,
-  HeartHandshake,
-  MessageSquare,
-} from 'lucide-react'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
-import { useToast } from '@/hooks/use-toast'
-import { SpaceWrapper } from '@/components/space-wrapper'
+  Star
+} from "lucide-react";
+import { SpaceWrapper } from "@/components/space-wrapper";
 
-const ContactInfoCard = ({ icon, title, children }: { icon: React.ReactNode, title: string, children: React.ReactNode }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.5 }}
-    className="flex items-start gap-4"
-  >
-    <div className="mt-1 flex-shrink-0 w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-600 rounded-xl flex items-center justify-center text-white shadow-lg">
-      {icon}
-    </div>
-    <div>
-      <h3 className="text-lg font-bold text-foreground">{title}</h3>
-      <p className="text-muted-foreground">{children}</p>
-    </div>
-  </motion.div>
-)
-
-const TrustCard = ({ icon, title, description, delay = 0 }: { icon: React.ReactNode, title: string, description: string, delay: number }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay }}
-      className="group"
-    >
-      <Card className="relative p-8 h-full bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-white/20 dark:border-white/10 hover:border-green-400/50 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-green-500/20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-green-400/5 to-emerald-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        <motion.div
-          whileHover={{ scale: 1.1, rotate: -10 }}
-          transition={{ type: "spring", stiffness: 400, damping: 10 }}
-          className="relative w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-600 rounded-xl flex items-center justify-center mb-6 text-white shadow-lg"
-        >
-          {icon}
-        </motion.div>
-        <h3 className="relative text-lg font-bold text-foreground mb-3 group-hover:text-green-500 transition-colors duration-300">
-          {title}
-        </h3>
-        <p className="relative text-muted-foreground text-sm leading-relaxed">
-          {description}
-        </p>
-      </Card>
-    </motion.div>
-  );
-};
-
-const FloatingIcon = ({ children, className }: { children: React.ReactNode, className: string }) => {
-  const [delay, setDelay] = useState(0)
-
-  useEffect(() => {
-    setDelay(Math.random() * 5)
-  }, [])
-  
-  return (
-    <motion.div
-      className={`absolute text-green-400/30 dark:text-green-600/30 ${className}`}
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 1, delay: 0.5 + delay / 2 }}
-      whileHover={{ scale: 1.2 }}
-    >
-      <motion.div
-        animate={{
-          y: [0, Math.random() * 20 - 10, 0],
-          x: [0, Math.random() * 20 - 10, 0],
-          rotate: [0, Math.random() * 20 - 10, 0],
-        }}
-        transition={{
-          duration: 10 + Math.random() * 10,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay,
-        }}
-      >
-        {children}
-      </motion.div>
-    </motion.div>
-  )
+interface ContactFormData {
+  name: string;
+  email: string;
+  message: string;
 }
 
-
-export default function ContactPage() {
-  const { toast } = useToast();
+const ContactUsPage = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [formData, setFormData] = useState<ContactFormData>({
+    name: "",
+    email: "",
+    message: ""
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      setMousePosition({ x: event.clientX, y: event.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
+    setIsLoaded(true);
   }, []);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      toast({
-        title: "Message Sent!",
-        description: "Thank you for getting in touch. We'll respond as soon as possible.",
-      });
-      (event.target as HTMLFormElement).reset();
-    }, 1500);
-  };
-  
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    setIsSubmitting(false);
+    setFormData({ name: "", email: "", message: "" });
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-  };
+  const trustFeatures = [
+    {
+      icon: Shield,
+      title: "Secure & Private",
+      description: "Your data is protected with enterprise-grade security"
+    },
+    {
+      icon: Award,
+      title: "Award Winning",
+      description: "Recognized for excellence in customer service"
+    },
+    {
+      icon: Users,
+      title: "Trusted by 10k+",
+      description: "Join thousands of satisfied customers worldwide"
+    }
+  ];
 
   return (
-    <div className="bg-gradient-to-br from-green-50 via-white to-emerald-50 dark:from-gray-950 dark:via-black dark:to-green-950 text-foreground overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground pt-16">
       {/* Hero Section */}
-      <section className="relative min-h-[70vh] w-full flex items-center justify-center overflow-hidden pt-16">
-        <div className="absolute inset-0 pointer-events-none">
-          {/* Mouse-following gradient */}
+      <section 
+        ref={heroRef}
+        className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-green-50 via-background to-green-50 dark:from-green-950/20 dark:via-background dark:to-green-950/20"
+      >
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
           <motion.div
-            className="absolute h-96 w-96 bg-gradient-radial from-green-300/30 to-transparent blur-3xl"
-            style={{
-              x: mousePosition.x - 192,
-              y: mousePosition.y - 192,
-              opacity: 0.5,
-            }}
-            transition={{ type: "tween", ease: "backOut", duration: 0.1 }}
-          />
-
-          {/* Large animated blobs */}
-          <motion.div
-            className="absolute -top-40 -left-40 w-[25rem] h-[25rem] bg-emerald-400/20 rounded-full blur-3xl"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+            initial={{ opacity: 0, scale: 0.8, x: -100 }}
+            animate={isLoaded ? { opacity: 0.1, scale: 1, x: 0 } : {}}
+            transition={{ duration: 2, ease: "easeOut" }}
+            className="absolute top-20 left-10 w-96 h-96 rounded-full bg-green-500 blur-3xl"
           />
           <motion.div
-            className="absolute -bottom-40 -right-40 w-[25rem] h-[25rem] bg-green-400/20 rounded-full blur-3xl"
-            animate={{ rotate: -360 }}
-            transition={{ duration: 50, repeat: Infinity, ease: 'linear' }}
+            initial={{ opacity: 0, scale: 0.8, x: 100 }}
+            animate={isLoaded ? { opacity: 0.1, scale: 1, x: 0 } : {}}
+            transition={{ duration: 2, delay: 0.5, ease: "easeOut" }}
+            className="absolute bottom-20 right-10 w-80 h-80 rounded-full bg-emerald-500 blur-3xl"
           />
-          
-          {/* Floating Icons */}
-          <FloatingIcon className="top-[15%] left-[10%]"><Mail size={48} /></FloatingIcon>
-          <FloatingIcon className="top-[25%] right-[15%]"><Phone size={40} /></FloatingIcon>
-          <FloatingIcon className="bottom-[20%] left-[20%]"><Send size={44} /></FloatingIcon>
-          <FloatingIcon className="bottom-[30%] right-[25%]"><MessageSquare size={52} /></FloatingIcon>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={isLoaded ? { opacity: 0.05, scale: 1 } : {}}
+            transition={{ duration: 2, delay: 1, ease: "easeOut" }}
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-green-400 blur-3xl"
+          />
         </div>
 
-        <SpaceWrapper>
-          <motion.div 
-            className="relative z-10 text-center"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.div variants={itemVariants}>
-              <motion.div
-                className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-green-100/80 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-medium backdrop-blur-sm border border-green-200/50 dark:border-green-800/30"
-                whileHover={{ scale: 1.05 }}
-              >
-                <MessageSquare className="w-4 h-4" />
-                We are here to help
-              </motion.div>
+        <motion.div 
+          style={{ y, opacity }}
+          className="relative z-10 text-center"
+        >
+          <SpaceWrapper>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-800 mb-8"
+            >
+              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="text-sm font-medium text-green-700 dark:text-green-300">
+                We're here to help
+              </span>
             </motion.div>
-            
-            <motion.h1 
-              variants={itemVariants}
-              className="text-5xl md:text-7xl font-bold mb-6 leading-tight bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent"
+
+            <motion.h1
+              initial={{ opacity: 0, y: 50 }}
+              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+              className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent"
             >
-              Get In Touch
+              Get in Touch
             </motion.h1>
-            
-            <motion.p 
-              variants={itemVariants}
-              className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed"
+
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+              className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed"
             >
-              Have a question, comment, or need support? We would love to hear from you. Reach out and let us start the conversation.
+              Ready to transform your ideas into reality? Let's start a conversation 
+              and explore how we can help you achieve your goals.
             </motion.p>
 
-             <motion.div variants={itemVariants}>
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-8 py-6 text-lg font-semibold group rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-              >
-                Get Started <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+              className="flex flex-wrap gap-4 justify-center"
+            >
+              <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white group">
+                Start Conversation
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+              <Button size="lg" variant="outline" className="border-green-200 hover:bg-green-50 dark:border-green-800 dark:hover:bg-green-950/30">
+                View Our Work
               </Button>
             </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={isLoaded ? { opacity: 1, scale: 1 } : {}}
+              transition={{ duration: 1, delay: 0.8, ease: "easeOut" }}
+              className="mt-16 flex items-center justify-center gap-8 text-sm text-muted-foreground"
+            >
+              <div className="flex items-center gap-2">
+                <div className="flex -space-x-2">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900 border-2 border-background" />
+                  ))}
+                </div>
+                <span>Trusted by 10,000+ customers</span>
+              </div>
+              <div className="flex items-center gap-1">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                ))}
+                <span className="ml-1">4.9/5 rating</span>
+              </div>
+            </motion.div>
+          </SpaceWrapper>
+        </motion.div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isLoaded ? { opacity: 1 } : {}}
+          transition={{ duration: 1, delay: 1.5 }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="w-6 h-10 border-2 border-green-300 dark:border-green-700 rounded-full flex justify-center"
+          >
+            <motion.div
+              animate={{ y: [0, 12, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="w-1 h-3 bg-green-500 rounded-full mt-2"
+            />
           </motion.div>
-        </SpaceWrapper>
+        </motion.div>
       </section>
-      
-      {/* Contact Form & Info Section */}
-      <section className="py-20 -mt-24 relative z-20">
+
+      {/* Contact Form Section */}
+      <section className="py-20 bg-gradient-to-b from-background to-green-50/30 dark:to-green-950/10">
         <SpaceWrapper>
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Contact Form */}
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
+            {/* Contact Information */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
               transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="space-y-8"
             >
-              <Card className="p-8 bg-white/30 dark:bg-black/30 backdrop-blur-2xl border border-white/20 dark:border-white/10 shadow-2xl">
-                <h2 className="text-3xl font-bold text-foreground mb-2">Send Us a Message</h2>
-                <p className="text-muted-foreground mb-8">We'll get back to you as soon as possible.</p>
+              <div>
+                <h2 className="text-4xl font-bold mb-4 text-green-700 dark:text-green-300">
+                  Let's Connect
+                </h2>
+                <p className="text-lg text-muted-foreground">
+                  We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  viewport={{ once: true }}
+                  className="flex items-center gap-4 p-4 rounded-lg bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800"
+                >
+                  <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                    <Mail className="w-6 h-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-green-700 dark:text-green-300">Email</h3>
+                    <p className="text-muted-foreground">contact@croplifecare.com</p>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="flex items-center gap-4 p-4 rounded-lg bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800"
+                >
+                  <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                    <Phone className="w-6 h-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-green-700 dark:text-green-300">Phone</h3>
+                    <p className="text-muted-foreground">(123) 456-7890</p>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  viewport={{ once: true }}
+                  className="flex items-center gap-4 p-4 rounded-lg bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800"
+                >
+                  <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                    <MapPin className="w-6 h-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-green-700 dark:text-green-300">Address</h3>
+                    <p className="text-muted-foreground">123 Green Valley Rd, Harvestville, AG 45678</p>
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
+
+            {/* Contact Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <Card className="p-8 border-green-200 dark:border-green-800 shadow-lg">
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                        <Label htmlFor="name" className="text-muted-foreground font-semibold">Full Name</Label>
-                        <Input id="name" name="name" required className="mt-2 bg-white/50 dark:bg-black/50" />
-                    </div>
-                     <div>
-                        <Label htmlFor="email" className="text-muted-foreground font-semibold">Email Address</Label>
-                        <Input id="email" name="email" type="email" required className="mt-2 bg-white/50 dark:bg-black/50"/>
-                    </div>
-                     <div>
-                        <Label htmlFor="message" className="text-muted-foreground font-semibold">Message</Label>
-                        <Textarea id="message" name="message" required rows={5} className="mt-2 bg-white/50 dark:bg-black/50" />
-                    </div>
-                    <Button 
-                        type="submit" 
-                        size="lg" 
-                        disabled={isSubmitting}
-                        className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300"
-                    >
-                        {isSubmitting ? 'Sending...' : 'Send Message'}
-                        <Send className="w-4 h-4 ml-2" />
-                    </Button>
+                  <div>
+                    <Label htmlFor="name" className="text-green-700 dark:text-green-300">
+                      Name
+                    </Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      className="mt-2 border-green-200 dark:border-green-800 focus:border-green-500 focus:ring-green-500"
+                      placeholder="Your full name"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="email" className="text-green-700 dark:text-green-300">
+                      Email
+                    </Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="mt-2 border-green-200 dark:border-green-800 focus:border-green-500 focus:ring-green-500"
+                      placeholder="your.email@example.com"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="message" className="text-green-700 dark:text-green-300">
+                      Message
+                    </Label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      className="mt-2 min-h-[120px] border-green-200 dark:border-green-800 focus:border-green-500 focus:ring-green-500"
+                      placeholder="Tell us about your project..."
+                      required
+                    />
+                  </div>
+
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-green-600 hover:bg-green-700 text-white group"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          className="w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"
+                        />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Send Message
+                        <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </>
+                    )}
+                  </Button>
                 </form>
               </Card>
-            </motion.div>
-            {/* Contact Info */}
-            <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="space-y-8 pt-10"
-            >
-                <ContactInfoCard icon={<Phone className="w-6 h-6"/>} title="Call Us">
-                    (123) 456-7890
-                </ContactInfoCard>
-                <ContactInfoCard icon={<Mail className="w-6 h-6"/>} title="Email Us">
-                    contact@croplifecare.com
-                </ContactInfoCard>
-                <ContactInfoCard icon={<MapPin className="w-6 h-6"/>} title="Our Office">
-                    123 Green Valley Rd, Harvestville, AG 45678
-                </ContactInfoCard>
             </motion.div>
           </div>
         </SpaceWrapper>
       </section>
 
       {/* Trust Assurance Section */}
-      <section className="py-20 bg-gradient-to-b from-background/0 to-green-50/30 dark:to-green-950/30">
+      <section className="py-20 bg-green-50 dark:bg-green-950/10">
         <SpaceWrapper>
-            <motion.div
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <Badge className="mb-4 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300">
+              Trusted & Reliable
+            </Badge>
+            <h2 className="text-4xl font-bold mb-4 text-green-700 dark:text-green-300">
+              Why Choose Us?
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              We're committed to providing exceptional service and building lasting relationships with our clients.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {trustFeatures.map((feature, index) => (
+              <motion.div
+                key={index}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="text-center mb-16"
-            >
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Our <span className="bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent">Commitment to You</span>
-                </h2>
-                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Your trust is our top priority. We are dedicated to providing you with the best possible service and support.
+                className="text-center group"
+              >
+                <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <feature.icon className="w-8 h-8 text-green-600 dark:text-green-400" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-green-700 dark:text-green-300">
+                  {feature.title}
+                </h3>
+                <p className="text-muted-foreground">
+                  {feature.description}
                 </p>
-            </motion.div>
-            <div className="grid md:grid-cols-3 gap-8">
-                <TrustCard 
-                    icon={<ShieldCheck className="w-6 h-6" />}
-                    title="Secure Communication"
-                    description="Your information is kept safe and confidential with our end-to-end encrypted communication channels."
-                    delay={0}
-                />
-                <TrustCard 
-                    icon={<Clock className="w-6 h-6" />}
-                    title="Prompt Responses"
-                    description="We value your time. Our team is committed to providing timely and helpful responses to all inquiries."
-                    delay={0.2}
-                />
-                <TrustCard 
-                    icon={<HeartHandshake className="w-6 h-6" />}
-                    title="Dedicated Support"
-                    description="Whether you have a simple question or a complex issue, our friendly support team is here to help."
-                    delay={0.4}
-                />
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true }}
+            className="mt-16 text-center"
+          >
+            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-800">
+              <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
+              <span className="text-green-700 dark:text-green-300 font-medium">
+                24/7 Support Available
+              </span>
             </div>
+          </motion.div>
         </SpaceWrapper>
       </section>
     </div>
-  )
-}
+  );
+};
+
+export default ContactUsPage;
+
+    
