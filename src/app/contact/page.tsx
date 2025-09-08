@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -82,7 +83,7 @@ const ContactUsPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground pt-16">
+    <div className="min-h-screen bg-background text-foreground font-body">
       {/* Hero Section */}
       <section 
         ref={heroRef}
@@ -112,76 +113,78 @@ const ContactUsPage = () => {
 
         <motion.div 
           style={{ y, opacity }}
-          className="relative z-10 text-center"
+          className="relative z-10"
         >
           <SpaceWrapper>
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-800 mb-8"
-            >
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-sm font-medium text-green-700 dark:text-green-300">
-                We're here to help
-              </span>
-            </motion.div>
+            <div className="text-center">
+                <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-800 mb-8"
+                >
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-sm font-medium text-green-700 dark:text-green-300">
+                    We're here to help
+                </span>
+                </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 50 }}
-              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-              className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent"
-            >
-              Get in Touch
-            </motion.h1>
+                <motion.h1
+                initial={{ opacity: 0, y: 50 }}
+                animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+                className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent"
+                >
+                Get in Touch
+                </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-              className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed"
-            >
-              Ready to transform your ideas into reality? Let's start a conversation 
-              and explore how we can help you achieve your goals.
-            </motion.p>
+                <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+                className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed"
+                >
+                Ready to transform your ideas into reality? Let's start a conversation 
+                and explore how we can help you achieve your goals.
+                </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-              className="flex flex-wrap gap-4 justify-center"
-            >
-              <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white group">
-                Start Conversation
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-              <Button size="lg" variant="outline" className="border-green-200 hover:bg-green-50 dark:border-green-800 dark:hover:bg-green-950/30">
-                View Our Work
-              </Button>
-            </motion.div>
+                <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+                className="flex flex-wrap gap-4 justify-center"
+                >
+                <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white group">
+                    Start Conversation
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+                <Button size="lg" variant="outline" className="border-green-200 hover:bg-green-50 dark:border-green-800 dark:hover:bg-green-950/30">
+                    View Our Work
+                </Button>
+                </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={isLoaded ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 1, delay: 0.8, ease: "easeOut" }}
-              className="mt-16 flex items-center justify-center gap-8 text-sm text-muted-foreground"
-            >
-              <div className="flex items-center gap-2">
-                <div className="flex -space-x-2">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900 border-2 border-background" />
-                  ))}
+                <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={isLoaded ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 1, delay: 0.8, ease: "easeOut" }}
+                className="mt-16 flex items-center justify-center gap-8 text-sm text-muted-foreground"
+                >
+                <div className="flex items-center gap-2">
+                    <div className="flex -space-x-2">
+                    {[1, 2, 3, 4].map((i) => (
+                        <div key={i} className="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900 border-2 border-background" />
+                    ))}
+                    </div>
+                    <span>Trusted by 10,000+ customers</span>
                 </div>
-                <span>Trusted by 10,000+ customers</span>
-              </div>
-              <div className="flex items-center gap-1">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                ))}
-                <span className="ml-1">4.9/5 rating</span>
-              </div>
-            </motion.div>
+                <div className="flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                    <span className="ml-1">4.9/5 rating</span>
+                </div>
+                </motion.div>
+            </div>
           </SpaceWrapper>
         </motion.div>
 
