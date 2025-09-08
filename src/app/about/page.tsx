@@ -186,7 +186,7 @@ export default function AboutUsPage() {
             {/* Left Content */}
             <motion.div
               style={{ opacity }}
-              className="text-left"
+              className="text-center lg:text-left"
             >
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -215,7 +215,7 @@ export default function AboutUsPage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-lg"
+                className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0"
               >
                 We're passionate innovators dedicated to creating sustainable solutions that make a positive impact on the world. Our journey began with a simple idea: technology should serve humanity.
               </motion.p>
@@ -224,7 +224,7 @@ export default function AboutUsPage() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
-                className="flex flex-col sm:flex-row gap-4 mb-12"
+                className="flex flex-col sm:flex-row gap-4 mb-12 justify-center lg:justify-start"
               >
                 <Button size="lg" className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300">
                   Learn More
