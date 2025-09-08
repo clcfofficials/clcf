@@ -181,7 +181,7 @@ export default function AboutUsPage() {
           ))}
         </div>
 
-        <SpaceWrapper>
+        <SpaceWrapper className='py-16'>
           <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
             <motion.div
@@ -227,7 +227,7 @@ export default function AboutUsPage() {
                 className="flex flex-col sm:flex-row gap-4 mb-12 justify-center lg:justify-start"
               >
                 <Button size="lg" className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                  Learn More
+                  Contact Us
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
                 <Button variant="outline" size="lg" className="border-green-400/50 text-green-600 hover:bg-green-50 dark:hover:bg-green-950/50 backdrop-blur-sm">
@@ -572,7 +572,7 @@ export default function AboutUsPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-lg">
-                  Start Your Project
+                  Order The Product
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
                 <Button variant="outline" size="lg" className="border-green-400/50 text-green-600 hover:bg-green-50 dark:hover:bg-green-950/50">
