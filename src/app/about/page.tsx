@@ -112,6 +112,16 @@ export default function AboutUsPage() {
   const { scrollYProgress } = useScroll()
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
   const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0])
+  const [particles, setParticles] = useState<{left: string, top: string}[]>([]);
+
+  useEffect(() => {
+    const newParticles = Array.from({ length: 12 }).map(() => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+    }));
+    setParticles(newParticles);
+  }, []);
+
 
   const features = [
     {
@@ -148,7 +158,7 @@ export default function AboutUsPage() {
             style={{ y }}
             className="absolute inset-0 bg-gradient-to-br from-green-400/20 via-emerald-500/10 to-green-600/20"
           />
-          {[...Array(12)].map((_, i) => (
+          {particles.map((particle, i) => (
             <motion.div
               key={i}
               className="absolute w-2 h-2 bg-green-400/30 rounded-full"
@@ -164,8 +174,8 @@ export default function AboutUsPage() {
                 ease: "easeInOut"
               }}
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`
+                left: particle.left,
+                top: particle.top
               }}
             />
           ))}
