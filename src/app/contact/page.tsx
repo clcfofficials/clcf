@@ -1,10 +1,10 @@
+
 "use client"
 
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform, useInView } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { 
   ArrowRight,
   Mail,
@@ -21,7 +21,6 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { useToast } from '@/hooks/use-toast'
 import { SpaceWrapper } from '@/components/space-wrapper'
-
 
 const ContactInfoCard = ({ icon, title, children }: { icon: React.ReactNode, title: string, children: React.ReactNode }) => (
   <motion.div
@@ -73,21 +72,56 @@ const TrustCard = ({ icon, title, description, delay = 0 }: { icon: React.ReactN
   );
 };
 
-
-export default function ContactPage() {
-  const { scrollYProgress } = useScroll();
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
-  const [particles, setParticles] = useState<{left: string, top: string}[]>([]);
-  const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+const FloatingIcon = ({ children, className }: { children: React.ReactNode, className: string }) => {
+  const [delay, setDelay] = useState(0)
 
   useEffect(() => {
-    const newParticles = Array.from({ length: 15 }).map(() => ({
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-    }));
-    setParticles(newParticles);
+    setDelay(Math.random() * 5)
+  }, [])
+  
+  return (
+    <motion.div
+      className={`absolute text-green-400/30 dark:text-green-600/30 ${className}`}
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1, delay: 0.5 + delay / 2 }}
+      whileHover={{ scale: 1.2 }}
+    >
+      <motion.div
+        animate={{
+          y: [0, Math.random() * 20 - 10, 0],
+          x: [0, Math.random() * 20 - 10, 0],
+          rotate: [0, Math.random() * 20 - 10, 0],
+        }}
+        transition={{
+          duration: 10 + Math.random() * 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay,
+        }}
+      >
+        {children}
+      </motion.div>
+    </motion.div>
+  )
+}
+
+
+export default function ContactPage() {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      setMousePosition({ x: event.clientX, y: event.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
   }, []);
+
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -102,66 +136,98 @@ export default function ContactPage() {
       (event.target as HTMLFormElement).reset();
     }, 1500);
   };
+  
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  };
 
   return (
     <div className="bg-gradient-to-br from-green-50 via-white to-emerald-50 dark:from-gray-950 dark:via-black dark:to-green-950 text-foreground overflow-hidden">
       {/* Hero Section */}
-      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden pt-16">
-        <div className="absolute inset-0">
+      <section className="relative min-h-[70vh] w-full flex items-center justify-center overflow-hidden pt-16">
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Mouse-following gradient */}
           <motion.div
-            style={{ y }}
-            className="absolute inset-0 bg-gradient-to-br from-green-400/20 via-emerald-500/10 to-green-600/20"
+            className="absolute h-96 w-96 bg-gradient-radial from-green-300/30 to-transparent blur-3xl"
+            style={{
+              x: mousePosition.x - 192,
+              y: mousePosition.y - 192,
+              opacity: 0.5,
+            }}
+            transition={{ type: "tween", ease: "backOut", duration: 0.1 }}
           />
-          {particles.map((particle, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-2 h-2 bg-green-400/30 rounded-full"
-              animate={{
-                y: [-20, 20, -20],
-                x: [-15, 15, -15],
-                opacity: [0, 0.8, 0],
-                scale: [0.5, 1, 0.5]
-              }}
-              transition={{
-                duration: 4 + i * 0.5,
-                repeat: Infinity,
-                delay: i * 0.3,
-                ease: "easeInOut"
-              }}
-              style={{
-                left: particle.left,
-                top: particle.top
-              }}
-            />
-          ))}
+
+          {/* Large animated blobs */}
+          <motion.div
+            className="absolute -top-40 -left-40 w-[25rem] h-[25rem] bg-emerald-400/20 rounded-full blur-3xl"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+          />
+          <motion.div
+            className="absolute -bottom-40 -right-40 w-[25rem] h-[25rem] bg-green-400/20 rounded-full blur-3xl"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 50, repeat: Infinity, ease: 'linear' }}
+          />
+          
+          {/* Floating Icons */}
+          <FloatingIcon className="top-[15%] left-[10%]"><Mail size={48} /></FloatingIcon>
+          <FloatingIcon className="top-[25%] right-[15%]"><Phone size={40} /></FloatingIcon>
+          <FloatingIcon className="bottom-[20%] left-[20%]"><Send size={44} /></FloatingIcon>
+          <FloatingIcon className="bottom-[30%] right-[25%]"><MessageSquare size={52} /></FloatingIcon>
         </div>
-        <SpaceWrapper className="relative z-10 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-                <Badge className="mb-6 px-4 py-2 bg-gradient-to-r from-green-400/20 to-emerald-600/20 border-green-400/30 text-green-600 backdrop-blur-sm">
-                    <MessageSquare className="w-4 h-4 mr-2" />
-                    We're Here to Help
-                </Badge>
+
+        <SpaceWrapper>
+          <motion.div 
+            className="relative z-10 text-center"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.div variants={itemVariants}>
+              <motion.div
+                className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-green-100/80 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-medium backdrop-blur-sm border border-green-200/50 dark:border-green-800/30"
+                whileHover={{ scale: 1.05 }}
+              >
+                <MessageSquare className="w-4 h-4" />
+                We are here to help
+              </motion.div>
             </motion.div>
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-5xl md:text-6xl font-bold mb-6 leading-tight"
+            
+            <motion.h1 
+              variants={itemVariants}
+              className="text-5xl md:text-7xl font-bold mb-6 leading-tight bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent"
             >
-              Get in <span className="bg-gradient-to-r from-green-400 via-emerald-500 to-green-600 bg-clip-text text-transparent">Touch</span>
+              Get In Touch
             </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto"
+            
+            <motion.p 
+              variants={itemVariants}
+              className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed"
             >
-              Have a question, comment, or need support? We'd love to hear from you. Reach out and let's start the conversation.
+              Have a question, comment, or need support? We would love to hear from you. Reach out and let us start the conversation.
             </motion.p>
+
+             <motion.div variants={itemVariants}>
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-8 py-6 text-lg font-semibold group rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              >
+                Get Started <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </motion.div>
+          </motion.div>
         </SpaceWrapper>
       </section>
       
