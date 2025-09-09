@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
 import type { IProduct } from "@/models/Product";
 import { Progress } from "@/components/ui/progress";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type Product = IProduct & { id: string };
 
@@ -98,6 +99,7 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
             title: formValues.title,
             description: formValues.description,
             price: formValues.price,
+            category: formValues.category,
             featured: formValues.featured === 'on',
             image: imageUrl, // Use new or existing image URL
         };
@@ -155,6 +157,23 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
                     <Label htmlFor="price">Price</Label>
                     <Input id="price" name="price" defaultValue={product?.price} required />
                      {errors?.price && <p className="text-sm text-destructive">{errors.price.join(", ")}</p>}
+                </div>
+
+                 <div className="space-y-2">
+                    <Label htmlFor="category">Category</Label>
+                    <Select name="category" defaultValue={product?.category || "Fungicides"}>
+                        <SelectTrigger id="category">
+                            <SelectValue placeholder="Select a category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="Fungicides">Fungicides</SelectItem>
+                            <SelectItem value="Insecticides">Insecticides</SelectItem>
+                            <SelectItem value="Plant Growth Regulators">Plant Growth Regulators</SelectItem>
+                            <SelectItem value="Herbicides">Herbicides</SelectItem>
+                            <SelectItem value="Other">Other</SelectItem>
+                        </SelectContent>
+                    </Select>
+                     {errors?.category && <p className="text-sm text-destructive">{errors.category.join(", ")}</p>}
                 </div>
 
                  <div className="space-y-2">

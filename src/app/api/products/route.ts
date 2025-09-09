@@ -1,3 +1,4 @@
+
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import dbConnect from '@/lib/dbConnect';
@@ -6,7 +7,8 @@ import Product from '@/models/Product';
 const ProductSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters'),
   description: z.string().min(10, 'Description must be at least 10 characters'),
-  price: z.string().regex(/^\$\d+(\.\d{2})?$/, 'Price must be in the format $xx.xx'),
+  price: z.string().min(1, 'Price is required'),
+  category: z.string().min(1, 'Category is required'),
   image: z.string().url('Must be a valid image URL'),
   featured: z.boolean(),
 });

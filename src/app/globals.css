@@ -125,3 +125,26 @@ body {
     opacity: 0;
   }
 }
+
+/* Custom Scrollbar */
+@layer utilities {
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-secondary;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/50 rounded-full border-4 border-solid border-secondary;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/70;
+  }
+  .dark ::-webkit-scrollbar-track {
+    @apply bg-secondary/20;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    @apply border-secondary/20;
+  }
+}
