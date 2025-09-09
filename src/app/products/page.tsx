@@ -63,7 +63,7 @@ const ProductCard = memo(function ProductCard({ product, onSelectProduct }: { pr
 
   return (
     <motion.div
-      className="group relative w-full h-full"
+      className="group relative w-full h-full flex flex-col"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -79,10 +79,10 @@ const ProductCard = memo(function ProductCard({ product, onSelectProduct }: { pr
             <motion.img
             src={product.image}
             alt={product.title}
-            className="absolute inset-0 w-full h-full object-cover brightness-100"
+            className="absolute inset-0 w-full h-full object-cover"
             animate={{
                 scale: isHovered ? 1.1 : 1,
-                 filter: isHovered ? "brightness(1.1) saturate(1.2)" : "brightness(1) saturate(1)"
+                 filter: isHovered ? "brightness(1.1) saturate(1.2)" : "brightness(1)"
             }}
             transition={{ duration: 0.6 }}
             />
@@ -496,7 +496,7 @@ export default function ProductsPage() {
           </motion.div>
 
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
