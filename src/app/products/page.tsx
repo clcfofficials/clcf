@@ -8,24 +8,58 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
-import { Search, Filter, Leaf, Zap, ShoppingCart, Star, Heart } from "lucide-react"
+import { Search, Filter, Leaf, Zap, ShoppingCart, Star, Heart, ArrowRight } from "lucide-react"
 import type { IProduct } from "@/models/Product"
 import { SpaceWrapper } from "@/components/space-wrapper"
+import Image from "next/image"
 
 type Product = IProduct & { _id: string; id: string; };
 
-const ProductCard = memo(function ProductCard({ product, onAddToCart }: { product: Product, onAddToCart?: (product: Product) => void }) {
+const ProductDetailModal = ({ product, open, onOpenChange }: { product: Product | null, open: boolean, onOpenChange: (open: boolean) => void }) => {
+    if (!product) return null;
+
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent className="max-w-4xl max-h-[90vh] grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
+                <div className="relative aspect-square rounded-lg overflow-hidden">
+                     <Image 
+                        src={product.image}
+                        alt={product.title}
+                        fill
+                        className="object-cover"
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <DialogHeader className="text-left mb-4">
+                        <Badge className="mb-2 w-fit bg-gradient-to-r from-green-600 to-emerald-600 text-white border-0 shadow-lg shadow-green-500/25">
+                            {product.category}
+                        </Badge>
+                        <DialogTitle className="text-3xl font-bold text-foreground">{product.title}</DialogTitle>
+                    </DialogHeader>
+                    <p className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-4">
+                        {product.price}
+                    </p>
+                    <div className="flex-1 overflow-y-auto pr-4">
+                        <DialogDescription className="text-base text-muted-foreground leading-relaxed">
+                            {product.description}
+                        </DialogDescription>
+                    </div>
+                     <Button size="lg" className="mt-6 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-lg">
+                        <ShoppingCart className="w-5 h-5 mr-2" />
+                        Add to Cart
+                    </Button>
+                </div>
+            </DialogContent>
+        </Dialog>
+    )
+}
+
+
+const ProductCard = memo(function ProductCard({ product, onSelectProduct }: { product: Product, onSelectProduct: (product: Product) => void }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isWishlisted, setIsWishlisted] = useState(false)
-  const [isAddingToCart, setIsAddingToCart] = useState(false)
-
-  const handleAddToCart = useCallback(async () => {
-    setIsAddingToCart(true)
-    await new Promise(resolve => setTimeout(resolve, 800))
-    setIsAddingToCart(false)
-    onAddToCart?.(product)
-  }, [product, onAddToCart])
 
   return (
     <motion.div
@@ -48,7 +82,7 @@ const ProductCard = memo(function ProductCard({ product, onAddToCart }: { produc
             className="absolute inset-0 w-full h-full object-cover"
             animate={{
                 scale: isHovered ? 1.1 : 1,
-                filter: isHovered ? "brightness(0.8) saturate(1.2)" : "brightness(1) saturate(1)"
+                 filter: isHovered ? "brightness(1.1) saturate(1.2)" : "brightness(1) saturate(1)"
             }}
             transition={{ duration: 0.6 }}
             />
@@ -150,38 +184,21 @@ const ProductCard = memo(function ProductCard({ product, onAddToCart }: { produc
                 "text-white font-semibold shadow-lg hover:shadow-xl hover:shadow-green-500/25",
                 "border-0 rounded-xl transition-all duration-300 relative overflow-hidden"
                 )}
-                onClick={handleAddToCart}
-                disabled={isAddingToCart}
+                onClick={() => onSelectProduct(product)}
             >
                 <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
                 animate={{ x: isHovered ? ["-100%", "100%"] : "-100%" }}
                 transition={{ duration: 0.6 }}
                 />
-
-                {isAddingToCart ? (
-                <motion.div
-                    className="flex items-center"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                >
-                    <motion.div
-                    className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                    />
-                    Adding...
-                </motion.div>
-                ) : (
                 <motion.div
                     className="flex items-center"
                     animate={{ x: isHovered ? [0, 2, 0] : 0 }}
                     transition={{ duration: 0.3 }}
                 >
-                    <ShoppingCart className="w-5 h-5 mr-2" />
-                    Add to Cart
+                    View More
+                    <ArrowRight className="w-5 h-5 ml-2" />
                 </motion.div>
-                )}
             </Button>
             </motion.div>
         </CardContent>
@@ -351,13 +368,16 @@ export default function ProductsPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
       const res = await fetch('/api/products');
       const data = await res.json();
-      setProducts(data.map((p: any) => ({...p, id: p._id.toString()})));
-      setFilteredProducts(data.map((p: any) => ({...p, id: p._id.toString()})));
+      const productsWithId = data.map((p: any) => ({...p, id: p._id.toString()}));
+      setProducts(productsWithId);
+      setFilteredProducts(productsWithId);
     };
     fetchProducts();
   }, []);
@@ -380,10 +400,12 @@ export default function ProductsPage() {
 
     setFilteredProducts(filtered)
   }, [searchTerm, selectedCategory, products])
+  
+  const handleSelectProduct = useCallback((product: Product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  }, []);
 
-  const handleAddToCart = useCallback((product: Product) => {
-    console.log("Added to cart:", product)
-  }, [])
 
   return (
     <div className="min-h-screen bg-background">
@@ -456,7 +478,7 @@ export default function ProductsPage() {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <ProductCard product={product} onAddToCart={handleAddToCart} />
+                  <ProductCard product={product} onSelectProduct={handleSelectProduct} />
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -478,6 +500,14 @@ export default function ProductsPage() {
           )}
         </SpaceWrapper>
       </section>
+      
+      <ProductDetailModal
+          product={selectedProduct}
+          open={isModalOpen}
+          onOpenChange={setIsModalOpen}
+      />
     </div>
   )
 }
+
+    
