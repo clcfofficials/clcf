@@ -12,7 +12,6 @@ const ProductSchema = z.object({
   price: z.string().min(1, 'Price is required'),
   category: z.string().min(1, 'Category is required'),
   image: z.string().url('Must be a valid image URL'),
-  featured: z.boolean(),
 });
 
 async function checkId(id: string) {

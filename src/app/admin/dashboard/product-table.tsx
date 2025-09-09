@@ -57,7 +57,7 @@ function EditProductDialog({ product }: { product: Product }) {
                     Edit
                 </DropdownMenuItem>
             </DialogTrigger>
-            <DialogContent className="max-h-[90dvh] flex flex-col p-0">
+            <DialogContent className="max-w-4xl max-h-[90dvh] flex flex-col p-0">
                 <DialogHeader className="p-6 pb-0">
                     <DialogTitle>Edit Product</DialogTitle>
                 </DialogHeader>
@@ -133,7 +133,7 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
                     <PlusCircle className="mr-2 h-4 w-4" /> Add Product
                 </Button>
             </DialogTrigger>
-            <DialogContent className="max-h-[90dvh] flex flex-col p-0">
+            <DialogContent className="max-w-4xl max-h-[90dvh] flex flex-col p-0">
                 <DialogHeader className="p-6 pb-0">
                     <DialogTitle>Add New Product</DialogTitle>
                 </DialogHeader>
@@ -151,7 +151,6 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
             <TableHead>Title</TableHead>
             <TableHead>Category</TableHead>
             <TableHead>Price</TableHead>
-            <TableHead className="hidden md:table-cell">Featured</TableHead>
             <TableHead>
               <span className="sr-only">Actions</span>
             </TableHead>
@@ -173,9 +172,6 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
               <TableCell className="font-medium">{product.title}</TableCell>
               <TableCell>{product.category}</TableCell>
               <TableCell>{product.price}</TableCell>
-              <TableCell className="hidden md:table-cell">
-                {product.featured && <Badge>Yes</Badge>}
-              </TableCell>
               <TableCell>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

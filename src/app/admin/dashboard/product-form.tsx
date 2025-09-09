@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
 import type { IProduct } from "@/models/Product";
@@ -117,7 +116,6 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
             description: formValues.description,
             price: formValues.price,
             category: formValues.category,
-            featured: formValues.featured === 'on',
             image: imageUrl,
         };
 
@@ -157,7 +155,7 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
     return (
         <form onSubmit={handleSubmit} className="flex-1 flex flex-col h-full overflow-hidden">
              <div className="flex-1 overflow-y-auto p-6 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div className="space-y-2">
                         <Label htmlFor="title">Title</Label>
                         <Input id="title" name="title" defaultValue={product?.title} required />
@@ -168,12 +166,6 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
                         <Label htmlFor="price">Price</Label>
                         <Input id="price" name="price" defaultValue={product?.price} required />
                          {errors?.price && <p className="text-sm text-destructive">{errors.price.join(", ")}</p>}
-                    </div>
-
-                    <div className="space-y-2 md:col-span-2">
-                        <Label htmlFor="description">Description</Label>
-                        <Textarea id="description" name="description" defaultValue={product?.description} required rows={4} />
-                         {errors?.description && <p className="text-sm text-destructive">{errors.description.join(", ")}</p>}
                     </div>
                     
                     <div className="space-y-2">
@@ -192,22 +184,23 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
                         </Select>
                          {errors?.category && <p className="text-sm text-destructive">{errors.category.join(", ")}</p>}
                     </div>
-                    
-                    <div className="flex items-center space-x-2 pt-6 md:col-span-1">
-                        <Checkbox id="featured" name="featured" defaultChecked={product?.featured} />
-                        <Label htmlFor="featured" className="font-normal">Featured Product</Label>
+
+                    <div className="space-y-2 md:col-span-2 lg:col-span-2">
+                        <Label htmlFor="description">Description</Label>
+                        <Textarea id="description" name="description" defaultValue={product?.description} required rows={6} />
+                         {errors?.description && <p className="text-sm text-destructive">{errors.description.join(", ")}</p>}
                     </div>
 
-                    <div className="space-y-2 md:col-span-2">
+                    <div className="space-y-2 md:col-span-2 lg:col-span-1">
                         <Label htmlFor="image">Product Image</Label>
                         {!imagePreview && !isUploading && (
-                            <Card className="border-2 border-dashed bg-muted hover:bg-muted/80 transition-colors">
-                                <CardContent className="p-6 text-center">
+                            <Card className="border-2 border-dashed bg-muted hover:bg-muted/80 transition-colors h-full">
+                                <CardContent className="p-6 text-center flex items-center justify-center h-full">
                                     <Label htmlFor="image" className="cursor-pointer">
                                         <div className="flex flex-col items-center justify-center space-y-2">
                                             <Upload className="h-8 w-8 text-muted-foreground"/>
-                                            <p className="text-sm text-muted-foreground font-semibold">Click to upload or drag & drop</p>
-                                            <p className="text-xs text-muted-foreground">PNG, JPG, GIF up to 10MB</p>
+                                            <p className="text-sm text-muted-foreground font-semibold">Click to upload</p>
+                                            <p className="text-xs text-muted-foreground">PNG, JPG up to 10MB</p>
                                         </div>
                                     </Label>
                                     <Input id="image" name="image" type="file" className="sr-only" accept="image/*" onChange={handleImageChange} />
@@ -220,19 +213,15 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
                                 <p className="text-xs text-muted-foreground mt-1">Uploading... {uploadProgress}%</p>
                             </div>
                          )}
-                    </div>
-
-                    {imagePreview && (
-                        <div className="md:col-span-2">
-                            <Label>Image Preview</Label>
+                         {imagePreview && (
                             <div className="mt-2 relative">
-                                <Image src={imagePreview} alt="Image Preview" width={150} height={100} className="rounded-md border aspect-video object-cover" />
+                                <Image src={imagePreview} alt="Image Preview" width={150} height={100} className="rounded-md border aspect-video object-cover w-full" />
                                 <Button variant="destructive" size="icon" className="absolute -top-2 -right-2 h-7 w-7 rounded-full" onClick={removeImage}>
                                     <X className="h-4 w-4" />
                                 </Button>
                             </div>
-                        </div>
-                     )}
+                        )}
+                    </div>
                 </div>
             </div>
             <div className="flex justify-end p-6 bg-background border-t mt-auto flex-shrink-0">
