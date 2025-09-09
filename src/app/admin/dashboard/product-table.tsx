@@ -36,6 +36,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { useState, useTransition } from "react";
@@ -50,14 +51,12 @@ function EditProductDialog({ product }: { product: Product }) {
     const [open, setOpen] = useState(false);
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                <DialogTrigger asChild>
-                    <button className="w-full text-left flex items-center">
-                        <Edit className="mr-2 h-4 w-4" />
-                        Edit
-                    </button>
-                </DialogTrigger>
-            </DropdownMenuItem>
+            <DialogTrigger asChild>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="flex items-center cursor-pointer">
+                    <Edit className="mr-2 h-4 w-4" />
+                    Edit
+                </DropdownMenuItem>
+            </DialogTrigger>
             <DialogContent className="max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Edit Product</DialogTitle>
@@ -73,7 +72,7 @@ function DeleteProductAlert({ id, onConfirm, isPending }: { id: string, onConfir
         <AlertDialog>
             <AlertDialogTrigger asChild>
                 <DropdownMenuItem
-                    className="text-destructive focus:text-destructive"
+                    className="w-full text-left flex items-center text-destructive focus:text-destructive cursor-pointer"
                     onSelect={(e) => e.preventDefault()}
                 >
                     <Trash2 className="mr-2 h-4 w-4" />
@@ -142,7 +141,7 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
             </DialogContent>
         </Dialog>
     </div>
-    <div className="border rounded-lg bg-card shadow-sm">
+    <div className="border rounded-lg bg-card shadow-sm mt-4">
       <Table>
         <TableHeader>
           <TableRow>
