@@ -3,13 +3,21 @@
 
 import { SpaceWrapper } from "@/components/space-wrapper";
 import { motion } from "framer-motion";
-import { Shield } from "lucide-react";
+import { LogOut, Settings, Shield } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { logoutAction } from "../actions";
+import { usePathname } from "next/navigation";
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
+  const pathname = usePathname();
+  const isLoginPage = pathname.includes('/login');
+
   return (
     <div className="bg-gradient-to-br from-green-50/20 via-background to-emerald-50/10 min-h-[calc(100vh-4rem)] pt-16 dark:from-green-950/20 dark:to-emerald-950/10">
       
@@ -44,6 +52,23 @@ export default function AdminLayout({
               CLCF Admin Panel
             </h1>
             <p className="text-lg text-muted-foreground mt-3">Manage your products and store settings.</p>
+
+            {!isLoginPage && (
+              <div className="mt-6 flex justify-center gap-4">
+                  <Button asChild variant="outline">
+                    <Link href="/admin/dashboard/settings">
+                      <Settings className="mr-2 h-4 w-4"/>
+                      Settings
+                    </Link>
+                  </Button>
+                  <form action={logoutAction}>
+                    <Button variant="destructive">
+                      <LogOut className="mr-2 h-4 w-4"/>
+                      Logout
+                    </Button>
+                  </form>
+              </div>
+            )}
           </motion.div>
         </SpaceWrapper>
       </section>

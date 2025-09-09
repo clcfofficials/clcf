@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { LogIn, TriangleAlert } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { LogIn } from "lucide-react";
 import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -39,7 +38,7 @@ export function LoginForm() {
       <CardHeader className="text-center">
         <CardTitle className="text-2xl font-headline">Admin Login</CardTitle>
         <CardDescription>Enter your credentials to access the dashboard</CardDescription>
-        <p className="text-xs text-muted-foreground pt-2">(Use admin / password)</p>
+        <p className="text-xs text-muted-foreground pt-2">(Default: admin / admin)</p>
       </CardHeader>
       <CardContent>
         <form action={formAction} className="space-y-4">
@@ -49,7 +48,7 @@ export function LoginForm() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" name="password" type="password" required defaultValue="password" />
+            <Input id="password" name="password" type="password" required />
           </div>
           <SubmitButton />
         </form>

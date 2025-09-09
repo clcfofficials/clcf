@@ -1,9 +1,7 @@
-import { LoginForm } from "./login-form";
+import { redirect } from 'next/navigation';
 
-export default function AdminLoginPage() {
-  return (
-    <div className="flex items-center justify-center py-12">
-      <LoginForm />
-    </div>
-  );
+export default function AdminPage() {
+  // This page just redirects to the login page by default.
+  // The middleware will handle protecting the dashboard.
+  redirect('/admin/login');
 }
