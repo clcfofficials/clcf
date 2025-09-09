@@ -14,6 +14,7 @@ import { Search, Filter, Leaf, Zap, ShoppingCart, Star, Heart, ArrowRight } from
 import type { IProduct } from "@/models/Product"
 import { SpaceWrapper } from "@/components/space-wrapper"
 import Image from "next/image"
+import Link from "next/link"
 
 type Product = IProduct & { _id: string; id: string; };
 
@@ -46,9 +47,8 @@ const ProductDetailModal = ({ product, open, onOpenChange }: { product: Product 
                             {product.description}
                         </DialogDescription>
                     </div>
-                     <Button size="lg" className="mt-6 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-lg">
-                        <ShoppingCart className="w-5 h-5 mr-2" />
-                        Add to Cart
+                     <Button asChild size="lg" className="mt-6 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-lg">
+                        <Link href="/contact">Contact Us</Link>
                     </Button>
                 </div>
             </DialogContent>
