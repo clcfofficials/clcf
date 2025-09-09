@@ -150,7 +150,7 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
     <div className="border rounded-lg bg-card shadow-sm mt-4">
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className="bg-muted/50 hover:bg-muted/50 border-b-0">
             <TableHead className="hidden w-[100px] sm:table-cell">
               <span className="sr-only">Image</span>
             </TableHead>
