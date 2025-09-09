@@ -65,10 +65,10 @@ const ContactUsPage = () => {
 
     emailjs
       .send(
-        "your_service_id",      // Service ID
-        "your_template_id",     // Template ID
+        "service_kbr80o6",      // Service ID
+        "template_6e2yvcd",     // Template ID
         formData,
-        "your_public_key"       // Public Key
+        "lmzyqBVXfcugasGlY"       // Public Key
       )
       .then(
         (result) => {
@@ -450,3 +450,5 @@ const ContactUsPage = () => {
 };
 
 export default ContactUsPage;
+
+    
