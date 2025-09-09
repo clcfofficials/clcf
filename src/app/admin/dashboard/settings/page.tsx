@@ -1,12 +1,12 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Save, TriangleAlert } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Save } from "lucide-react";
 import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { updateCredentialsAction, logoutAction } from "@/app/actions";
@@ -22,7 +22,7 @@ function SubmitButton() {
 }
 
 export default function SettingsPage() {
-  const [state, formAction] = useFormState(updateCredentialsAction, { message: "", success: false });
+  const [state, formAction] = useActionState(updateCredentialsAction, { message: "", success: false });
   const { toast } = useToast();
 
   useEffect(() => {
