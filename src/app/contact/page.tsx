@@ -22,23 +22,13 @@ import {
   Star
 } from "lucide-react";
 import { SpaceWrapper } from "@/components/space-wrapper";
-import emailjs from "emailjs-com";
-
-interface ContactFormData {
-  name: string;
-  email: string;
-  message: string;
-}
+import emailjs from "@emailjs/browser";
 
 const ContactUsPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [formData, setFormData] = useState<ContactFormData>({
-    name: "",
-    email: "",
-    message: ""
-  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState("");
+  const form = useRef<HTMLFormElement>(null);
   
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -53,30 +43,31 @@ const ContactUsPage = () => {
     setIsLoaded(true);
   }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const sendEmail = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setStatus("");
 
+    if (!form.current) {
+        setIsSubmitting(false);
+        setStatus("❌ An error occurred. Please try again.");
+        return;
+    }
+
     emailjs
-      .send(
-        "service_kbr80o6",      // Service ID
-        "template_6e2yvcd",     // Template ID
-        formData,
-        "lmzyqBVXfcugasGlY"       // Public Key
+      .sendForm(
+        "YOUR_SERVICE_ID",
+        "YOUR_TEMPLATE_ID",
+        form.current,
+        { publicKey: "YOUR_PUBLIC_KEY" }
       )
       .then(
-        (result) => {
+        () => {
           setStatus("✅ Message sent successfully!");
-          setFormData({ name: "", email: "", message: "" });
+          form.current?.reset();
         },
         (error) => {
-          setStatus("❌ Failed to send. Try again.");
+          setStatus(`❌ Failed to send. ${error.text}`);
         }
       )
       .finally(() => {
@@ -309,16 +300,14 @@ const ContactUsPage = () => {
               viewport={{ once: true }}
             >
               <Card className="p-8 border-green-200 dark:border-green-800 shadow-lg">
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form ref={form} onSubmit={sendEmail} className="space-y-6">
                   <div>
-                    <Label htmlFor="name" className="text-green-700 dark:text-green-300">
+                    <Label htmlFor="user_name" className="text-green-700 dark:text-green-300">
                       Name
                     </Label>
                     <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
+                      id="user_name"
+                      name="user_name"
                       className="mt-2 border-green-200 dark:border-green-800 focus:border-green-500 focus:ring-green-500"
                       placeholder="Your full name"
                       required
@@ -326,15 +315,13 @@ const ContactUsPage = () => {
                   </div>
 
                   <div>
-                    <Label htmlFor="email" className="text-green-700 dark:text-green-300">
+                    <Label htmlFor="user_email" className="text-green-700 dark:text-green-300">
                       Email
                     </Label>
                     <Input
-                      id="email"
-                      name="email"
+                      id="user_email"
+                      name="user_email"
                       type="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
                       className="mt-2 border-green-200 dark:border-green-800 focus:border-green-500 focus:ring-green-500"
                       placeholder="your.email@example.com"
                       required
@@ -348,8 +335,6 @@ const ContactUsPage = () => {
                     <Textarea
                       id="message"
                       name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
                       className="mt-2 min-h-[120px] border-green-200 dark:border-green-800 focus:border-green-500 focus:ring-green-500"
                       placeholder="Tell us about your project..."
                       required
@@ -450,5 +435,3 @@ const ContactUsPage = () => {
 };
 
 export default ContactUsPage;
-
-    
