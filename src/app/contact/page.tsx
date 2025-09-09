@@ -94,7 +94,7 @@ const ContactUsPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-body">
+    <div className="min-h-screen bg-background text-foreground font-body overflow-hidden">
       {/* Hero Section */}
       <section 
         ref={heroRef}
