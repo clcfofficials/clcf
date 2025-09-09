@@ -13,9 +13,9 @@ if (!process.env.CLOUDINARY_API_SECRET) {
 
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: "dtkqa91mj",
+  api_key: "854212421361812",
+  api_secret: "raV9CI-XsbMMkBQ_zcSfl9g0fnw",
 });
 
 export default cloudinary;
