@@ -79,7 +79,7 @@ const ProductCard = memo(function ProductCard({ product, onSelectProduct }: { pr
             <motion.img
             src={product.image}
             alt={product.title}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover brightness-100"
             animate={{
                 scale: isHovered ? 1.1 : 1,
                  filter: isHovered ? "brightness(1.1) saturate(1.2)" : "brightness(1) saturate(1)"
@@ -234,19 +234,52 @@ const HeroSection = memo(function HeroSection({
   },
 }: HeroSectionProps) {
   const [sampleProducts, setSampleProducts] = useState<Product[]>([]);
+  const [particles, setParticles] = useState<{left: string, top: string}[]>([]);
+
 
   useEffect(() => {
     fetch('/api/products')
       .then(res => res.json())
       .then(data => setSampleProducts(data.map((p: any) => ({...p, id: p._id.toString()}))));
+      
+    const newParticles = Array.from({ length: 12 }).map(() => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+    }));
+    setParticles(newParticles);
   }, []);
 
   return (
     <section className="relative min-h-screen flex items-center py-12 overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-950 dark:via-emerald-950 dark:to-teal-950">
-      <div className="absolute w-full top-0 h-[256px] bg-[radial-gradient(ellipse_at_center,_hsl(142_76%_36%/0.5)_10%,_transparent_60%)]" />
+       <div className="absolute inset-0">
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-br from-green-400/20 via-emerald-500/10 to-green-600/20"
+          />
+          {particles.map((particle, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-green-400/30 rounded-full"
+              animate={{
+                y: [-20, -80, -20],
+                opacity: [0, 1, 0],
+                scale: [0, 1, 0]
+              }}
+              transition={{
+                duration: 3 + i * 0.5,
+                repeat: Infinity,
+                delay: i * 0.3,
+                ease: "easeInOut"
+              }}
+              style={{
+                left: particle.left,
+                top: particle.top
+              }}
+            />
+          ))}
+        </div>
 
       <SpaceWrapper className="relative z-10">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[80vh]">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[80vh] pt-16">
           <motion.div 
             className="space-y-8 text-center lg:text-left"
             initial={{ opacity: 0, x: -50 }}
@@ -509,5 +542,3 @@ export default function ProductsPage() {
     </div>
   )
 }
-
-    
