@@ -1,3 +1,4 @@
+
 'use server';
 
 import { z } from 'zod';
@@ -79,16 +80,15 @@ export async function logoutAction() {
 }
 
 
-// --- Update Credentials Action ---
-const CredentialsSchema = z.object({
-    username: z.string().min(3, "Username must be at least 3 characters"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
+// --- Update Username Action ---
+const UpdateUsernameSchema = z.object({
+    currentPassword: z.string().min(1, "Current password is required"),
+    newUsername: z.string().min(3, "New username must be at least 3 characters"),
 });
 
-
-export async function updateCredentialsAction(prevState: FormState, formData: FormData): Promise<FormState> {
-     await sleep(500);
-    const validatedFields = CredentialsSchema.safeParse(Object.fromEntries(formData.entries()));
+export async function updateUsernameAction(prevState: FormState, formData: FormData): Promise<FormState> {
+    await sleep(500);
+    const validatedFields = UpdateUsernameSchema.safeParse(Object.fromEntries(formData.entries()));
 
     if (!validatedFields.success) {
         return {
@@ -98,36 +98,76 @@ export async function updateCredentialsAction(prevState: FormState, formData: Fo
         }
     }
 
-    const { username, password } = validatedFields.data;
+    const { currentPassword, newUsername } = validatedFields.data;
     
     try {
         await dbConnect();
         
-        // There should only be one user, so we find and update it.
-        // A more robust solution for multi-user systems would use user ID.
         const adminUser = await User.findOne();
-
         if (!adminUser) {
-             return {
-                message: 'Admin user not found. Cannot update.',
-                success: false,
-            }
+            return { message: 'Admin user not found.', success: false };
         }
         
-        adminUser.username = username;
-        adminUser.password = password;
+        if (adminUser.password !== currentPassword) {
+            return { message: 'Incorrect current password.', success: false };
+        }
+        
+        adminUser.username = newUsername;
         await adminUser.save();
         
         return {
-            message: 'Credentials updated successfully. Please log in again with your new credentials.',
+            message: 'Username updated successfully. It will be effective on your next login.',
             success: true,
         }
-
     } catch (error) {
-        console.error("Error updating credentials:", error);
+        console.error("Error updating username:", error);
+        return { message: 'An error occurred.', success: false };
+    }
+}
+
+
+// --- Update Password Action ---
+const UpdatePasswordSchema = z.object({
+    currentPassword: z.string().min(1, "Current password is required"),
+    newPassword: z.string().min(6, "New password must be at least 6 characters"),
+});
+
+
+export async function updatePasswordAction(prevState: FormState, formData: FormData): Promise<FormState> {
+    await sleep(500);
+    const validatedFields = UpdatePasswordSchema.safeParse(Object.fromEntries(formData.entries()));
+
+    if (!validatedFields.success) {
         return {
-            message: 'An error occurred while updating credentials.',
+            message: 'Invalid form data.',
+            errors: validatedFields.error.flatten().fieldErrors,
             success: false,
         }
+    }
+    
+    const { currentPassword, newPassword } = validatedFields.data;
+    
+    try {
+        await dbConnect();
+        
+        const adminUser = await User.findOne();
+        if (!adminUser) {
+            return { message: 'Admin user not found.', success: false };
+        }
+        
+        if (adminUser.password !== currentPassword) {
+            return { message: 'Incorrect current password.', success: false };
+        }
+        
+        adminUser.password = newPassword;
+        await adminUser.save();
+        
+        return {
+            message: 'Password updated successfully. Please log in again with your new password.',
+            success: true,
+        }
+    } catch (error) {
+        console.error("Error updating password:", error);
+        return { message: 'An error occurred.', success: false };
     }
 }

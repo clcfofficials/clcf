@@ -8,6 +8,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { logoutAction } from "../actions";
 import { usePathname } from "next/navigation";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { SettingsModal } from "./dashboard/settings-modal";
 
 export default function AdminLayout({
   children,
@@ -55,12 +57,17 @@ export default function AdminLayout({
 
             {!isLoginPage && (
               <div className="mt-6 flex justify-center gap-4">
-                  <Button asChild variant="outline">
-                    <Link href="/admin/dashboard/settings">
-                      <Settings className="mr-2 h-4 w-4"/>
-                      Settings
-                    </Link>
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline">
+                        <Settings className="mr-2 h-4 w-4"/>
+                        Settings
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <SettingsModal />
+                    </DialogContent>
+                  </Dialog>
                   <form action={logoutAction}>
                     <Button variant="destructive">
                       <LogOut className="mr-2 h-4 w-4"/>
