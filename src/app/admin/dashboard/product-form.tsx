@@ -138,66 +138,71 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="space-y-6">
-                
-                <div className="space-y-2">
-                    <Label htmlFor="title">Title</Label>
-                    <Input id="title" name="title" defaultValue={product?.title} required />
-                    {errors?.title && <p className="text-sm text-destructive">{errors.title.join(", ")}</p>}
-                </div>
+        <form onSubmit={handleSubmit} className="flex flex-col h-full">
+             <div className="flex-grow space-y-4 pr-6 py-1 overflow-y-auto">
+                <div className="grid md:grid-cols-2 gap-x-6 gap-y-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="title">Title</Label>
+                        <Input id="title" name="title" defaultValue={product?.title} required />
+                        {errors?.title && <p className="text-sm text-destructive">{errors.title.join(", ")}</p>}
+                    </div>
 
-                <div className="space-y-2">
-                    <Label htmlFor="description">Description</Label>
-                    <Textarea id="description" name="description" defaultValue={product?.description} required />
-                     {errors?.description && <p className="text-sm text-destructive">{errors.description.join(", ")}</p>}
-                </div>
-                
-                <div className="space-y-2">
-                    <Label htmlFor="price">Price</Label>
-                    <Input id="price" name="price" defaultValue={product?.price} required />
-                     {errors?.price && <p className="text-sm text-destructive">{errors.price.join(", ")}</p>}
-                </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="price">Price</Label>
+                        <Input id="price" name="price" defaultValue={product?.price} required />
+                         {errors?.price && <p className="text-sm text-destructive">{errors.price.join(", ")}</p>}
+                    </div>
 
-                 <div className="space-y-2">
-                    <Label htmlFor="category">Category</Label>
-                    <Select name="category" defaultValue={product?.category || "Fungicides"}>
-                        <SelectTrigger id="category">
-                            <SelectValue placeholder="Select a category" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="Fungicides">Fungicides</SelectItem>
-                            <SelectItem value="Insecticides">Insecticides</SelectItem>
-                            <SelectItem value="Plant Growth Regulators">Plant Growth Regulators</SelectItem>
-                            <SelectItem value="Herbicides">Herbicides</SelectItem>
-                            <SelectItem value="Other">Other</SelectItem>
-                        </SelectContent>
-                    </Select>
-                     {errors?.category && <p className="text-sm text-destructive">{errors.category.join(", ")}</p>}
-                </div>
+                    <div className="space-y-2 md:col-span-2">
+                        <Label htmlFor="description">Description</Label>
+                        <Textarea id="description" name="description" defaultValue={product?.description} required />
+                         {errors?.description && <p className="text-sm text-destructive">{errors.description.join(", ")}</p>}
+                    </div>
+                    
+                    <div className="space-y-2">
+                        <Label htmlFor="category">Category</Label>
+                        <Select name="category" defaultValue={product?.category || "Fungicides"}>
+                            <SelectTrigger id="category">
+                                <SelectValue placeholder="Select a category" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="Fungicides">Fungicides</SelectItem>
+                                <SelectItem value="Insecticides">Insecticides</SelectItem>
+                                <SelectItem value="Plant Growth Regulators">Plant Growth Regulators</SelectItem>
+                                <SelectItem value="Herbicides">Herbicides</SelectItem>
+                                <SelectItem value="Other">Other</SelectItem>
+                            </SelectContent>
+                        </Select>
+                         {errors?.category && <p className="text-sm text-destructive">{errors.category.join(", ")}</p>}
+                    </div>
 
-                 <div className="space-y-2">
-                    <Label htmlFor="image">Product Image</Label>
-                    <Input id="image" name="image" type="file" accept="image/*" onChange={handleImageChange} />
-                     {imagePreview && (
-                        <div className="mt-4">
-                            <Image src={imagePreview} alt="Image Preview" width={150} height={100} className="rounded-md border" />
+                     <div className="space-y-2">
+                        <Label htmlFor="image">Product Image</Label>
+                        <Input id="image" name="image" type="file" accept="image/*" onChange={handleImageChange} />
+                         {isUploading && (
+                            <div className="mt-2">
+                                <Progress value={uploadProgress} />
+                                <p className="text-xs text-muted-foreground mt-1">Uploading...</p>
+                            </div>
+                         )}
+                    </div>
+
+                    {imagePreview && (
+                        <div className="md:col-span-2">
+                            <Label>Image Preview</Label>
+                            <div className="mt-2">
+                                <Image src={imagePreview} alt="Image Preview" width={150} height={100} className="rounded-md border" />
+                            </div>
                         </div>
                      )}
-                     {isUploading && (
-                        <div className="mt-2">
-                            <Progress value={uploadProgress} />
-                            <p className="text-xs text-muted-foreground mt-1">Uploading...</p>
-                        </div>
-                     )}
-                </div>
-                
-                <div className="flex items-center space-x-2 pt-2">
-                    <Checkbox id="featured" name="featured" defaultChecked={product?.featured} />
-                    <Label htmlFor="featured" className="font-normal">Featured Product</Label>
+                    
+                    <div className="flex items-center space-x-2 pt-2 md:col-span-2">
+                        <Checkbox id="featured" name="featured" defaultChecked={product?.featured} />
+                        <Label htmlFor="featured" className="font-normal">Featured Product</Label>
+                    </div>
                 </div>
             </div>
-            <div className="flex justify-end mt-8">
+            <div className="flex justify-end mt-4 flex-shrink-0">
                 <SubmitButton isEdit={isEdit} isPending={isPending || isUploading} />
             </div>
         </form>
