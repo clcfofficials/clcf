@@ -187,10 +187,9 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
 
                     <div className="space-y-2 md:col-span-2 lg:col-span-2">
                         <Label htmlFor="description">Description</Label>
-                        <Textarea id="description" name="description" defaultValue={product?.description} required rows={6} />
+                        <Textarea id="description" name="description" defaultValue={product?.description} required className="h-full" />
                          {errors?.description && <p className="text-sm text-destructive">{errors.description.join(", ")}</p>}
                     </div>
-
                     <div className="space-y-2 md:col-span-2 lg:col-span-1">
                         <Label htmlFor="image">Product Image</Label>
                         {!imagePreview && !isUploading && (
@@ -214,8 +213,8 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
                             </div>
                          )}
                          {imagePreview && (
-                            <div className="mt-2 relative">
-                                <Image src={imagePreview} alt="Image Preview" width={150} height={100} className="rounded-md border aspect-video object-cover w-full" />
+                            <div className="mt-2 relative h-full">
+                                <Image src={imagePreview} alt="Image Preview" fill className="rounded-md border object-cover" />
                                 <Button variant="destructive" size="icon" className="absolute -top-2 -right-2 h-7 w-7 rounded-full" onClick={removeImage}>
                                     <X className="h-4 w-4" />
                                 </Button>
