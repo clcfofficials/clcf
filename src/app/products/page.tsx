@@ -23,33 +23,35 @@ const ProductDetailModal = ({ product, open, onOpenChange }: { product: Product 
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-4xl max-h-[90vh] grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
-                <div className="relative aspect-square rounded-lg overflow-hidden">
-                     <Image 
-                        src={product.image}
-                        alt={product.title}
-                        fill
-                        className="object-cover"
-                    />
-                </div>
-                <div className="flex flex-col">
-                    <DialogHeader className="text-left mb-4">
-                        <Badge className="mb-2 w-fit bg-gradient-to-r from-green-600 to-emerald-600 text-white border-0 shadow-lg shadow-green-500/25">
-                            {product.category}
-                        </Badge>
-                        <DialogTitle className="text-3xl font-bold text-foreground">{product.title}</DialogTitle>
-                    </DialogHeader>
-                    <p className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-4">
-                        {product.price}
-                    </p>
-                    <div className="flex-1 overflow-y-auto pr-4">
-                        <DialogDescription className="text-base text-muted-foreground leading-relaxed">
-                            {product.description}
-                        </DialogDescription>
+            <DialogContent className="max-w-4xl w-[95vw] md:w-full max-h-[90vh] flex flex-col p-4 sm:p-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-y-auto">
+                    <div className="relative aspect-square rounded-lg overflow-hidden">
+                        <Image 
+                            src={product.image}
+                            alt={product.title}
+                            fill
+                            className="object-cover"
+                        />
                     </div>
-                     <Button asChild size="lg" className="mt-6 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-lg">
-                        <Link href="/contact">Contact Us</Link>
-                    </Button>
+                    <div className="flex flex-col">
+                        <DialogHeader className="text-left mb-4">
+                            <Badge className="mb-2 w-fit bg-gradient-to-r from-green-600 to-emerald-600 text-white border-0 shadow-lg shadow-green-500/25">
+                                {product.category}
+                            </Badge>
+                            <DialogTitle className="text-2xl sm:text-3xl font-bold text-foreground">{product.title}</DialogTitle>
+                        </DialogHeader>
+                        <p className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-4">
+                            {product.price}
+                        </p>
+                        <div className="flex-1 overflow-y-auto pr-2 sm:pr-4">
+                            <DialogDescription className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                                {product.description}
+                            </DialogDescription>
+                        </div>
+                        <Button asChild size="lg" className="mt-6 w-full sm:w-auto bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-lg">
+                            <Link href="/contact">Contact Us</Link>
+                        </Button>
+                    </div>
                 </div>
             </DialogContent>
         </Dialog>
