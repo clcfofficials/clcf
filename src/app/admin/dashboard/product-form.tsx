@@ -154,7 +154,7 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
 
     return (
         <form onSubmit={handleSubmit} className="flex-1 flex flex-col h-full overflow-hidden">
-             <div className="flex-1 overflow-y-auto p-6 space-y-6">
+             <div className="flex-1 overflow-y-auto p-6 space-y-6 pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div className="space-y-2">
                         <Label htmlFor="title">Title</Label>
