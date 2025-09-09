@@ -13,6 +13,8 @@ import Image from "next/image";
 import type { IProduct } from "@/models/Product";
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Upload, X } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 
 type Product = IProduct & { id: string };
 
@@ -31,7 +33,6 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
     const [isPending, startTransition] = useTransition();
     const [errors, setErrors] = useState<Record<string, string[] | undefined> | null>(null);
 
-    // New state for image handling
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(product?.image || null);
     const [isUploading, setIsUploading] = useState(false);
@@ -49,7 +50,13 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
             reader.readAsDataURL(file);
         }
     };
-
+    
+    const removeImage = () => {
+        setImageFile(null);
+        setImagePreview(null);
+        const fileInput = document.getElementById('image') as HTMLInputElement;
+        if(fileInput) fileInput.value = '';
+    }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -57,7 +64,10 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
         
         let imageUrl = product?.image || '';
 
-        // 1. Handle image upload if a new file is selected
+        if(imagePreview === null && !imageFile){
+            imageUrl = ''; // Image was removed
+        }
+
         if (imageFile) {
             setIsUploading(true);
             setUploadProgress(0);
@@ -66,11 +76,18 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
             uploadFormData.append('file', imageFile);
 
             try {
+                // Simulate progress for better UX
+                const progressInterval = setInterval(() => {
+                    setUploadProgress(prev => Math.min(prev + 10, 90));
+                }, 200);
+
                 const response = await fetch('/api/upload', {
                     method: 'POST',
                     body: uploadFormData,
-                    // Note: No 'Content-Type' header, browser sets it with boundary for FormData
                 });
+                
+                clearInterval(progressInterval);
+                setUploadProgress(100);
 
                 setIsUploading(false);
 
@@ -81,7 +98,7 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
 
                 const result = await response.json();
                 imageUrl = result.url;
-                setImagePreview(result.url); // Update preview with final URL
+                setImagePreview(result.url); 
             } catch (error: any) {
                 toast({
                     variant: "destructive",
@@ -89,7 +106,7 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
                     description: error.message || "Failed to upload image.",
                 });
                 setIsUploading(false);
-                return; // Stop form submission if upload fails
+                return;
             }
         }
         
@@ -101,7 +118,7 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
             price: formValues.price,
             category: formValues.category,
             featured: formValues.featured === 'on',
-            image: imageUrl, // Use new or existing image URL
+            image: imageUrl,
         };
 
         const url = isEdit ? `/api/products/${product.id}` : '/api/products';
@@ -123,7 +140,7 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
                 });
                 setErrors(null);
                 onFormSubmit?.();
-                router.refresh(); // Re-fetch server-side data
+                router.refresh();
             } else {
                 toast({
                     variant: "destructive",
@@ -138,9 +155,9 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col h-full">
-             <div className="flex-grow space-y-4 pr-6 py-1 overflow-y-auto">
-                <div className="grid md:grid-cols-2 gap-x-6 gap-y-4">
+        <form onSubmit={handleSubmit} className="flex-1 flex flex-col h-full overflow-hidden">
+             <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                         <Label htmlFor="title">Title</Label>
                         <Input id="title" name="title" defaultValue={product?.title} required />
@@ -155,7 +172,7 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
 
                     <div className="space-y-2 md:col-span-2">
                         <Label htmlFor="description">Description</Label>
-                        <Textarea id="description" name="description" defaultValue={product?.description} required />
+                        <Textarea id="description" name="description" defaultValue={product?.description} required rows={4} />
                          {errors?.description && <p className="text-sm text-destructive">{errors.description.join(", ")}</p>}
                     </div>
                     
@@ -175,14 +192,32 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
                         </Select>
                          {errors?.category && <p className="text-sm text-destructive">{errors.category.join(", ")}</p>}
                     </div>
+                    
+                    <div className="flex items-center space-x-2 pt-6 md:col-span-1">
+                        <Checkbox id="featured" name="featured" defaultChecked={product?.featured} />
+                        <Label htmlFor="featured" className="font-normal">Featured Product</Label>
+                    </div>
 
-                     <div className="space-y-2">
+                    <div className="space-y-2 md:col-span-2">
                         <Label htmlFor="image">Product Image</Label>
-                        <Input id="image" name="image" type="file" accept="image/*" onChange={handleImageChange} />
+                        {!imagePreview && !isUploading && (
+                            <Card className="border-2 border-dashed bg-muted hover:bg-muted/80 transition-colors">
+                                <CardContent className="p-6 text-center">
+                                    <Label htmlFor="image" className="cursor-pointer">
+                                        <div className="flex flex-col items-center justify-center space-y-2">
+                                            <Upload className="h-8 w-8 text-muted-foreground"/>
+                                            <p className="text-sm text-muted-foreground font-semibold">Click to upload or drag & drop</p>
+                                            <p className="text-xs text-muted-foreground">PNG, JPG, GIF up to 10MB</p>
+                                        </div>
+                                    </Label>
+                                    <Input id="image" name="image" type="file" className="sr-only" accept="image/*" onChange={handleImageChange} />
+                                </CardContent>
+                            </Card>
+                        )}
                          {isUploading && (
                             <div className="mt-2">
                                 <Progress value={uploadProgress} />
-                                <p className="text-xs text-muted-foreground mt-1">Uploading...</p>
+                                <p className="text-xs text-muted-foreground mt-1">Uploading... {uploadProgress}%</p>
                             </div>
                          )}
                     </div>
@@ -190,19 +225,17 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
                     {imagePreview && (
                         <div className="md:col-span-2">
                             <Label>Image Preview</Label>
-                            <div className="mt-2">
-                                <Image src={imagePreview} alt="Image Preview" width={150} height={100} className="rounded-md border" />
+                            <div className="mt-2 relative">
+                                <Image src={imagePreview} alt="Image Preview" width={150} height={100} className="rounded-md border aspect-video object-cover" />
+                                <Button variant="destructive" size="icon" className="absolute -top-2 -right-2 h-7 w-7 rounded-full" onClick={removeImage}>
+                                    <X className="h-4 w-4" />
+                                </Button>
                             </div>
                         </div>
                      )}
-                    
-                    <div className="flex items-center space-x-2 pt-2 md:col-span-2">
-                        <Checkbox id="featured" name="featured" defaultChecked={product?.featured} />
-                        <Label htmlFor="featured" className="font-normal">Featured Product</Label>
-                    </div>
                 </div>
             </div>
-            <div className="flex justify-end mt-4 flex-shrink-0">
+            <div className="flex justify-end p-6 bg-background border-t mt-auto flex-shrink-0">
                 <SubmitButton isEdit={isEdit} isPending={isPending || isUploading} />
             </div>
         </form>

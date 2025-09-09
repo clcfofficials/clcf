@@ -57,8 +57,8 @@ function EditProductDialog({ product }: { product: Product }) {
                     Edit
                 </DropdownMenuItem>
             </DialogTrigger>
-            <DialogContent className="max-h-[90dvh] overflow-y-auto">
-                <DialogHeader>
+            <DialogContent className="max-h-[90dvh] flex flex-col p-0">
+                <DialogHeader className="p-6 pb-0">
                     <DialogTitle>Edit Product</DialogTitle>
                 </DialogHeader>
                 <ProductForm product={product} onFormSubmit={() => setOpen(false)} />
@@ -133,8 +133,8 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
                     <PlusCircle className="mr-2 h-4 w-4" /> Add Product
                 </Button>
             </DialogTrigger>
-            <DialogContent className="max-h-[90dvh] overflow-y-auto">
-                <DialogHeader>
+            <DialogContent className="max-h-[90dvh] flex flex-col p-0">
+                <DialogHeader className="p-6 pb-0">
                     <DialogTitle>Add New Product</DialogTitle>
                 </DialogHeader>
                 <ProductForm onFormSubmit={() => setAddModalOpen(false)}/>
