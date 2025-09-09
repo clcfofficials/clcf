@@ -185,12 +185,12 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
                          {errors?.category && <p className="text-sm text-destructive">{errors.category.join(", ")}</p>}
                     </div>
 
-                    <div className="space-y-2 md:col-span-2 lg:col-span-2">
+                    <div className="space-y-2 md:col-span-2 lg:col-span-2 pb-2">
                         <Label htmlFor="description">Description</Label>
                         <Textarea id="description" name="description" defaultValue={product?.description} required className="h-full" />
                          {errors?.description && <p className="text-sm text-destructive">{errors.description.join(", ")}</p>}
                     </div>
-                    <div className="space-y-2 md:col-span-2 lg:col-span-1">
+                    <div className="space-y-2 md:col-span-2 lg:col-span-1 pb-2">
                         <Label htmlFor="image">Product Image</Label>
                         {!imagePreview && !isUploading && (
                             <Card className="border-2 border-dashed bg-muted hover:bg-muted/80 transition-colors h-full">
@@ -214,7 +214,8 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
                          )}
                          {imagePreview && (
                             <div className="mt-2 relative h-full">
-                                <Image src={imagePreview} alt="Image Preview" fill className="rounded-md border object-cover" />
+                                <Image src={imagePreview} alt="Image Preview" width={150} height={100} className="rounded-md border aspect-video object-cover w-full h-full" />
+                                {/* <Image src={imagePreview} alt="Image Preview" fill className="rounded-md border object-cover" /> */}
                                 <Button variant="destructive" size="icon" className="absolute -top-2 -right-2 h-7 w-7 rounded-full" onClick={removeImage}>
                                     <X className="h-4 w-4" />
                                 </Button>
@@ -223,7 +224,7 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
                     </div>
                 </div>
             </div>
-            <div className="flex justify-end p-6 bg-background border-t mt-auto flex-shrink-0">
+            <div className="flex justify-end p-6 bg-background border-t mt-auto flex-shrink-0 mt-8">
                 <SubmitButton isEdit={isEdit} isPending={isPending || isUploading} />
             </div>
         </form>

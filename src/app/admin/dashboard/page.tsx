@@ -26,7 +26,7 @@ export default async function AdminDashboardPage() {
   const products = await getProducts();
 
   return (
-    <div className="space-y-8">
+    <>
       <div>
         <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">Products Management</h2>
         <p className="text-muted-foreground mt-2">Add, update, or delete products from your store.</p>
@@ -35,6 +35,6 @@ export default async function AdminDashboardPage() {
       <AnimatedContainer delay={0.2}>
         <ProductTable initialProducts={products} />
       </AnimatedContainer>
-    </div>
+    </>
   );
 }
