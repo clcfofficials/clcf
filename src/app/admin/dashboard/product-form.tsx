@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useTransition } from "react";
@@ -10,6 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
 import type { IProduct } from "@/models/Product";
+import { Progress } from "@/components/ui/progress";
 
 type Product = IProduct & { id: string };
 
@@ -28,9 +30,68 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
     const [isPending, startTransition] = useTransition();
     const [errors, setErrors] = useState<Record<string, string[] | undefined> | null>(null);
 
+    // New state for image handling
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imagePreview, setImagePreview] = useState<string | null>(product?.image || null);
+    const [isUploading, setIsUploading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0);
+
+
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            setImageFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
+        
+        let imageUrl = product?.image || '';
+
+        // 1. Handle image upload if a new file is selected
+        if (imageFile) {
+            setIsUploading(true);
+            setUploadProgress(0);
+
+            const uploadFormData = new FormData();
+            uploadFormData.append('file', imageFile);
+
+            try {
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: uploadFormData,
+                    // Note: No 'Content-Type' header, browser sets it with boundary for FormData
+                });
+
+                setIsUploading(false);
+
+                if(!response.ok) {
+                    const errorResult = await response.json();
+                    throw new Error(errorResult.error || 'Upload failed');
+                }
+
+                const result = await response.json();
+                imageUrl = result.url;
+                setImagePreview(result.url); // Update preview with final URL
+            } catch (error: any) {
+                toast({
+                    variant: "destructive",
+                    title: "Image Upload Error",
+                    description: error.message || "Failed to upload image.",
+                });
+                setIsUploading(false);
+                return; // Stop form submission if upload fails
+            }
+        }
+        
         const formValues = Object.fromEntries(formData.entries());
 
         const payload = {
@@ -38,7 +99,7 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
             description: formValues.description,
             price: formValues.price,
             featured: formValues.featured === 'on',
-            image: product?.image || 'https://picsum.photos/600/400', // Retain old image or use placeholder
+            image: imageUrl, // Use new or existing image URL
         };
 
         const url = isEdit ? `/api/products/${product.id}` : '/api/products';
@@ -95,22 +156,30 @@ export function ProductForm({ product, onFormSubmit }: { product?: Product, onFo
                     <Input id="price" name="price" defaultValue={product?.price} required />
                      {errors?.price && <p className="text-sm text-destructive">{errors.price.join(", ")}</p>}
                 </div>
+
+                 <div className="space-y-2">
+                    <Label htmlFor="image">Product Image</Label>
+                    <Input id="image" name="image" type="file" accept="image/*" onChange={handleImageChange} />
+                     {imagePreview && (
+                        <div className="mt-4">
+                            <Image src={imagePreview} alt="Image Preview" width={150} height={100} className="rounded-md border" />
+                        </div>
+                     )}
+                     {isUploading && (
+                        <div className="mt-2">
+                            <Progress value={uploadProgress} />
+                            <p className="text-xs text-muted-foreground mt-1">Uploading...</p>
+                        </div>
+                     )}
+                </div>
                 
                 <div className="flex items-center space-x-2 pt-2">
                     <Checkbox id="featured" name="featured" defaultChecked={product?.featured} />
                     <Label htmlFor="featured" className="font-normal">Featured Product</Label>
                 </div>
-
-                {isEdit && product.image && (
-                     <div className="space-y-2">
-                        <Label>Current Image</Label>
-                        <Image src={product.image} alt={product.title} width={150} height={100} className="rounded-md border" />
-                        <p className="text-xs text-muted-foreground">Image uploading is not implemented. The existing image will be retained.</p>
-                    </div>
-                )}
             </div>
             <div className="flex justify-end mt-8">
-                <SubmitButton isEdit={isEdit} isPending={isPending} />
+                <SubmitButton isEdit={isEdit} isPending={isPending || isUploading} />
             </div>
         </form>
     );

@@ -56,17 +56,17 @@ const ContactUsPage = () => {
 
     emailjs
       .sendForm(
-        "YOUR_SERVICE_ID",
-        "YOUR_TEMPLATE_ID",
+        "service_kbr80o6",
+        "template_6e2yvcd",
         form.current,
-        { publicKey: "YOUR_PUBLIC_KEY" }
+        { publicKey: "lmzyqBVXfcugasGlY" }
       )
       .then(
         () => {
           setStatus("✅ Message sent successfully!");
           form.current?.reset();
         },
-        (error) => {
+        (error) => {  
           setStatus(`❌ Failed to send. ${error.text}`);
         }
       )
@@ -302,12 +302,12 @@ const ContactUsPage = () => {
               <Card className="p-8 border-green-200 dark:border-green-800 shadow-lg">
                 <form ref={form} onSubmit={sendEmail} className="space-y-6">
                   <div>
-                    <Label htmlFor="user_name" className="text-green-700 dark:text-green-300">
+                    <Label htmlFor="name" className="text-green-700 dark:text-green-300">
                       Name
                     </Label>
                     <Input
-                      id="user_name"
-                      name="user_name"
+                      id="name"
+                      name="name"
                       className="mt-2 border-green-200 dark:border-green-800 focus:border-green-500 focus:ring-green-500"
                       placeholder="Your full name"
                       required
@@ -315,12 +315,12 @@ const ContactUsPage = () => {
                   </div>
 
                   <div>
-                    <Label htmlFor="user_email" className="text-green-700 dark:text-green-300">
+                    <Label htmlFor="email" className="text-green-700 dark:text-green-300">
                       Email
                     </Label>
                     <Input
-                      id="user_email"
-                      name="user_email"
+                      id="email"
+                      name="email"
                       type="email"
                       className="mt-2 border-green-200 dark:border-green-800 focus:border-green-500 focus:ring-green-500"
                       placeholder="your.email@example.com"
