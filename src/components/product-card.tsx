@@ -46,7 +46,6 @@ export const ProductCard = memo(function ProductCard({ product, onAddToCart }: P
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
-      {/* Holographic border effect */}
       <motion.div
         className="absolute inset-0 rounded-2xl p-[2px] bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 opacity-0"
         animate={{ opacity: isHovered ? 1 : 0 }}
@@ -62,7 +61,6 @@ export const ProductCard = memo(function ProductCard({ product, onAddToCart }: P
         "after:absolute after:inset-0 after:bg-[radial-gradient(600px_circle_at_var(--mouse-x)_var(--mouse-y),rgba(16,185,129,0.06),transparent_40%)]",
         "hover:scale-[1.03] hover:rotate-2 group-hover:z-10"
       )}>
-        {/* Quantum glow orbs */}
         <motion.div
           className="absolute -top-6 -right-6 w-32 h-32 rounded-full opacity-0"
           style={{
@@ -89,7 +87,6 @@ export const ProductCard = memo(function ProductCard({ product, onAddToCart }: P
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
         />
 
-        {/* Neural network particles */}
         <motion.div
           className="absolute inset-0 opacity-0"
           animate={{ opacity: isHovered ? 1 : 0 }}
@@ -120,7 +117,6 @@ export const ProductCard = memo(function ProductCard({ product, onAddToCart }: P
           ))}
         </motion.div>
 
-        {/* Holographic scan lines */}
         <motion.div
           className="absolute inset-0 opacity-0"
           animate={{ opacity: isHovered ? 0.6 : 0 }}
@@ -145,8 +141,7 @@ export const ProductCard = memo(function ProductCard({ product, onAddToCart }: P
           ))}
         </motion.div>
 
-        {/* Image section with neural network overlay */}
-        <div className="relative h-56 overflow-hidden rounded-t-2xl">
+        <div className="relative aspect-square h-56 overflow-hidden rounded-t-2xl">
           <motion.img
             src={product.image}
             alt={product.title}
@@ -158,7 +153,6 @@ export const ProductCard = memo(function ProductCard({ product, onAddToCart }: P
             transition={{ duration: 0.8, ease: "easeOut" }}
           />
           
-          {/* Cyber grid overlay */}
           <motion.div
             className="absolute inset-0 opacity-0"
             style={{
@@ -172,7 +166,6 @@ export const ProductCard = memo(function ProductCard({ product, onAddToCart }: P
             transition={{ duration: 0.3 }}
           />
           
-          {/* Category badge with glow */}
           <motion.div
             className="absolute top-4 left-4"
             whileHover={{ scale: 1.05 }}
@@ -191,7 +184,6 @@ export const ProductCard = memo(function ProductCard({ product, onAddToCart }: P
             </Badge>
           </motion.div>
           
-          {/* Wishlist button with pulse */}
           <motion.div
             className="absolute top-4 right-4"
             whileHover={{ scale: 1.1 }}
@@ -222,7 +214,6 @@ export const ProductCard = memo(function ProductCard({ product, onAddToCart }: P
             </Button>
           </motion.div>
           
-          {/* Scanning line effect */}
           <motion.div
             className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-green-400 to-transparent opacity-0"
             animate={{
@@ -301,7 +292,6 @@ export const ProductCard = memo(function ProductCard({ product, onAddToCart }: P
               onClick={handleViewMore}
               disabled={isLoading}
             >
-              {/* Animated background pattern */}
               <motion.div
                 className="absolute inset-0 opacity-20"
                 style={{
@@ -313,7 +303,6 @@ export const ProductCard = memo(function ProductCard({ product, onAddToCart }: P
                 transition={{ duration: 0.5 }}
               />
               
-              {/* Pulse effect */}
               <motion.div
                 className="absolute inset-0 bg-white/10 rounded-2xl"
                 animate={{
@@ -358,5 +347,3 @@ export const ProductCard = memo(function ProductCard({ product, onAddToCart }: P
     </motion.div>
   )
 })
-
-    

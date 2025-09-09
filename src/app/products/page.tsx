@@ -10,25 +10,9 @@ import { cn } from "@/lib/utils"
 import { Search, Filter, Leaf, Zap } from "lucide-react"
 import { ProductCard } from "@/components/product-card"
 import type { IProduct } from "@/models/Product"
+import { SpaceWrapper } from "@/components/space-wrapper"
 
 type Product = IProduct & { _id: string; id: string; };
-
-
-// Glow component implementation
-const glowVariants = {
-  variants: {
-    variant: {
-      top: "top-0",
-      above: "-top-[128px]",
-      bottom: "bottom-0",
-      below: "-bottom-[128px]",
-      center: "top-[50%]",
-    },
-  },
-  defaultVariants: {
-    variant: "top",
-  },
-}
 
 const Glow = React.forwardRef<
   HTMLDivElement,
@@ -63,7 +47,6 @@ const Glow = React.forwardRef<
 ))
 Glow.displayName = "Glow"
 
-// Mockup component implementation
 const Mockup = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { type?: "mobile" | "responsive" }
@@ -116,14 +99,12 @@ const HeroSection = memo(function HeroSection({
 
   return (
     <section className="relative min-h-screen flex items-center py-12 overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-950 dark:via-emerald-950 dark:to-teal-950">
-      {/* Background glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <Glow variant="above" className="animate-pulse opacity-30" />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <SpaceWrapper className="relative z-10">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[80vh]">
-          {/* Left Column - Text Content */}
           <motion.div 
             className="space-y-8 text-center lg:text-left"
             initial={{ opacity: 0, x: -50 }}
@@ -190,7 +171,6 @@ const HeroSection = memo(function HeroSection({
             </motion.div>
           </motion.div>
 
-          {/* Right Column - Floating Product Preview */}
           <motion.div 
             className="relative"
             initial={{ opacity: 0, x: 50 }}
@@ -236,7 +216,7 @@ const HeroSection = memo(function HeroSection({
             </Mockup>
           </motion.div>
         </div>
-      </div>
+      </SpaceWrapper>
     </section>
   )
 })
@@ -282,13 +262,10 @@ export default function ProductsPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section */}
       <HeroSection />
 
-      {/* Products Section */}
       <section id="products" className="py-16 bg-gradient-to-b from-background to-green-50/30 dark:to-green-950/30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header */}
+        <SpaceWrapper>
           <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0, y: 20 }}
@@ -304,7 +281,6 @@ export default function ProductsPage() {
             </p>
           </motion.div>
 
-          {/* Search and Filter */}
           <motion.div
             className="flex flex-col md:flex-row gap-4 mb-8 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
@@ -339,7 +315,6 @@ export default function ProductsPage() {
             </div>
           </motion.div>
 
-          {/* Products Grid */}
           <motion.div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6"
             initial={{ opacity: 0 }}
@@ -362,7 +337,6 @@ export default function ProductsPage() {
             </AnimatePresence>
           </motion.div>
 
-          {/* No results */}
           {filteredProducts.length === 0 && (
             <motion.div
               className="text-center py-16"
@@ -377,10 +351,8 @@ export default function ProductsPage() {
               <p className="text-muted-foreground">Try adjusting your search or filter criteria</p>
             </motion.div>
           )}
-        </div>
+        </SpaceWrapper>
       </section>
     </div>
   )
 }
-
-    
