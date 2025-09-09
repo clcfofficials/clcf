@@ -129,8 +129,14 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
     <div className="flex justify-end">
         <Dialog open={addModalOpen} onOpenChange={setAddModalOpen}>
             <DialogTrigger asChild>
-                <Button size="lg" className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                    <PlusCircle className="mr-2 h-4 w-4" /> Add Product
+                <Button 
+                  size="lg" 
+                  className="relative group overflow-hidden px-8 py-6 text-lg font-semibold bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                >
+                    <div className="absolute inset-0 w-0 bg-white/20 opacity-50 group-hover:w-full transition-all duration-500 ease-out"></div>
+                    <span className="relative flex items-center">
+                      <PlusCircle className="mr-2 h-5 w-5" /> Add Product
+                    </span>
                 </Button>
             </DialogTrigger>
             <DialogContent className="max-w-4xl max-h-[90dvh] flex flex-col p-0">
