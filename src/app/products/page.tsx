@@ -29,7 +29,7 @@ const ProductCard = memo(function ProductCard({ product, onAddToCart }: { produc
 
   return (
     <motion.div
-      className="group relative h-[480px] w-full"
+      className="group relative w-full"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -39,23 +39,21 @@ const ProductCard = memo(function ProductCard({ product, onAddToCart }: { produc
       <Card className={cn(
         "relative h-full overflow-hidden bg-background/90 backdrop-blur-xl border-0 rounded-2xl",
         "shadow-lg hover:shadow-2xl transition-all duration-700 ease-out",
-        "hover:scale-[1.02] hover:rotate-1"
+        "hover:scale-[1.02] hover:rotate-1 flex flex-col"
       )}>
-        <motion.img
-          src={product.image}
-          alt={product.title}
-          className="absolute inset-0 w-full h-full object-cover"
-          animate={{
-            scale: isHovered ? 1.1 : 1,
-            filter: isHovered ? "brightness(0.8) saturate(1.2)" : "brightness(0.6) saturate(1)"
-          }}
-          transition={{ duration: 0.6 }}
-        />
-
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-
-        <div className="relative h-full flex flex-col justify-end">
-            <div className="absolute top-4 left-4" >
+        <div className="relative aspect-square w-full overflow-hidden rounded-t-2xl">
+            <motion.img
+            src={product.image}
+            alt={product.title}
+            className="absolute inset-0 w-full h-full object-cover"
+            animate={{
+                scale: isHovered ? 1.1 : 1,
+                filter: isHovered ? "brightness(0.8) saturate(1.2)" : "brightness(0.6) saturate(1)"
+            }}
+            transition={{ duration: 0.6 }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/10 to-transparent" />
+             <div className="absolute top-4 left-4" >
                 <Badge className={cn(
                 "bg-gradient-to-r from-green-600 to-emerald-600 text-white border-0",
                 "shadow-lg shadow-green-500/25 backdrop-blur-sm",
@@ -94,99 +92,99 @@ const ProductCard = memo(function ProductCard({ product, onAddToCart }: { produc
                     </motion.div>
                 </Button>
             </div>
-
-            <CardContent className="p-6 relative z-10 flex flex-col justify-end h-full text-white">
-                <div className="flex-1" />
-                <div className="space-y-4">
-                <div className="space-y-2">
-                    <motion.h3
-                    className="font-bold text-xl line-clamp-2 leading-tight"
-                    animate={{ color: isHovered ? "#86efac" : "#ffffff" }}
-                    transition={{ duration: 0.3 }}
-                    >
-                    {product.title}
-                    </motion.h3>
-                    <p className="text-sm text-white/80 line-clamp-2 leading-relaxed">
-                    {product.description}
-                    </p>
-                </div>
-
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                        <motion.div
-                        key={i}
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3, delay: i * 0.1 }}
-                        >
-                        <Star
-                            className={cn(
-                            "h-4 w-4 transition-colors duration-300",
-                            i < 4 ? "fill-yellow-400 text-yellow-400" : "text-gray-400"
-                            )}
-                        />
-                        </motion.div>
-                    ))}
-                    <span className="text-xs text-white/70 ml-2">(4.2)</span>
-                    </div>
-                    <motion.span
-                    className="text-2xl font-bold"
-                    animate={{ scale: isHovered ? 1.05 : 1 }}
-                    transition={{ duration: 0.3 }}
-                    >
-                    {product.price}
-                    </motion.span>
-                </div>
-                </div>
-
-                <motion.div
-                className="mt-4"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                >
-                <Button
-                    className={cn(
-                    "w-full h-12 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700",
-                    "text-white font-semibold shadow-lg hover:shadow-xl hover:shadow-green-500/25",
-                    "border-0 rounded-xl transition-all duration-300 relative overflow-hidden"
-                    )}
-                    onClick={handleAddToCart}
-                    disabled={isAddingToCart}
-                >
-                    <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                    animate={{ x: isHovered ? ["-100%", "100%"] : "-100%" }}
-                    transition={{ duration: 0.6 }}
-                    />
-
-                    {isAddingToCart ? (
-                    <motion.div
-                        className="flex items-center"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                    >
-                        <motion.div
-                        className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        />
-                        Adding...
-                    </motion.div>
-                    ) : (
-                    <motion.div
-                        className="flex items-center"
-                        animate={{ x: isHovered ? [0, 2, 0] : 0 }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        <ShoppingCart className="w-5 h-5 mr-2" />
-                        Add to Cart
-                    </motion.div>
-                    )}
-                </Button>
-                </motion.div>
-            </CardContent>
         </div>
+
+
+        <CardContent className="p-6 relative z-10 flex flex-col flex-grow">
+            <div className="flex-1 space-y-4">
+            <div className="space-y-2">
+                <motion.h3
+                className="font-bold text-lg text-foreground line-clamp-2 leading-tight"
+                animate={{ color: isHovered ? "#10b981" : "inherit" }}
+                transition={{ duration: 0.3 }}
+                >
+                {product.title}
+                </motion.h3>
+                <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
+                {product.description}
+                </p>
+            </div>
+
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1">
+                {[...Array(5)].map((_, i) => (
+                    <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: i * 0.1 }}
+                    >
+                    <Star
+                        className={cn(
+                        "h-4 w-4 transition-colors duration-300",
+                        i < 4 ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                        )}
+                    />
+                    </motion.div>
+                ))}
+                <span className="text-xs text-muted-foreground ml-2">(4.2)</span>
+                </div>
+                <motion.span
+                className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent"
+                animate={{ scale: isHovered ? 1.05 : 1 }}
+                transition={{ duration: 0.3 }}
+                >
+                {product.price}
+                </motion.span>
+            </div>
+            </div>
+
+            <motion.div
+            className="mt-auto pt-4"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            >
+            <Button
+                className={cn(
+                "w-full h-12 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700",
+                "text-white font-semibold shadow-lg hover:shadow-xl hover:shadow-green-500/25",
+                "border-0 rounded-xl transition-all duration-300 relative overflow-hidden"
+                )}
+                onClick={handleAddToCart}
+                disabled={isAddingToCart}
+            >
+                <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                animate={{ x: isHovered ? ["-100%", "100%"] : "-100%" }}
+                transition={{ duration: 0.6 }}
+                />
+
+                {isAddingToCart ? (
+                <motion.div
+                    className="flex items-center"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                >
+                    <motion.div
+                    className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    />
+                    Adding...
+                </motion.div>
+                ) : (
+                <motion.div
+                    className="flex items-center"
+                    animate={{ x: isHovered ? [0, 2, 0] : 0 }}
+                    transition={{ duration: 0.3 }}
+                >
+                    <ShoppingCart className="w-5 h-5 mr-2" />
+                    Add to Cart
+                </motion.div>
+                )}
+            </Button>
+            </motion.div>
+        </CardContent>
       </Card>
     </motion.div>
   )
@@ -443,7 +441,7 @@ export default function ProductsPage() {
           </motion.div>
 
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
