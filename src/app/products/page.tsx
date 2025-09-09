@@ -29,7 +29,7 @@ const ProductCard = memo(function ProductCard({ product, onAddToCart }: { produc
 
   return (
     <motion.div
-      className="group relative w-full"
+      className="group relative w-full h-full"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -48,7 +48,7 @@ const ProductCard = memo(function ProductCard({ product, onAddToCart }: { produc
             className="absolute inset-0 w-full h-full object-cover"
             animate={{
                 scale: isHovered ? 1.1 : 1,
-                filter: isHovered ? "brightness(0.8) saturate(1.2)" : "brightness(0.6) saturate(1)"
+                filter: isHovered ? "brightness(0.8) saturate(1.2)" : "brightness(1) saturate(1)"
             }}
             transition={{ duration: 0.6 }}
             />
