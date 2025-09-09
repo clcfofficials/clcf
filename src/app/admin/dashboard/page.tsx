@@ -27,7 +27,7 @@ export default async function AdminDashboardPage() {
 
   return (
     <>
-      <div>
+      <div className="text-center">
         <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">Products Management</h2>
         <p className="text-muted-foreground mt-2">Add, update, or delete products from your store.</p>
       </div>
