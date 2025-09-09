@@ -1,6 +1,7 @@
 import { ProductTable } from "./product-table";
 import type { IProduct } from "@/models/Product";
 import { unstable_noStore as noStore } from "next/cache";
+import { AnimatedContainer } from "@/components/animated-container";
 
 
 async function getProducts(): Promise<IProduct[]> {
@@ -27,11 +28,13 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-3xl font-bold font-headline">Products Management</h2>
-        <p className="text-muted-foreground">Add, update, or delete products.</p>
+        <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">Products Management</h2>
+        <p className="text-muted-foreground mt-2">Add, update, or delete products from your store.</p>
       </div>
       
-      <ProductTable initialProducts={products} />
+      <AnimatedContainer delay={0.2}>
+        <ProductTable initialProducts={products} />
+      </AnimatedContainer>
     </div>
   );
 }

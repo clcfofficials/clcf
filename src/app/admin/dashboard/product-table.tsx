@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { MoreHorizontal, PlusCircle, Trash2 } from "lucide-react";
+import { MoreHorizontal, PlusCircle, Trash2, Edit } from "lucide-react";
 import Image from "next/image";
 import {
   DropdownMenu,
@@ -17,6 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import {
   Dialog,
@@ -34,7 +36,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { useState, useTransition } from "react";
@@ -49,10 +50,15 @@ function EditProductDialog({ product }: { product: Product }) {
     const [open, setOpen] = useState(false);
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <button className="w-full text-left">Edit</button>
-            </DialogTrigger>
-            <DialogContent>
+            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                <DialogTrigger asChild>
+                    <button className="w-full text-left flex items-center">
+                        <Edit className="mr-2 h-4 w-4" />
+                        Edit
+                    </button>
+                </DialogTrigger>
+            </DropdownMenuItem>
+            <DialogContent className="max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Edit Product</DialogTitle>
                 </DialogHeader>
@@ -60,6 +66,36 @@ function EditProductDialog({ product }: { product: Product }) {
             </DialogContent>
         </Dialog>
     )
+}
+
+function DeleteProductAlert({ id, onConfirm, isPending }: { id: string, onConfirm: (id: string) => void, isPending: boolean }) {
+    return (
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <DropdownMenuItem
+                    className="text-destructive focus:text-destructive"
+                    onSelect={(e) => e.preventDefault()}
+                >
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Delete
+                </DropdownMenuItem>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        This action cannot be undone. This will permanently delete the product.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => onConfirm(id)} disabled={isPending}>
+                        {isPending ? "Deleting..." : "Delete"}
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+    );
 }
 
 export function ProductTable({ initialProducts }: { initialProducts: Product[] }) {
@@ -98,7 +134,7 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
                     <PlusCircle className="mr-2 h-4 w-4" /> Add Product
                 </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Add New Product</DialogTitle>
                 </DialogHeader>
@@ -106,7 +142,7 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
             </DialogContent>
         </Dialog>
     </div>
-    <div className="border rounded-lg">
+    <div className="border rounded-lg bg-card shadow-sm">
       <Table>
         <TableHeader>
           <TableRow>
@@ -149,30 +185,9 @@ export function ProductTable({ initialProducts }: { initialProducts: Product[] }
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem asChild>
-                      <EditProductDialog product={product} />
-                    </DropdownMenuItem>
-                    <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                            <button className="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 w-full text-destructive focus:text-destructive">
-                                <Trash2 className="mr-2 h-4 w-4" /> Delete
-                            </button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    This action cannot be undone. This will permanently delete the product.
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={() => handleDelete(product.id)} disabled={isPending}>
-                                    {isPending ? "Deleting..." : "Delete"}
-                                </AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
+                    <EditProductDialog product={product} />
+                    <DropdownMenuSeparator />
+                    <DeleteProductAlert id={product.id} onConfirm={handleDelete} isPending={isPending} />
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>
