@@ -22,6 +22,7 @@ import {
   Star
 } from "lucide-react";
 import { SpaceWrapper } from "@/components/space-wrapper";
+import emailjs from "emailjs-com";
 
 interface ContactFormData {
   name: string;
@@ -37,6 +38,7 @@ const ContactUsPage = () => {
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState("");
   
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -56,12 +58,30 @@ const ContactUsPage = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
-    setFormData({ name: "", email: "", message: "" });
+    setStatus("");
+
+    emailjs
+      .send(
+        "your_service_id",      // Service ID
+        "your_template_id",     // Template ID
+        formData,
+        "your_public_key"       // Public Key
+      )
+      .then(
+        (result) => {
+          setStatus("✅ Message sent successfully!");
+          setFormData({ name: "", email: "", message: "" });
+        },
+        (error) => {
+          setStatus("❌ Failed to send. Try again.");
+        }
+      )
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   const trustFeatures = [
@@ -357,6 +377,7 @@ const ContactUsPage = () => {
                       </>
                     )}
                   </Button>
+                   {status && <p className="mt-3 text-center text-sm">{status}</p>}
                 </form>
               </Card>
             </motion.div>
@@ -429,5 +450,3 @@ const ContactUsPage = () => {
 };
 
 export default ContactUsPage;
-
-    
