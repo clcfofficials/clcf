@@ -8,6 +8,7 @@ import { SectionHeader } from './section-header';
 import { HelpCircle, ChevronRight } from 'lucide-react';
 import { Button } from './ui/button';
 import Link from 'next/link';
+import { SpaceWrapper } from './space-wrapper';
 
 const faqData = [
   {
@@ -56,6 +57,7 @@ export function FAQSection() {
   };
 
   return (
+    <SpaceWrapper>
     <section className="py-24 bg-gradient-to-b from-background to-green-50/20 dark:to-green-950/10 relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
             <div className="absolute top-0 left-0 w-96 h-96 bg-green-500/5 blur-3xl rounded-full"></div>
@@ -112,5 +114,6 @@ export function FAQSection() {
             </motion.div>
         </div>
     </section>
+    </SpaceWrapper>
   );
 }
