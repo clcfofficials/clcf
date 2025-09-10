@@ -1,8 +1,8 @@
 
 "use client"
 
-import React, { useState, useEffect, memo } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import React, { useState, useEffect, memo, useRef } from "react"
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -152,49 +152,98 @@ const ProductCard = memo(function ProductCard({ product }: { product: Product })
 })
 
 const HeroSection = memo(function HeroSection() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
   return (
-    <section className="relative min-h-screen flex items-center py-12 overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-950 dark:via-emerald-950 dark:to-teal-950">
-      <div className="absolute inset-0">
+    <section 
+      ref={heroRef}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-green-50 via-background to-emerald-50 dark:from-green-950/20 dark:via-background dark:to-emerald-950/20"
+    >
+      <motion.div 
+        className="absolute inset-0"
+        style={{ scale }}
+      >
+        <div className="absolute inset-0 overflow-hidden">
           <motion.div
-            className="absolute inset-0 bg-gradient-to-br from-green-400/20 via-emerald-500/10 to-green-600/20"
-            initial={{ opacity: 0.5, scale: 1.5 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 1.5 }}
+            animate={isLoaded ? { opacity: 0.1, scale: 1 } : {}}
             transition={{ duration: 2, ease: "easeOut" }}
+            className="absolute top-0 -left-1/4 w-1/2 h-full bg-green-500 blur-3xl"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 1.5 }}
+            animate={isLoaded ? { opacity: 0.1, scale: 1 } : {}}
+            transition={{ duration: 2, delay: 0.5, ease: "easeOut" }}
+            className="absolute bottom-0 -right-1/4 w-1/2 h-full bg-emerald-500 blur-3xl"
           />
         </div>
-      <SpaceWrapper className="relative z-10">
-        <div className="text-center pt-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 px-4 py-2 rounded-full text-green-700 dark:text-green-300"
-          >
-            <Leaf className="w-4 h-4" />
-            <span className="text-sm font-medium">Sustainable & Organic Solutions</span>
-          </motion.div>
+      </motion.div>
+      
+      <motion.div style={{ y, opacity }} className="relative z-10">
+        <SpaceWrapper>
+          <div className="text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 px-4 py-2 rounded-full text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800"
+            >
+              <Leaf className="w-4 h-4" />
+              <span className="text-sm font-medium">Sustainable & Organic Solutions</span>
+            </motion.div>
 
-          <motion.h1 
-            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mt-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            <span className="bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent">
-              Premium Agricultural Solutions
-            </span>
-          </motion.h1>
-          
-          <motion.p 
-            className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mt-6 leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            Explore our comprehensive range of high-quality, eco-friendly fertilizers, insecticides, and plant growth regulators. Designed to maximize your crop yield while protecting the environment.
-          </motion.p>
-        </div>
-      </SpaceWrapper>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-5xl md:text-7xl font-bold tracking-tight mt-6 bg-gradient-to-r from-green-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent"
+            >
+              Our Premium Products
+            </motion.h1>
+            
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mt-6 leading-relaxed"
+            >
+              Explore our comprehensive range of high-quality, eco-friendly fertilizers, insecticides, and plant growth regulators. Designed to maximize your crop yield while protecting the environment.
+            </motion.p>
+          </div>
+        </SpaceWrapper>
+      </motion.div>
+      
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={isLoaded ? { opacity: 1 } : {}}
+        transition={{ duration: 1, delay: 1.2 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+      >
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="w-6 h-10 border-2 border-green-300 dark:border-green-700 rounded-full flex justify-center"
+        >
+          <motion.div
+            animate={{ y: [0, 12, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="w-1 h-3 bg-green-500 rounded-full mt-2"
+          />
+        </motion.div>
+      </motion.div>
     </section>
   )
 })
@@ -318,3 +367,4 @@ export function ProductGrid({ initialProducts }: { initialProducts: Product[] })
       </>
   )
 }
+
