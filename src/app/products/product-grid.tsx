@@ -300,8 +300,8 @@ const HeroSection = memo(function HeroSection() {
                 transition={{ duration: 0.6, delay: 0.8 }}
                 className="grid grid-cols-2 md:grid-cols-4 gap-6"
               >
-                <StatItem number="70+" label="Total Products" delay={0} />
-                <StatItem number="4" label="Categories" delay={0.1} />
+                <StatItem number="100%" label="Natural" delay={0} />
+                <StatItem number="Fast" label="Acting" delay={0.1} />
                 <StatItem number="100%" label="Organic" delay={0.2} />
                 <StatItem number="99%" label="Success Rate" delay={0.3} />
               </motion.div>
