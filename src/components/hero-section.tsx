@@ -18,7 +18,7 @@ interface HeroSectionProps {
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
-  title = "Nourish Your Harvest, Grow Your Future",
+  title = "Nourishing Soil, Enriching Life",
   subtitle = "Sustainable Fertilizers for a Bountiful Yield",
   description = "Transform your agricultural potential with our advanced fertilizer solutions. Engineered for optimal plant growth, sustainable farming, and maximum yield productivity.",
   primaryButtonText = "Explore Products",
@@ -151,7 +151,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
             <motion.h1 
               variants={itemVariants}
-              className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-green-600 via-emerald-600 to-lime-600 dark:from-green-400 dark:via-emerald-400 dark:to-lime-400 bg-clip-text text-transparent mb-6 leading-tight"
+              className="pb-2 text-5xl md:text-7xl font-bold bg-gradient-to-r from-green-600 via-emerald-600 to-lime-600 dark:from-green-400 dark:via-emerald-400 dark:to-lime-400 bg-clip-text text-transparent mb-6 leading-tight"
             >
               {title}
             </motion.h1>
