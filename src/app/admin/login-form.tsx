@@ -38,7 +38,7 @@ export function LoginForm() {
       <CardHeader className="text-center">
         <CardTitle className="text-2xl font-headline">Admin Login</CardTitle>
         <CardDescription>Enter your credentials to access the dashboard</CardDescription>
-        <p className="text-xs text-muted-foreground pt-2">(Default: admin / admin)</p>
+        {/* <p className="text-xs text-muted-foreground pt-2">(Default: admin / admin)</p> */}
       </CardHeader>
       <CardContent>
         <form action={formAction} className="space-y-4">
