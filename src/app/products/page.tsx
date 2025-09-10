@@ -13,11 +13,11 @@ import { cn } from "@/lib/utils"
 import { Search, Filter, Leaf, Zap, Heart, ArrowRight } from "lucide-react"
 import type { IProduct } from "@/models/Product"
 import { SpaceWrapper } from "@/components/space-wrapper"
-import { ProductModal } from "@/components/product-modal"
+import Link from 'next/link';
 
 type Product = IProduct & { _id: string; id: string; };
 
-const ProductCard = memo(function ProductCard({ product, onSelectProduct }: { product: Product, onSelectProduct: (product: Product) => void }) {
+const ProductCard = memo(function ProductCard({ product }: { product: Product }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isWishlisted, setIsWishlisted] = useState(false)
 
@@ -122,26 +122,28 @@ const ProductCard = memo(function ProductCard({ product, onSelectProduct }: { pr
             whileTap={{ scale: 0.98 }}
             >
             <Button
+                asChild
                 className={cn(
                 "w-full h-12 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700",
                 "text-white font-semibold shadow-lg hover:shadow-xl hover:shadow-green-500/25",
                 "border-0 rounded-xl transition-all duration-300 relative overflow-hidden"
                 )}
-                onClick={() => onSelectProduct(product)}
             >
-                <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                animate={{ x: isHovered ? ["-100%", "100%"] : "-100%" }}
-                transition={{ duration: 0.6 }}
-                />
-                <motion.div
-                    className="flex items-center"
-                    animate={{ x: isHovered ? [0, 2, 0] : 0 }}
-                    transition={{ duration: 0.3 }}
-                >
-                    View More
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                </motion.div>
+                <Link href={`/products/${product._id}`}>
+                    <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                    animate={{ x: isHovered ? ["-100%", "100%"] : "-100%" }}
+                    transition={{ duration: 0.6 }}
+                    />
+                    <motion.div
+                        className="flex items-center"
+                        animate={{ x: isHovered ? [0, 2, 0] : 0 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        View More
+                        <ArrowRight className="w-5 h-5 ml-2" />
+                    </motion.div>
+                </Link>
             </Button>
             </motion.div>
         </CardContent>
@@ -344,8 +346,6 @@ export default function ProductsPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -377,11 +377,6 @@ export default function ProductsPage() {
     setFilteredProducts(filtered)
   }, [searchTerm, selectedCategory, products])
   
-  const handleSelectProduct = useCallback((product: Product) => {
-    setSelectedProduct(product);
-    setIsModalOpen(true);
-  }, []);
-
 
   return (
     <div className="min-h-screen bg-background">
@@ -454,7 +449,7 @@ export default function ProductsPage() {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <ProductCard product={product} onSelectProduct={handleSelectProduct} />
+                  <ProductCard product={product} />
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -476,12 +471,6 @@ export default function ProductsPage() {
           )}
         </SpaceWrapper>
       </section>
-      
-      <ProductModal
-          product={selectedProduct}
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-      />
     </div>
   )
 }
