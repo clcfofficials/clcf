@@ -9,6 +9,12 @@ export default {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'gradient-card': 'var(--gradient-card)',
+      },
+      boxShadow: {
+        large: '0 25px 50px -12px rgb(0 0 0 / 0.25), 0 10px 10px -5px rgb(0 0 0 / 0.04)',
+      },
       fontFamily: {
         body: ['PT Sans', 'sans-serif'],
         headline: ['PT Sans', 'sans-serif'],
