@@ -80,15 +80,6 @@ export function ProductDetailClient({ product }: { product: Product }) {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
             </Card>
-            <div className="grid grid-cols-4 gap-4 mt-4">
-                {[1,2,3,4].map(i => (
-                    <motion.div key={i} whileHover={{scale: 1.1}}>
-                        <Card className="overflow-hidden border-2 border-transparent hover:border-primary transition-all">
-                             <img src={`${product.image}&blur=2`} alt={`thumbnail ${i}`} className="w-full h-full object-cover" />
-                        </Card>
-                    </motion.div>
-                ))}
-            </div>
           </motion.div>
 
           {/* Right Side - Product Details */}
@@ -107,7 +98,6 @@ export function ProductDetailClient({ product }: { product: Product }) {
                     <Star key={i} className="w-5 h-5 text-primary fill-primary" />
                   ))}
                 </div>
-                <span>(4.8 • 234 reviews)</span>
               </div>
               <p className="text-lg text-muted-foreground leading-relaxed">{product.description}</p>
             </div>

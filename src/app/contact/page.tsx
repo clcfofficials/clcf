@@ -254,7 +254,7 @@ const ContactUsPage = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-green-700 dark:text-green-300">Email</h3>
-                    <p className="text-muted-foreground">contact@croplifecare.com</p>
+                    <p className="text-muted-foreground">croplifecarefertilizers@gmail.com</p>
                   </div>
                 </motion.div>
 
@@ -270,7 +270,7 @@ const ContactUsPage = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-green-700 dark:text-green-300">Phone</h3>
-                    <p className="text-muted-foreground">(123) 456-7890</p>
+                    <p className="text-muted-foreground">+91 8979004454</p>
                   </div>
                 </motion.div>
 
@@ -286,7 +286,7 @@ const ContactUsPage = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-green-700 dark:text-green-300">Address</h3>
-                    <p className="text-muted-foreground">123 Green Valley Rd, Harvestville, AG 45678</p>
+                    <p className="text-muted-foreground">Khasra No. 813, Village Sisana Banger, Sisana, Baghpat 250609 ( UP)</p>
                   </div>
                 </motion.div>
               </div>

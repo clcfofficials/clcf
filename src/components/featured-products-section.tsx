@@ -94,7 +94,7 @@ export const FertilizerProductsSection: React.FC<FertilizerProductsSectionProps>
           {categories.map((category, index) => (
             <Card 
               key={category.id} 
-              className="group relative overflow-hidden hover:shadow-2xl transition-all duration-500 border-border hover:border-green-300 dark:hover:border-green-700 cursor-pointer transform hover:-translate-y-2 hover:scale-105 bg-gradient-to-br from-green-50/50 to-white dark:from-green-950/20 dark:to-background p-0 flex flex-col"
+              className="group relative overflow-hidden hover:shadow-2xl transition-all duration-500 border-border hover:border-green-300 dark:hover:border-green-700 cursor-pointer transform hover:-translate-y-2 hover:scale-105 bg-gradient-to-br from-green-50/50 to-white dark:from-green-950/20 dark:to-background p-4 flex flex-col"
               onClick={handleCtaClick}
               style={{
                 animationDelay: `${index * 150}ms`,
