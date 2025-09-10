@@ -152,45 +152,16 @@ const ProductCard = memo(function ProductCard({ product }: { product: Product })
 })
 
 const HeroSection = memo(function HeroSection() {
-  const [particles, setParticles] = useState<{left: string, top: string}[]>([]);
-
-  useEffect(() => {
-    const newParticles = Array.from({ length: 12 }).map(() => ({
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-    }));
-    setParticles(newParticles);
-  }, []);
-
   return (
     <section className="relative min-h-screen flex items-center py-12 overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-green-950 dark:via-emerald-950 dark:to-teal-950">
-       <div className="absolute inset-0">
+      <div className="absolute inset-0">
           <motion.div
             className="absolute inset-0 bg-gradient-to-br from-green-400/20 via-emerald-500/10 to-green-600/20"
+            initial={{ opacity: 0.5, scale: 1.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 2, ease: "easeOut" }}
           />
-          {particles.map((particle, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-2 h-2 bg-green-400/30 rounded-full"
-              animate={{
-                y: [-20, -80, -20],
-                opacity: [0, 1, 0],
-                scale: [0, 1, 0]
-              }}
-              transition={{
-                duration: 3 + i * 0.5,
-                repeat: Infinity,
-                delay: i * 0.3,
-                ease: "easeInOut"
-              }}
-              style={{
-                left: particle.left,
-                top: particle.top
-              }}
-            />
-          ))}
         </div>
-
       <SpaceWrapper className="relative z-10">
         <div className="text-center pt-16">
           <motion.div
@@ -200,7 +171,7 @@ const HeroSection = memo(function HeroSection() {
             className="inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 px-4 py-2 rounded-full text-green-700 dark:text-green-300"
           >
             <Leaf className="w-4 h-4" />
-            <span className="text-sm font-medium">Eco-Friendly Solutions</span>
+            <span className="text-sm font-medium">Sustainable & Organic Solutions</span>
           </motion.div>
 
           <motion.h1 
@@ -210,7 +181,7 @@ const HeroSection = memo(function HeroSection() {
             transition={{ duration: 0.8, delay: 0.3 }}
           >
             <span className="bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent">
-              Our Range of High-Performance Fertilizers
+              Premium Agricultural Solutions
             </span>
           </motion.h1>
           
@@ -220,7 +191,7 @@ const HeroSection = memo(function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Discover our comprehensive range of eco-friendly fertilizers, insecticides, and plant growth regulators designed to maximize your crop yield while protecting the environment.
+            Explore our comprehensive range of high-quality, eco-friendly fertilizers, insecticides, and plant growth regulators. Designed to maximize your crop yield while protecting the environment.
           </motion.p>
         </div>
       </SpaceWrapper>
