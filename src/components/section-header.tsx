@@ -27,7 +27,7 @@ export function SectionHeader({ icon: Icon = Sparkles, badgeLabel, title, descri
         {badgeLabel}
       </motion.div>
       
-      <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 bg-gradient-to-r from-green-600 to-green-800 dark:from-green-400 dark:to-green-600 bg-clip-text text-transparent">
+      <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 bg-gradient-to-r from-green-600 to-green-800 dark:from-green-400 dark:to-green-600 bg-clip-text text-transparent py-4">
         {title}
       </h2>
       

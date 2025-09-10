@@ -32,7 +32,7 @@ const ProductCard = memo(function ProductCard({ product }: { product: Product })
       <Card className={cn(
         "relative h-full overflow-hidden bg-background/90 backdrop-blur-xl border-0 rounded-2xl",
         "shadow-lg hover:shadow-2xl transition-all duration-700 ease-out",
-        "hover:scale-[1.02] hover:rotate-1 flex flex-col"
+        "hover:scale-[1.02] shadow-green-500/10 hover:shadow-green-500/25 flex flex-col"
       )}>
         <div className="relative aspect-square w-full overflow-hidden rounded-t-2xl">
             <motion.img
@@ -59,31 +59,6 @@ const ProductCard = memo(function ProductCard({ product }: { product: Product })
                     {product.category}
                 </motion.span>
                 </Badge>
-            </div>
-            <div className="absolute top-4 right-4">
-                 <Button
-                    variant="secondary"
-                    size="icon"
-                    className={cn(
-                        "h-10 w-10 rounded-full bg-white/20 backdrop-blur-xl border-white/30 text-white",
-                        "hover:bg-white/30 transition-all duration-300",
-                        isWishlisted && "bg-red-500/50 hover:bg-red-500/70 border-red-200"
-                    )}
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        setIsWishlisted(!isWishlisted)
-                    }}
-                    >
-                    <motion.div
-                        animate={{ scale: isWishlisted ? [1, 1.2, 1] : 1 }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        <Heart className={cn(
-                        "h-5 w-5 transition-colors duration-300",
-                        isWishlisted ? "fill-white text-white" : ""
-                        )} />
-                    </motion.div>
-                </Button>
             </div>
         </div>
 
