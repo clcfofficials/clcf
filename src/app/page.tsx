@@ -10,6 +10,7 @@ import { HeroSection } from "@/components/hero-section";
 import CropLifeCareIntro from "@/components/croplife-care-intro";
 import { FertilizerProductsSection } from "@/components/featured-products-section";
 import { WhyChooseUsSection } from "@/components/why-choose-us";
+import { FAQSection } from "@/components/faq-section";
 
 type Product = IProduct & { _id: string };
 
@@ -37,6 +38,8 @@ export default async function Home() {
       <FertilizerProductsSection />
       
       <WhyChooseUsSection />
+
+      <FAQSection />
     </div>
   );
 }
