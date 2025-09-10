@@ -2,14 +2,14 @@
 "use client"
 
 import React, { useState, useEffect, memo, useRef } from "react"
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
-import { Search, Filter, Leaf, Zap, Heart, ArrowRight } from "lucide-react"
+import { Search, Filter, Leaf, Zap, Heart, ArrowRight, Star, Globe } from "lucide-react"
 import type { IProduct } from "@/models/Product"
 import { SpaceWrapper } from "@/components/space-wrapper"
 import Link from 'next/link';
@@ -151,101 +151,211 @@ const ProductCard = memo(function ProductCard({ product }: { product: Product })
   )
 })
 
-const HeroSection = memo(function HeroSection() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
+interface StatItemProps {
+  number: string
+  label: string
+  delay?: number
+}
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
-
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
+const StatItem: React.FC<StatItemProps> = ({ number, label, delay = 0 }) => {
+  const ref = React.useRef(null)
+  const isInView = useInView(ref, { once: true })
 
   return (
-    <section 
-      ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-green-50 via-background to-emerald-50 dark:from-green-950/20 dark:via-background dark:to-emerald-950/20"
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
+      transition={{ duration: 0.6, delay, type: "spring", stiffness: 200 }}
+      className="text-center group"
     >
-      <motion.div 
-        className="absolute inset-0"
-        style={{ scale }}
+      <motion.div
+        whileHover={{ scale: 1.1 }}
+        className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent mb-2"
       >
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div
-            initial={{ opacity: 0, scale: 1.5 }}
-            animate={isLoaded ? { opacity: 0.1, scale: 1 } : {}}
-            transition={{ duration: 2, ease: "easeOut" }}
-            className="absolute top-0 -left-1/4 w-1/2 h-full bg-green-500 blur-3xl"
-          />
-          <motion.div
-            initial={{ opacity: 0, scale: 1.5 }}
-            animate={isLoaded ? { opacity: 0.1, scale: 1 } : {}}
-            transition={{ duration: 2, delay: 0.5, ease: "easeOut" }}
-            className="absolute bottom-0 -right-1/4 w-1/2 h-full bg-emerald-500 blur-3xl"
-          />
-        </div>
+        {number}
       </motion.div>
-      
-      <motion.div style={{ y, opacity }} className="relative z-10">
-        <SpaceWrapper>
-          <div className="text-center">
+      <p className="text-muted-foreground font-medium text-sm">{label}</p>
+    </motion.div>
+  )
+}
+
+const FloatingCard: React.FC<{ children: React.ReactNode; delay: number; className?: string }> = ({ children, delay, className = "" }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 100 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay }}
+      whileHover={{ y: -10, scale: 1.02 }}
+      className={`backdrop-blur-xl bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10 rounded-2xl p-6 shadow-2xl ${className}`}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+const HeroSection = memo(function HeroSection() {
+    const { scrollYProgress } = useScroll()
+    const y = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
+    const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0])
+    const [particles, setParticles] = useState<{left: string, top: string}[]>([]);
+  
+    useEffect(() => {
+      const newParticles = Array.from({ length: 12 }).map(() => ({
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+      }));
+      setParticles(newParticles);
+    }, []);
+
+    return (
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+        {/* Animated Background */}
+        <div className="absolute inset-0">
+          <motion.div
+            style={{ y }}
+            className="absolute inset-0 bg-gradient-to-br from-green-400/20 via-emerald-500/10 to-green-600/20"
+          />
+          {particles.map((particle, i) => (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 px-4 py-2 rounded-full text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800"
+              key={i}
+              className="absolute w-2 h-2 bg-green-400/30 rounded-full"
+              animate={{
+                y: [-20, -80, -20],
+                opacity: [0, 1, 0],
+                scale: [0, 1, 0]
+              }}
+              transition={{
+                duration: 3 + i * 0.5,
+                repeat: Infinity,
+                delay: i * 0.3,
+                ease: "easeInOut"
+              }}
+              style={{
+                left: particle.left,
+                top: particle.top
+              }}
+            />
+          ))}
+        </div>
+
+        <SpaceWrapper className='py-16'>
+          <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <motion.div
+              style={{ opacity }}
+              className="text-center lg:text-left"
             >
-              <Leaf className="w-4 h-4" />
-              <span className="text-sm font-medium">Sustainable & Organic Solutions</span>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <Badge className="mb-6 px-4 py-2 bg-gradient-to-r from-green-400/20 to-emerald-600/20 border-green-400/30 text-green-600 backdrop-blur-sm">
+                  <Leaf className="w-4 h-4 mr-2" />
+                  High-Performance Agricultural Solutions
+                </Badge>
+              </motion.div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-5xl md:text-6xl font-bold mb-6 leading-tight"
+              >
+                Cultivating Excellence With Our{" "}
+                <span className="bg-gradient-to-r from-green-400 via-emerald-500 to-green-600 bg-clip-text text-transparent">
+                  Products
+                </span>
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0"
+              >
+                Explore our comprehensive range of high-quality, eco-friendly fertilizers, insecticides, and plant growth regulators designed to maximize your crop yield.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="flex flex-col sm:flex-row gap-4 mb-12 justify-center lg:justify-start"
+              >
+                <Button size="lg" className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+                  Contact Sales
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+                <Button variant="outline" size="lg" className="border-green-400/50 text-green-600 hover:bg-green-50 dark:hover:bg-green-950/50 backdrop-blur-sm">
+                  Our Mission
+                </Button>
+              </motion.div>
+
+              {/* Stats */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                className="grid grid-cols-2 md:grid-cols-4 gap-6"
+              >
+                <StatItem number="70+" label="Total Products" delay={0} />
+                <StatItem number="4" label="Categories" delay={0.1} />
+                <StatItem number="100%" label="Organic" delay={0.2} />
+                <StatItem number="99%" label="Success Rate" delay={0.3} />
+              </motion.div>
             </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-5xl md:text-7xl font-bold tracking-tight mt-6 bg-gradient-to-r from-green-600 via-emerald-500 to-teal-600 bg-clip-text text-transparent"
-            >
-              Our Premium Products
-            </motion.h1>
-            
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+            {/* Right Content - Floating Cards */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mt-6 leading-relaxed"
+              className="relative"
             >
-              Explore our comprehensive range of high-quality, eco-friendly fertilizers, insecticides, and plant growth regulators. Designed to maximize your crop yield while protecting the environment.
-            </motion.p>
+              <div className="grid grid-cols-2 gap-4 relative">
+                <FloatingCard delay={0.2} className="col-span-2">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-8 h-8 bg-gradient-to-r from-green-400 to-emerald-600 rounded-lg flex items-center justify-center">
+                      <Star className="w-4 h-4 text-white" />
+                    </div>
+                    <h3 className="font-semibold text-foreground">Innovation in Every Granule</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground">Leading the industry with advanced nutrient delivery systems.</p>
+                </FloatingCard>
+                
+                <FloatingCard delay={0.4}>
+                  <div className="text-center">
+                    <Heart className="w-8 h-8 text-green-500 mx-auto mb-2" />
+                    <h4 className="font-semibold text-sm text-foreground mb-1">Eco-Friendly</h4>
+                    <p className="text-xs text-muted-foreground">Sustainable solutions</p>
+                  </div>
+                </FloatingCard>
+                
+                <FloatingCard delay={0.6}>
+                  <div className="text-center">
+                    <Zap className="w-8 h-8 text-green-500 mx-auto mb-2" />
+                    <h4 className="font-semibold text-sm text-foreground mb-1">Fast Results</h4>
+                    <p className="text-xs text-muted-foreground">Visible crop improvement</p>
+                  </div>
+                </FloatingCard>
+                
+                <FloatingCard delay={0.8} className="col-span-2">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-semibold text-foreground mb-1">Global Reach</h4>
+                      <p className="text-sm text-muted-foreground">Serving farms in 50+ countries</p>
+                    </div>
+                    <Globe className="w-8 h-8 text-green-500" />
+                  </div>
+                </FloatingCard>
+              </div>
+            </motion.div>
           </div>
         </SpaceWrapper>
-      </motion.div>
-      
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={isLoaded ? { opacity: 1 } : {}}
-        transition={{ duration: 1, delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="w-6 h-10 border-2 border-green-300 dark:border-green-700 rounded-full flex justify-center"
-        >
-          <motion.div
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="w-1 h-3 bg-green-500 rounded-full mt-2"
-          />
-        </motion.div>
-      </motion.div>
-    </section>
-  )
+      </section>
+    )
 })
 
 export function ProductGrid({ initialProducts }: { initialProducts: Product[] }) {
@@ -367,4 +477,3 @@ export function ProductGrid({ initialProducts }: { initialProducts: Product[] })
       </>
   )
 }
-
