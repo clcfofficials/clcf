@@ -202,42 +202,42 @@ export function WhyChooseUsSection() {
 
   const features = [
     {
-      title: 'Lightning Fast Performance',
+      title: 'Advanced Formulation',
       icon: Zap,
-      description: 'Experience blazing-fast speeds with our optimized infrastructure and cutting-edge technology stack.',
+      description: 'Our fertilizers use cutting-edge technology for efficient nutrient delivery and fast absorption by plants.',
     },
     {
-      title: 'Enterprise Security',
+      title: 'Eco-Friendly Formulas',
       icon: Shield,
-      description: 'Bank-level security protocols protect your data with end-to-end encryption and advanced threat detection.',
+      description: 'We prioritize sustainability with biodegradable ingredients that are safe for the soil and environment.',
     },
     {
-      title: 'Expert Support Team',
+      title: 'Expert Agronomist Support',
       icon: Users,
-      description: '24/7 dedicated support from our team of experts who are always ready to help you succeed.',
+      description: 'Our team of agricultural experts is always ready to help you choose the right product and succeed.',
     },
     {
-      title: 'Award-Winning Platform',
+      title: 'Award-Winning Quality',
       icon: Award,
-      description: 'Recognized by industry leaders and trusted by thousands of businesses worldwide.',
+      description: 'Recognized by industry leaders for our commitment to quality and crop-enhancing results.',
     },
     {
-      title: 'Proven Track Record',
+      title: 'Proven Field Results',
       icon: TrendingUp,
-      description: '99.9% uptime guarantee with a proven track record of reliability and performance.',
+      description: 'Our products have a proven track record of boosting crop yields and improving plant health.',
     },
     {
-      title: 'Global Reach',
+      title: 'Global Distribution Network',
       icon: Globe,
-      description: 'Serve customers worldwide with our global infrastructure and multi-region deployment.',
+      description: 'We serve farmers worldwide with our reliable global infrastructure and multi-region deployment.',
     },
   ];
 
   const stats = [
-    { value: '10M+', label: 'Active Users', icon: Users },
-    { value: '99.9%', label: 'Uptime', icon: CheckCircle },
-    { value: '150+', label: 'Countries', icon: Globe },
-    { value: '24/7', label: 'Support', icon: Clock },
+    { value: '50k+', label: 'Happy Farmers', icon: Users },
+    { value: '99%', label: 'Crop Success Rate', icon: CheckCircle },
+    { value: '20+', label: 'Countries Served', icon: Globe },
+    { value: '24/7', label: 'Agronomist Support', icon: Clock },
   ];
 
   return (
@@ -256,8 +256,8 @@ export function WhyChooseUsSection() {
         
         <SectionHeader 
             badgeLabel='Why Choose Us'
-            title='Built for Excellence'
-            description='Discover why thousands of businesses trust us to power their growth. From cutting-edge technology to world-class support, we deliver excellence at every step.'
+            title='Engineered for Excellence'
+            description='Discover why thousands of farmers trust us to nurture their crops. From advanced technology to world-class support, we deliver excellence at every step.'
         />
 
         <AnimatedContainer delay={0.3}>
@@ -323,10 +323,10 @@ export function WhyChooseUsSection() {
                 
                 <div className="relative z-10">
                 <h3 className="text-3xl md:text-4xl font-bold mb-4">
-                    Ready to Get Started?
+                    Ready for a Bountiful Harvest?
                 </h3>
                 <p className="text-xl mb-8 text-green-100">
-                    Join thousands of satisfied customers and experience the difference today.
+                    Join thousands of satisfied farmers and experience the CropLife Care difference today.
                 </p>
                 <motion.div 
                   whileHover={{ scale: 1.05 }}

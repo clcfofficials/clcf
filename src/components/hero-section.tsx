@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState, useEffect } from 'react'
@@ -17,10 +18,10 @@ interface HeroSectionProps {
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
-  title = "Revolutionary Plant Nutrition",
-  subtitle = "Grow, Nourish, and Flourish",
+  title = "Nourish Your Harvest, Grow Your Future",
+  subtitle = "Sustainable Fertilizers for a Bountiful Yield",
   description = "Transform your agricultural potential with our advanced fertilizer solutions. Engineered for optimal plant growth, sustainable farming, and maximum yield productivity.",
-  primaryButtonText = "Start Growing",
+  primaryButtonText = "Explore Products",
   secondaryButtonText = "Learn More",
   features = ["Organic Solutions", "Fast Growth", "Eco-Friendly", "Premium Quality"]
 }) => {

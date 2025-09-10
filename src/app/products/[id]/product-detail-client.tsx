@@ -122,7 +122,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
             </Card>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-6 border-t">
-              <StatItem icon={Leaf} label="Certified" value="Organic" delay={0.3} />
+              <StatItem icon={Leaf} label="Improves" value="Soil Health" delay={0.3} />
               <StatItem icon={Zap} label="Acts in" value="24 Hours" delay={0.4} />
               <StatItem icon={Heart} label="Eco" value="Friendly" delay={0.5} />
               <StatItem icon={CheckCircle} label="Quality" value="Guaranteed" delay={0.6} />

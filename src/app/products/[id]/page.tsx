@@ -3,12 +3,14 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import type { IProduct } from '@/models/Product';
 import { ProductDetailClient } from './product-detail-client';
+import { unstable_noStore as noStore } from 'next/cache';
 
 interface Product extends IProduct {
   _id: string;
 }
 
 async function getProduct(id: string): Promise<Product | null> {
+  noStore();
   // The URL needs to be absolute for server-side fetching.
   const url = new URL(`/api/products/${id}`, process.env.NEXT_PUBLIC_URL);
   try {

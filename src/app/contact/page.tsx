@@ -79,18 +79,18 @@ const ContactUsPage = () => {
   const trustFeatures = [
     {
       icon: Shield,
-      title: "Secure & Private",
-      description: "Your data is protected with enterprise-grade security"
+      title: "Quality Assured",
+      description: "Our products undergo rigorous testing to meet the highest quality standards."
     },
     {
       icon: Award,
-      title: "Award Winning",
-      description: "Recognized for excellence in customer service"
+      title: "Award Winning Results",
+      description: "Recognized for excellence in crop yield enhancement and sustainability."
     },
     {
       icon: Users,
-      title: "Trusted by 10k+",
-      description: "Join thousands of satisfied customers worldwide"
+      title: "Trusted by 50k+",
+      description: "Join thousands of satisfied farmers and distributors worldwide."
     }
   ];
 
@@ -137,7 +137,7 @@ const ContactUsPage = () => {
                 >
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                 <span className="text-sm font-medium text-green-700 dark:text-green-300">
-                    We're here to help
+                    We're here to help you grow
                 </span>
                 </motion.div>
 
@@ -147,7 +147,7 @@ const ContactUsPage = () => {
                 transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
                 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent"
                 >
-                Get in Touch
+                Let's Grow Together
                 </motion.h1>
 
                 <motion.p
@@ -156,8 +156,7 @@ const ContactUsPage = () => {
                 transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
                 className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 leading-relaxed"
                 >
-                Ready to transform your ideas into reality? Let's start a conversation 
-                and explore how we can help you achieve your goals.
+                Have a question about our products, or need a custom solution? Let's start a conversation and explore how we can help you achieve your harvest goals.
                 </motion.p>
 
                 <motion.div
@@ -191,7 +190,7 @@ const ContactUsPage = () => {
                         <div key={i} className="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900 border-2 border-background" />
                     ))}
                     </div>
-                    <span>Trusted by 10,000+ customers</span>
+                    <span>Trusted by 50,000+ farmers</span>
                 </div>
                 <div className="flex items-center gap-1">
                     {[1, 2, 3, 4, 5].map((i) => (
@@ -242,7 +241,7 @@ const ContactUsPage = () => {
                   Let's Connect
                 </h2>
                 <p className="text-lg text-muted-foreground">
-                  We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+                  We'd love to hear from you. Send us a message for inquiries, support, or distributorship opportunities and we'll respond as soon as possible.
                 </p>
               </div>
 
@@ -341,7 +340,7 @@ const ContactUsPage = () => {
                       id="message"
                       name="message"
                       className="mt-2 min-h-[120px] border-green-200 dark:border-green-800 focus:border-green-500 focus:ring-green-500"
-                      placeholder="Tell us about your project..."
+                      placeholder="Tell us about your requirements..."
                       required
                     />
                   </div>
@@ -389,10 +388,10 @@ const ContactUsPage = () => {
               Trusted & Reliable
             </Badge>
             <h2 className="text-4xl font-bold mb-4 text-green-700 dark:text-green-300">
-              Why Choose Us?
+              Your Partner in Growth
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              We're committed to providing exceptional service and building lasting relationships with our clients.
+              We're committed to providing exceptional products and building lasting relationships with our partners.
             </p>
           </motion.div>
 
@@ -429,7 +428,7 @@ const ContactUsPage = () => {
             <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-800">
               <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
               <span className="text-green-700 dark:text-green-300 font-medium">
-                24/7 Support Available
+                24/7 Agronomist Support Available
               </span>
             </div>
           </motion.div>
