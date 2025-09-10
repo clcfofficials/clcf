@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { SpaceWrapper } from "@/components/space-wrapper";
 import emailjs from "@emailjs/browser";
+import Link from "next/link";
 
 const ContactUsPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -94,7 +95,7 @@ const ContactUsPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-body overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground font-body overflow-x-hidden">
       {/* Hero Section */}
       <section 
         ref={heroRef}
@@ -165,12 +166,16 @@ const ContactUsPage = () => {
                 transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
                 className="flex flex-wrap gap-4 justify-center"
                 >
-                <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white group">
-                    Start Conversation
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                 <Button asChild size="lg" className="bg-green-600 hover:bg-green-700 text-white group">
+                    <Link href="/about">
+                      View About Us
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="border-green-200 hover:bg-green-50 dark:border-green-800 dark:hover:bg-green-950/30">
-                    View Our Work
+                <Button asChild size="lg" variant="outline" className="border-green-200 hover:bg-green-50 dark:border-green-800 dark:hover:bg-green-950/30">
+                    <Link href="/products">
+                      Our Products
+                    </Link>
                 </Button>
                 </motion.div>
 
