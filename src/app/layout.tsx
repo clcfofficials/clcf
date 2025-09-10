@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     siteName: 'Crop Life Care Fertilizers',
     images: [
       {
-        url: '/og-image.png', // It's good practice to have a specific Open Graph image
+        url: '/og-image.png', 
         width: 1200,
         height: 630,
         alt: 'Crop Life Care Fertilizers Products',
@@ -92,7 +92,7 @@ export default function RootLayout({
       addressCountry: 'IN'
     },
     sameAs: [
-      // Add links to your social media profiles here
+      // links to your social media profiles here
       // "https://www.facebook.com/your-profile",
       // "https://www.twitter.com/your-profile",
       // "https://www.instagram.com/your-profile"
