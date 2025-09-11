@@ -20,6 +20,8 @@ const navItems = [
 export function Header() {
     const [menuState, setMenuState] = React.useState(false)
     const [isScrolled, setIsScrolled] = React.useState(false)
+    const [theme, setTheme] = React.useState("light");
+    const [logoSrc, setLogoSrc] = React.useState("/clcfLogoLight.png");
     const pathname = usePathname();
 
     React.useEffect(() => {
@@ -27,7 +29,25 @@ export function Header() {
             setIsScrolled(window.scrollY > 50)
         }
         window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
+        
+        const checkTheme = () => {
+          const storedTheme = localStorage.getItem("theme");
+          const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          const currentTheme = storedTheme || preferredTheme;
+          setTheme(currentTheme);
+          setLogoSrc(currentTheme === 'dark' ? '/clcfLogoDark.png' : '/clcfLogoLight.png');
+        };
+
+        checkTheme();
+
+        // Listen for custom theme change event from ThemeToggle
+        const handleThemeChange = () => checkTheme();
+        window.addEventListener('themeChanged', handleThemeChange);
+
+        return () => {
+          window.removeEventListener('scroll', handleScroll);
+          window.removeEventListener('themeChanged', handleThemeChange);
+        }
     }, [])
 
     return (
@@ -39,8 +59,7 @@ export function Header() {
                     <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
                         <div className="flex w-full justify-between lg:w-auto">
                              <Link href="/" className="flex items-center space-x-2">
-                                <Image src="/clcfLogoLight.png" alt="Crop Life Care Fertilizers Logo" width={40} height={40} className="h-10 w-auto block dark:hidden" />
-                                <Image src="/clcfLogoDark.png" alt="Crop Life Care Fertilizers Logo" width={40} height={40} className="h-10 w-auto hidden dark:block" />
+                                <Image src={logoSrc} alt="Crop Life Care Fertilizers Logo" width={40} height={40} className="h-10 w-auto" />
                                 <span className="font-bold sm:inline-block text-xs flex items-center justify-center ">Crop Life Care <br /> Fertilizers</span>
                             </Link>
                             <div className="flex items-center gap-2 lg:hidden">
