@@ -7,6 +7,7 @@ import { SpaceWrapper } from "../space-wrapper";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import { motion } from "framer-motion";
+import React from "react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -48,6 +49,26 @@ const itemVariants = {
 };
 
 export function Footer() {
+  const [logoSrc, setLogoSrc] = React.useState("/clcfLogoLight.png");
+
+  React.useEffect(() => {
+    const checkTheme = () => {
+      const storedTheme = localStorage.getItem("theme");
+      const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      const currentTheme = storedTheme || preferredTheme;
+      setLogoSrc(currentTheme === 'dark' ? '/clcfLogoDark.png' : '/clcfLogoLight.png');
+    };
+
+    checkTheme();
+
+    const handleThemeChange = () => checkTheme();
+    window.addEventListener('themeChanged', handleThemeChange);
+
+    return () => {
+      window.removeEventListener('themeChanged', handleThemeChange);
+    }
+  }, [])
+
   return (
     <motion.footer 
       className="bg-secondary/30 text-foreground relative overflow-hidden border-t"
@@ -92,7 +113,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
             <motion.div variants={itemVariants} className="md:col-span-5 lg:col-span-6">
                  <div className="flex items-center space-x-2 mb-4">
-                    <Image src="https://i.ibb.co/8DPGfb59/Logo-page-0001-removebg-preview.png" alt="Crop Life Care Fertilizers Logo" width={40} height={40} className="h-10 w-auto" />
+                    <Image src={logoSrc} alt="Crop Life Care Fertilizers Logo" width={40} height={40} className="h-10 w-auto" />
                     <span className="font-bold text-xl">Crop Life Care Fertilizers</span>
                 </div>
                 <p className="text-muted-foreground text-base max-w-sm">
