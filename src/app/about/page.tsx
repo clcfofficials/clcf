@@ -25,6 +25,7 @@ import {
 } from 'lucide-react'
 import { SpaceWrapper } from '@/components/space-wrapper'
 import { ThemeToggle } from '@/components/theme-toggle'
+import Link from 'next/link'
 
 interface FeatureCardProps {
   icon: React.ReactNode
@@ -226,12 +227,16 @@ export default function AboutUsPage() {
                 transition={{ duration: 0.6, delay: 0.6 }}
                 className="flex flex-col sm:flex-row gap-4 mb-12 justify-center lg:justify-start"
               >
-                <Button size="lg" className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                  Contact Us
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                <Button asChild size="lg" className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+                  <Link href="/contact">
+                    Contact Us
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
                 </Button>
-                <Button variant="outline" size="lg" className="border-green-400/50 text-green-600 hover:bg-green-50 dark:hover:bg-green-950/50 backdrop-blur-sm">
-                  Our Mission
+                <Button asChild variant="outline" size="lg" className="border-green-400/50 text-green-600 hover:bg-green-50 dark:hover:bg-green-950/50 backdrop-blur-sm">
+                  <Link href="/about">
+                    Our Mission
+                  </Link>
                 </Button>
               </motion.div>
 
@@ -456,8 +461,10 @@ export default function AboutUsPage() {
                   <p className="text-muted-foreground mb-6">
                     Become part of a growing community of forward-thinking farmers and agricultural experts.
                   </p>
-                  <Button className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0">
-                    Get Started Today
+                  <Button asChild className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0">
+                    <Link href="/contact">
+                        Get Started Today
+                    </Link>
                   </Button>
                 </div>
               </Card>
@@ -571,12 +578,16 @@ export default function AboutUsPage() {
                 Let's cultivate success together. Join us in building a sustainable future for agriculture.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-lg">
-                  Order Our Products
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                <Button asChild size="lg" className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-lg">
+                  <Link href="/products">
+                    Our Products
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
                 </Button>
-                <Button variant="outline" size="lg" className="border-green-400/50 text-green-600 hover:bg-green-50 dark:hover:bg-green-950/50">
-                  Contact Us
+                <Button asChild variant="outline" size="lg" className="border-green-400/50 text-green-600 hover:bg-green-50 dark:hover:bg-green-950/50">
+                  <Link href="/contact">
+                    Contact Us
+                  </Link>
                 </Button>
               </div>
             </motion.div>
@@ -586,3 +597,5 @@ export default function AboutUsPage() {
     </div>
   )
 }
+
+    

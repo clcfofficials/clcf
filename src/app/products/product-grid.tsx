@@ -259,12 +259,16 @@ const HeroSection = memo(function HeroSection() {
                 transition={{ duration: 0.6, delay: 0.6 }}
                 className="flex flex-col sm:flex-row gap-4 mb-12 justify-center lg:justify-start"
               >
-                <Button size="lg" className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                  Contact Sales
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                <Button asChild size="lg" className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+                  <Link href="/contact">
+                    Contact Sales
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
                 </Button>
-                <Button variant="outline" size="lg" className="border-green-400/50 text-green-600 hover:bg-green-50 dark:hover:bg-green-950/50 backdrop-blur-sm">
-                  Our Mission
+                <Button asChild variant="outline" size="lg" className="border-green-400/50 text-green-600 hover:bg-green-50 dark:hover:bg-green-950/50 backdrop-blur-sm">
+                  <Link href="/about">
+                    Our Mission
+                  </Link>
                 </Button>
               </motion.div>
 
@@ -452,3 +456,5 @@ export function ProductGrid({ initialProducts }: { initialProducts: Product[] })
       </>
   )
 }
+
+    
