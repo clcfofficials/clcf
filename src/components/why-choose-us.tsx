@@ -19,6 +19,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { AnimatedContainer } from './animated-container';
 import { SectionHeader } from './section-header';
+import Link from 'next/link';
 
 // Grid Pattern Component
 function GridPattern({
@@ -334,10 +335,13 @@ export function WhyChooseUsSection() {
                   className="inline-block"
                 >
                     <Button
-                    className="bg-white text-green-700 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-50 transition-colors duration-300 inline-flex items-center gap-2"
+                      asChild
+                      className="bg-white text-green-700 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-green-50 transition-colors duration-300 inline-flex items-center gap-2"
                     >
-                    Start Your Journey
-                    <ArrowRight className="w-5 h-5" />
+                      <Link href="/contact">
+                        Start Your Journey
+                        <ArrowRight className="w-5 h-5" />
+                      </Link>
                     </Button>
                 </motion.div>
                 </div>
@@ -347,3 +351,5 @@ export function WhyChooseUsSection() {
     </section>
   );
 }
+
+    

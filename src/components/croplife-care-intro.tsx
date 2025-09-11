@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { ArrowRight, Leaf, Sprout, TreePine } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SectionHeader } from "./section-header";
+import Link from "next/link";
 
 // Background Pattern Component
 interface BGPatternProps extends React.ComponentProps<'div'> {
@@ -215,17 +216,19 @@ const CropLifeCareIntro = () => {
             transition={{ duration: 0.8, delay: 1.4 }}
             className="text-center"
           >
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
-            >
-              <span className="relative z-10">Learn More About Us</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 relative z-10" />
-              
-              {/* Shimmer Effect */}
-              <div className="absolute inset-0 -top-2 -bottom-2 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
-            </motion.button>
+            <Link href="/about">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+              >
+                <span className="relative z-10">Learn More About Us</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300 relative z-10" />
+                
+                {/* Shimmer Effect */}
+                <div className="absolute inset-0 -top-2 -bottom-2 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+              </motion.button>
+            </Link>
 
             <motion.p
               initial={{ opacity: 0 }}
@@ -246,3 +249,5 @@ const CropLifeCareIntro = () => {
 };
 
 export default CropLifeCareIntro;
+
+    

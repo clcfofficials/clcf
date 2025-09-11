@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Moon, Sun, Leaf, Sprout, TreePine, Wheat, ArrowRight, Droplets, Sun as SunIcon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
 
 interface HeroSectionProps {
   title?: string
@@ -175,18 +176,24 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
             >
               <Button 
+                asChild
                 size="lg" 
                 className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-8 py-6 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-500 transform hover:scale-105 hover:rotate-1"
               >
-                {primaryButtonText}
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <Link href="/products">
+                  {primaryButtonText}
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
               </Button>
               <Button 
+                asChild
                 variant="outline" 
                 size="lg"
                 className="border-green-300 dark:border-green-600 text-green-700 dark:text-green-300 hover:bg-green-50 dark:hover:bg-green-900/50 px-8 py-6 text-lg font-semibold transition-all duration-500 hover:scale-105"
               >
-                {secondaryButtonText}
+                <Link href="/about">
+                  {secondaryButtonText}
+                </Link>
               </Button>
             </motion.div>
           </div>
@@ -225,3 +232,5 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     </div>
   )
 }
+
+    
