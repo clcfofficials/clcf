@@ -39,7 +39,7 @@ export function Header() {
                     <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
                         <div className="flex w-full justify-between lg:w-auto">
                              <Link href="/" className="flex items-center space-x-2">
-                                <Image src="/clcfLogoLight.png" alt="Crop Life Care Fertilizers Logo" width={40} height={40} className="h-10 w-auto dark:hidden" />
+                                <Image src="/clcfLogoLight.png" alt="Crop Life Care Fertilizers Logo" width={40} height={40} className="h-10 w-auto block dark:hidden" />
                                 <Image src="/clcfLogoDark.png" alt="Crop Life Care Fertilizers Logo" width={40} height={40} className="h-10 w-auto hidden dark:block" />
                                 <span className="font-bold sm:inline-block text-xs flex items-center justify-center ">Crop Life Care <br /> Fertilizers</span>
                             </Link>
